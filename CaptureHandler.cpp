@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <syslog.h>
+#include <capture.h>
+#include <string.h>
+#include <param.h>
+
+#include "CaptureHandler.h"
+#include "Fast.h"
+#include "Shared.h"
+
+#define CAPTURE_PROPERTIES    "sdk_format=Y800&resolution=480x360&fps=30"
+#define SIZEOF_PROPERTIES     1024
+
+char* CaptureHandler::str_corners;
+char* CaptureHandler::get_strfast()
+{
+    return str_corners;
+  
+}
+CaptureHandler::CaptureHandler(Fast &f)
+{
+    fast = f;
+    stream   = NULL;
+    str_corners = (char*)malloc(SIZEOF_APP_CORNER_COORD);
+}
+
+CaptureHandler::~CaptureHandler()
+{
+    close();  
+}
+
+void
+CaptureHandler::close()
+{
+    if (stream != NULL) 
+    {
+	capture_close_stream(stream);
+	stream = NULL;
+	free(str_corners);
+    }
+}
+
+void
+CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
+{
+  media_frame *frame = NULL;
+  uint8_t *    data  = NULL;
+  int          width;
+  int          height;
+  int          stride;
+  int          result = 0;
+  int	       num_corner;
+  
+  frame = capture_get_frame(stream);
+  if (!frame) 
+  {
+      if (exit_signal) 
+      {
+	  return;
+      }
+      else 
+      {
+	  syslog(LOG_CRIT, "Failed to capture frame!");
+	  close();
+	  exit(EXIT_FAILURE);
+      }
+  }
+
+  strcpy(str_corners, "");
+  data   = (uint8_t*)capture_frame_data(frame);
+  width  = capture_frame_width(frame);
+  height = capture_frame_height(frame);
+  stride = capture_frame_stride(frame);
+  
+  fast.fast_detect_nonmax(data, width, height, stride, fast_level, num_corner, suppression);
+  
+  capture_frame_free(frame);
+
+}
+
+/* Capture */
+
+void CaptureHandler::open(void)
+{
+    char  properties[SIZEOF_PROPERTIES];
+
+    snprintf(properties, SIZEOF_PROPERTIES, CAPTURE_PROPERTIES);
+
+    stream = capture_open_stream(IMAGE_UNCOMPRESSED, properties);
+    if (!stream)
+    {
+	syslog(LOG_CRIT, "Failed to open capture stream!");
+	exit(EXIT_FAILURE);
+    }
+    syslog(LOG_INFO, "Stream Opened!");
+}

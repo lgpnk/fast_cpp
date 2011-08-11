@@ -1,0 +1,10 @@
+#ifndef FAST9_H
+#define FAST9_H
+#include "Fast.h"
+
+class Fast9 : public Fast
+{
+    
+};
+
+#endif // FAST9_H

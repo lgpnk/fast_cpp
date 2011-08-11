@@ -1,0 +1,28 @@
+#ifndef EVENT_HANDLER_HH
+#define EVENT_HANDLER_HH
+
+#include <event.h>
+
+#include "Fast.h"
+
+using namespace std;
+
+class EventHandler
+{
+public:
+  EventHandler(Fast & f);
+  void handle(int result, int fast_level);
+  void init(char *app_name);
+
+  ~EventHandler();
+
+private:
+  void close();
+
+  event_handler_type *event_handler;
+  event_type *        event;
+
+  Fast f;
+};
+
+#endif // EVENT_HANDLER_HH

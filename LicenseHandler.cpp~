@@ -1,0 +1,28 @@
+#include <stdlib.h>
+#include <syslog.h>
+#include <licensekey.h>
+
+#include "LicenseHandler.h"
+
+#define APP_ID           ???
+#define MAJOR_VERSION    0
+#define MINOR_VERSION    90
+
+LicenseHandler::LicenseHandler()
+{
+  
+}
+
+void
+LicenseHandler::verify(char *app_name)
+{
+    if (licensekey_verify(app_name, APP_ID, MAJOR_VERSION, MINOR_VERSION) != 1)
+    {
+	syslog(LOG_WARNING, "Failed to verify license");
+	/* exit(EXIT_FAILURE); */
+    } 
+    else
+    {
+	syslog(LOG_INFO, "License verified!");
+    }
+}

@@ -1,0 +1,397 @@
+<!--#set var="pageTitle" val="Appications" -->
+<!--#set var="pageSubTitle" val="fastcpp/Window" -->
+<!--#set var="helpURL" val="javascript:launch('/local/fastcpp/help.html')" -->
+<!--#set var="WizardFormAction" val="noAction" -->
+<!--#set var="activeMenu" val="apps" -->
+<!--#set var="activeMenu1" val="fastcpp" -->
+<!--#set var="activePage" val="example_fastcpp" -->
+
+<!--#set var="nbr" val="0" -->
+<!--#set var="camNo" val="1" -->
+
+<!--#include virtual="/sm/sm.srv?action=get&group=Brand.ProdType,Image.I$nbr$.Appearance.SquarePixelEnabled" -->
+
+<!--#if expr="$root_Brand_ProdType = Network Video Encoder" -->
+  <!--#set var="resolution" val="4CIF" -->
+<!--#else -->
+  <!--#set var="resolution" val="640x480" -->
+<!--#endif -->
+<!--#set var="rotation" val="180" -->
+<!--#include virtual="/axis-cgi/view/imagesize.cgi?format=ssi&camera=$camNo$&resolution=$resolution$&squarepixel=0" -->
+<!--#set var="aspectRatioCorr" val="1" -->
+<!--#if expr="$(root_Image_I$nbr$_Appearance_SquarePixelEnabled) = yes" -->
+  <!--#set var="aspectRatioCorr" val="(768/$img_width$)" -->
+<!--#endif -->
+
+<!--#include virtual="/incl/top_incl_popup.shtml" -->
+<link rel="stylesheet" href="/local/fastcpp/box.css" type="text/css">
+<script src="/incl/pos.js"></script>
+<script src="/incl/zxml.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+
+var img_width = <!--#echo var="img_width" option="encoding:javascript" -->
+var img_height = <!--#echo var="img_height" option="encoding:javascript" -->
+
+if ((navigator.appName == "Microsoft Internet Explorer") && (navigator.platform != "MacPPC") && (navigator.platform != "Mac68k")) {
+  var browser = "IE"
+} else {
+  var browser = "Netscape"
+}
+
+var request
+request = zXmlHttp.createRequest();
+
+function sendAction(action, method)
+{
+  request.open(method, action, false);
+  try{
+    request.send(null);
+  }
+  catch(e) {
+delete e;
+  }
+  var result = (request.status == 200 ? request.responseText : null);
+  return result;
+}
+function video(imagepath)
+{
+  var resolution = 0;
+  var width = 0;
+  var height = 0;
+  var isTilted = false;
+  var stillImagePath;
+  var fullImagePath = "";
+  var use_activex = 0;
+  var use_java = 0;
+  var use_spush = 0;
+  var use_flash = 0;
+  var use_still = 0;
+  var use_quicktime = 0;
+  var rotation_in_url = "";
+  var rotation_in_parhand = "180";
+  var resolution_in_url = "";
+  var resolution_in_parhand = "640x480";
+  var streamprofile_in_url = "";
+  var recording = "";
+  var zoom_fact = "";
+  var ShowAMCToolbar = "";
+ document.write("AAAAAAAAAAAA");
+
+  if (imagepath.indexOf("rotation=") != -1) {
+    if (rotation_in_url == "90" || rotation_in_url == "270") {
+      isTilted = true;
+    } else if (rotation_in_url == "" && (rotation_in_parhand == "90" || rotation_in_parhand == "270")) {
+      isTilted = true;
+    }
+  } else {
+    if (rotation_in_parhand == "90" || rotation_in_parhand == "270") {
+      isTilted = true;
+    }
+  }
+  
+  if (imagepath.indexOf("resolution=") != -1) {
+    var resStart = imagepath.indexOf("resolution=")
+    var resStop = imagepath.indexOf("&", resStart)
+    if (resStop == -1) resStop = imagepath.length
+    resolution = imagepath.substring(resStart + 11, resStop);
+    if (resolution.indexOf('x') != -1) {
+      width = parseInt(resolution.substring(0, resolution.indexOf('x')), 10);
+      height = parseInt(resolution.slice((resolution.indexOf('x') + 1)), 10);
+    }
+  }
+
+  if (!(width > 0 && height > 0)) {
+    if (typeof(img_width) == "number" && typeof(img_height) == "number" && img_width > 0 && img_height > 0) {
+      width = img_width;
+      height = img_height;
+      resolution = width + 'x' + height;
+    } else if ((imagepath.indexOf("mpeg4") != -1) || (imagepath.indexOf("h264") != -1)) {
+      width = parseInt("640", 10);
+      height = parseInt("480", 10);
+      resolution = width + 'x' + height;
+    } else {
+      width = parseInt("640", 10);
+      height = parseInt("480", 10);
+      resolution = width + 'x' + height;
+    }
+  }
+
+  var doubleLines = false;
+  var imagepath_has_resolution = (imagepath.indexOf("resolution=") >= 0);
+  var imagepath_uses_2cif = (imagepath.indexOf("resolution=2CIFEXP") == -1 && imagepath.indexOf("resolution=2CIF") != -1);
+
+  var streamprofile_has_resolution = false;
+  var streamprofile_uses_2cif = false;
+  if ((imagepath.indexOf("streamprofile=") != -1))
+  {
+    var videoFormat = document.getElementsByName("videoFormat")[0];
+    if (videoFormat)
+    {
+      var streamprofile_nr = videoFormat.options[videoFormat.selectedIndex].value;
+      var streamprofile_param = document.getElementsByName("root_StreamProfile_S" + streamprofile_nr + "_Parameters")[0];
+      if (streamprofile_param)
+      {
+        streamprofile_has_resolution = (streamprofile_param.value.indexOf("resolution=") >= 0);
+        streamprofile_uses_2cif = (streamprofile_param.value.indexOf("resolution=2CIFEXP") == -1 && streamprofile_param.value.indexOf("resolution=2CIF") != -1);
+      }
+    }
+  }
+
+  if (recording != "yes" && resolution_in_url == "" && streamprofile_in_url == "" && !imagepath_has_resolution && !streamprofile_has_resolution && resolution_in_parhand.toLowerCase() == "2cif"
+      || imagepath_uses_2cif || streamprofile_uses_2cif)
+  {
+    doubleLines = true;
+  }
+
+  if (width > height)
+  {
+    height *= (doubleLines ? 2 : 1);
+    if (isTilted)
+    {
+      var tmp = width;
+      width = height;
+      height = tmp;
+    }
+  }
+  else
+  {
+    width *= (doubleLines ? 2 : 1);
+  }
+  resolution = width + 'x' + height;
+
+  var width_height = 'width="' + width + '" height="' + height + '"';
+  var viewer = "still";
+
+  if ((navigator.appName == "Microsoft Internet Explorer") && (navigator.platform != "MacPPC") && (navigator.platform != "Mac68k")) {
+    viewer = "";
+  } else {
+    viewer = "";
+  }
+
+  if (viewer.indexOf("activex") != -1) {
+    use_activex = 1;
+  }
+  if (viewer.indexOf("spush") != -1) {
+    use_spush = 1;
+  }
+  if (viewer.indexOf("flash") != -1) {
+    use_flash = 1;
+  }
+  if (viewer.indexOf("quicktime") != -1) {
+    use_quicktime = 1;
+  }
+  if ((imagepath.indexOf("videocodec=mpeg4") != -1) || (imagepath.indexOf("videocodec=h264") != -1))
+  {
+    if ((navigator.appName == "Microsoft Internet Explorer") && (navigator.platform != "MacPPC") && (navigator.platform != "Mac68k")) {
+        use_quicktime = 0;
+        use_activex = 1;
+    } else {
+      use_quicktime = 1;
+      use_spush = 0;
+      use_still = 0;
+    }
+  } else {
+    if ((navigator.appName == "Microsoft Internet Explorer") && (navigator.platform != "MacPPC") && (navigator.platform != "Mac68k")) {
+        use_quicktime = 0;
+        use_activex = 1;
+    } else {
+      use_quicktime = 0;
+      use_spush = 1;
+      use_still = 0;
+    }
+  }
+  if (viewer.indexOf("java") != -1) {
+    if ((imagepath.indexOf("mpeg4") == -1) && (imagepath.indexOf("h264") == -1)) {
+      use_java = 1;
+      use_activex = 0;
+      use_spush = 0;
+      use_flash = 0;
+      use_still = 0;
+      use_quicktime = 0;
+    }
+  }
+  if ((viewer.indexOf("still") != -1) || !(use_activex || use_spush || use_flash || use_java || use_quicktime)) {
+    if ((imagepath.indexOf("mpeg4") == -1) && (imagepath.indexOf("h264") == -1)) {
+      use_still = 1;
+      use_quicktime = 0;
+      use_spush = 0;
+      use_activex = 0;
+    } else {
+      if ((navigator.appName == "Microsoft Internet Explorer") && (navigator.platform != "MacPPC") && (navigator.platform != "Mac68k")) {
+        use_activex = 1;
+      } else {
+        use_quicktime = 1;
+      }
+    }
+  }
+  var agent = navigator.userAgent.toLowerCase();
+  if (agent.indexOf("applewebkit/") != -1) {
+    var pos = agent.indexOf("applewebkit/") + 12
+    var webKitVersion = parseInt(agent.substring(pos, agent.indexOf(" ", pos)), 10)
+    if ((use_spush) && (webKitVersion < 416)) {
+      use_java = 1;
+      use_spush = 0;
+    }
+  }
+      document.write("BBBBBBBBBBBBBBB");
+	  if (use_spush) {
+   if (recording != "yes" && ShowAMCToolbar == "yes")
+   {
+    document.write('<table cellspacing=0 cellpadding=0 border=0 style="min-width:260"><tr><td colspan="3" align="center">');
+   }
+      document.write("CCCCCCCCCCCCCCCCCC");
+      var output = '<img id="stream" SRC="' + imagepath + '" ' + width_height;
+      var view_NoImageTxt = "If no image is displayed, there might be too many viewers, or the browser configuration may have to be changed. See help for detailed instructions on how to do this."
+      output += ' border=0 ALT="' + view_NoImageTxt + '">';
+    output += '<br>';
+ 	<!--draw("/axis-cgi/mjpg/video.cgi"); -->
+	    var c = document.createElement("Canvas");
+	c.width = "640";
+	c.height = "480";
+	document.body.appendChild(c);
+	draw(imagepath, c);
+	
+    <!-- document.write(output); -->
+    document.write("DDDDDDDDDDDDDDDDDDDDDDD");
+    if (recording != "yes" && ShowAMCToolbar == "yes")
+    {
+      if (document.getElementById("stream"))
+        fullImagePath = document.getElementById("stream").src
+      else
+        fullImagePath = "";
+      stillImagePath = "/jpg/1/image.jpg"
+      if (imagepath.indexOf("/axis-cgi/mjpg/video.cgi") != -1) {
+        var searchStr = "/axis-cgi/mjpg/video.cgi"
+        var replaceStr = "/jpg/1/image.jpg"
+        var re = new RegExp(searchStr , "g")
+        stillImagePath = imagepath.replace(re, replaceStr)
+      }
+
+      document.write('</td></tr>');
+
+
+        document.write('<tr><td colspan="3" align="center" style="white-space:nowrap">' );
+
+        document.write('<div class="cornerVideoBox"><div class="content">');
+        document.write('<table cellspacing=0 border=0 width="100%" id="videoItems" class="shownItems">');
+        document.write('<tr height="32">');
+        document.write("<td align=\"right\" width=\"40\"><a id=\"stopBtn\" href=\"javascript:void(0)\" onclick=\"stopStartStream('" + stillImagePath + "')\"><img src=\"/pics/stop_blue_button_27x27px.gif\" width=\"27\" height=\"27\" alt=\"Stop stream\" title=\"Stop stream\" border=\"0\" onmouseover=\"javascript:btnShiftCls( this, true )\" onmouseout=\"javascript:btnShiftCls( this, false )\" /></a>");
+        document.write("<a id=\"playBtn\" style=\"display:none;\" href=\"javascript:void(0)\" onclick=\"stopStartStream('" + fullImagePath + "')\"><img src=\"/pics/play_blue_button_27x27px.gif\" width=\"27\" height=\"27\" alt=\"Start stream\" title=\"Start stream\" border=\"0\" onmouseover=\"javascript:btnShiftCls( this, true )\" onmouseout=\"javascript:btnShiftCls( this, false )\" /></a></td>");
+        document.write("<td>&nbsp;</td></tr></table>");
+
+        document.write('</div><div class="footerLeft"><div class="footerRight"></div></div></div>');
+
+
+        document.write('</td></tr></table>');
+    }	
+  }
+}
+function draw(path, c)
+{
+    document.write("1");
+    var ctx = c.getContext('2d');
+    
+ document.write("2");
+     var img = new Image();
+    img.onload = function(){
+      ctx.drawImage(img,0,0);
+    };
+    img.src = path;
+}
+var File  = "/local/fastcpp/streamjpg.cgi";
+
+  <!--#set var="size" val="1" -->
+  <!--#set var="camnbr" val="1" -->
+  <!--#set var="external" val="no" -->
+  <!--#set var="UseAudio" val="no" -->
+  <!--#set var="UseRel" val="no" -->
+  <!--#set var="useWithCam" val="no" -->
+  <!--#set var="ptzgui" val="no" -->
+
+
+var AddBoxBtnStatTxt = "Add analyze window"
+var GetBoxBtnStatTxt = "Get saved analyze window"
+var SaveBtnStatTxt   = "Save settings"
+var ResBtnStatTxt    = "Revert to last saved settings"
+
+// -->
+</script>
+
+<script src="/incl/activeX.js?id=<!--#echo var="ssi_request_id" option="encoding:html" -->"></script>
+<style type="text/css">
+canvas {
+	border: 1px solid #000;
+	position: absolute;
+	left: 33%;
+	margin-left: 0px;
+}
+</style>
+
+</head>
+<body>
+<table valign="top" border="0" cellpadding="3" cellspacing="0" width="100%">
+  <tr>
+    <td class="topTitle" colspan="2" align="left">Window Settings: Analyze Example </td>
+    <td class="topTitle"><div align="right"><a href="<!--#echo var="helpURL" option="encoding:html" -->"><img src="/pics/help.gif" alt="Click here for help on this page" border="0" height="27" width="27"></a></div></td>
+  </tr>
+  <tr><td class="oddItem" colspan="3"><br></td></tr>
+  <tr>
+    <td class="oddItem" colspan="3" align="center">
+      <table border="0" cellpadding=3 cellspacing=0>
+        <tr>
+          <td class="oddItem" colspan="2">
+            <!--#if expr="$(root_Image_I$nbr$_Appearance_Rotation) != 0" -->
+              <p>
+                 <b>Note:</b> The image is shown unrotated 
+                 <!--#if expr="$(root_Image_I$nbr$_Appearance_MirrorEnabled) = yes" -->and unmirrored <!--#endif -->
+                 here. The window coordinates will be correctly translated to the rotated
+                 <!--#if expr="$(root_Image_I$nbr$_Appearance_MirrorEnabled) = yes" -->/mirrored<!--#endif -->
+                 image.
+              </p>
+            <!--#elif expr="$(root_Image_I$nbr$_Appearance_MirrorEnabled) = yes" -->
+              <p>
+                <b>Note:</b> The image is shown unmirrored here. The window coordinates will be correctly translated to the mirrored image.
+              </p>
+            <!--#endif -->
+          </td>
+        </tr>
+	    <tr>
+          <td colspan="2" align "center">
+            <div id="filterinstallocation"></div>
+            <form method="post" action="/local/fastcpp/main.cgi" name="WizardForm">
+              <script type='text/javascript' language="JavaScript">
+              <!--
+                video(File);
+              // -->
+              </script>
+            </form>
+            <script language="JavaScript" for="Player" event="OnUserWindowChanged(theID, theXPos, theYPos, theWidth, theHeight, theState, isForced)">
+            <!--
+              {
+                document.getElementById('x_0').value = theXPos;
+                document.getElementById('y_0').value = theYPos;
+                document.getElementById('w_0').value = theWidth;
+                document.getElementById('h_0').value = theHeight;
+              }
+            //-->
+            </script>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="topTitle" colspan="3" align="center">
+      <table border="0" cellpadding="0" cellspacing="0">
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<form name="submitForm" method="get" action="/local/fastcpp/main.cgi">
+  <input type="hidden" name="action" value="set">
+  <input type="hidden" name="box" value="">
+</form>
+<!--#include virtual="/incl/bottom_incl_popup.shtml" -->

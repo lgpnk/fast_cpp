@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <syslog.h>
+#include <capture.h>
+#include <string.h>
+#include <param.h>
+
+#include "CaptureHandler.h"
+#include "../Shared.h"
+
+
+#define CAPTURE_PROPERTIES    "sdk_format=Y800&resolution=640x480&fps=10"
+#define SIZEOF_PROPERTIES     1024
+
+CaptureHandler::CaptureHandler(Fast &f)
+{
+    fast = f;
+    stream   = NULL;
+}
+
+CaptureHandler::~CaptureHandler()
+{
+    close();
+}
+
+void
+CaptureHandler::close()
+{
+    if (stream != NULL) 
+    {
+	capture_close_stream(stream);
+	stream = NULL;
+    }
+}
+
+void
+CaptureHandler::handle(int exit_signal)
+{
+  media_frame *frame = NULL;
+  void *       data  = NULL;
+  int          width;
+  int          height;
+  int          stride;
+  int          result = 0;
+
+  frame = capture_get_frame(stream);
+  if (!frame) 
+  {
+      if (exit_signal) 
+      {
+	  return;
+      }
+      else 
+      {
+	  syslog(LOG_CRIT, "Failed to capture frame!");
+	  close();
+	  exit(EXIT_FAILURE);
+      }
+  }
+
+  data   = capture_frame_data(frame);
+  width  = capture_frame_width(frame);
+  height = capture_frame_height(frame);
+  stride = capture_frame_stride(frame);
+  
+//   fast.fastAlgorithm(data, width, height, stride);
+
+  capture_frame_free(frame);
+
+  return;
+}
+
+/* Capture */
+
+void CaptureHandler::open(void)
+{
+    char  properties[SIZEOF_PROPERTIES];
+    char *window_value;
+    int   x1, x2, y1, y2;
+    int   width;
+    int   height;
+
+    snprintf(properties, SIZEOF_PROPERTIES, CAPTURE_PROPERTIES);
+
+    stream = capture_open_stream(IMAGE_UNCOMPRESSED, properties);
+    if (!stream)
+    {
+	syslog(LOG_CRIT, "Failed to open capture stream!");
+	exit(EXIT_FAILURE);
+    }
+}

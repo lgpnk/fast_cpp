@@ -1,0 +1,267 @@
+#include <stdlib.h>
+#include <syslog.h>
+#include <string>
+#include <net_http.h>
+
+#include "HttpHandler.h"
+#include "ParamHandler.h"
+#include "../Shared.h"
+
+#define HTTP_PATH_MAIN          "/local/fastcpp/main.cgi"
+#define HTTP_PATH_STREAM	"/local/fastcpp/streamjpg.cgi"
+#define HTTP_TIMEOUT    30
+#define HTTP_WAIT       -1
+#define HTTP_NO_WAIT    0
+
+static bool window_changed = false;
+
+HttpHandler::HttpHandler()
+{
+}
+
+HttpHandler::~HttpHandler()
+{
+    net_http_cleanup();
+}
+
+int HttpHandler::init(char *app_name)
+{
+    if (net_http_init(app_name) < 0) 
+    {
+	syslog(LOG_CRIT, "Failed to init HTTP!");
+	return -1;
+    }
+
+    if (net_http_add_path(HTTP_PATH_MAIN, this->handle_main) < 0) 
+    {
+	syslog(LOG_CRIT, "Failed to add HTTP path: %s", HTTP_PATH_MAIN);
+	net_http_cleanup();
+	return -1;
+    }
+    
+    syslog(LOG_INFO, "Added http path: %s", HTTP_PATH_MAIN);
+    
+    if (net_http_add_path(HTTP_PATH_STREAM, this->handle_streaming_jpg) < 0) 
+    {
+	syslog(LOG_CRIT, "Failed to add HTTP path: %s", HTTP_PATH_STREAM);
+	net_http_cleanup();
+	return -1;
+    }
+    syslog(LOG_INFO, "Added http path: %s", HTTP_PATH_STREAM);
+
+  return 0;
+}
+
+void HttpHandler::handle_main(const char *method, const char *path, const http_options *options, int fd)
+{
+    ssize_t     ret_value  = 1;
+    char my_string[2048];
+    
+    syslog(LOG_INFO, "Received HTTP Request: %s", path);
+    
+    ret_value = net_http_send_headers(fd, HTTP_TIMEOUT, txt_HTTP_HEADER_200, txt_Content_Type_text_html_utf8, txt_CRLF, NULL);
+    if (ret_value > 0)
+    {
+	snprintf(my_string, sizeof(my_string), 
+	     "<li><a href=\"%s?fps=12&resolution=CIF\"> TEST  (%s)</a></li><br>", HTTP_PATH_STREAM);
+	
+	net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);
+    }
+    close(fd);
+}
+void HttpHandler::handle_streaming_jpg(const char *method, const char *path, const http_options *options, int fd)
+{
+    media_stream *stream;
+    ssize_t       ret_value = 1;
+    const char *  my_tmp_option;
+    char          my_media_props[100];
+
+    my_tmp_option = net_http_option(options, "fps");
+    if (!my_tmp_option)
+      my_tmp_option = "10";
+
+
+    snprintf(my_media_props, sizeof(my_media_props), "fps=%s", my_tmp_option);
+
+    my_tmp_option = net_http_option(options, "resolution");
+    if (my_tmp_option) 
+    {
+      strncat(my_media_props, "&resolution=", sizeof(my_media_props) - 1);
+      strncat(my_media_props, my_tmp_option, sizeof(my_media_props) - 1);
+    }
+    LOG("%s media_props=\"%s\"\n", __FUNCTION__, my_media_props);
+
+    stream = capture_open_stream(IMAGE_JPEG, my_media_props);
+
+    LOG("%s opening stream=%p\n", __FUNCTION__, stream);
+
+    if (stream) 
+    {
+	media_frame *frame = NULL;
+
+	ret_value = net_http_send_headers(fd,
+					  TIMEOUT_SECS,
+					  txt_HTTP_HEADER_200,
+					  txt_CONTENT_TYPE_MULTIPART,
+					  txt_CRLF,
+					  NULL);
+	while (ret_value > 0) 
+	{
+	    /* Read a new buffer */
+	    frame = capture_get_frame(stream);
+
+	    /* If buf == NULL: nothing could be read */
+
+	    /* This could happen if we are using non-blocking read,
+	    * or in case of an error. As we are not using non-blocking,
+	    * treat it as an error */
+	    if (!frame)
+	      ret_value = -1;
+
+	    /* Send the multipart header and the image */
+	    if (ret_value > 0) 
+	    {
+		ret_value = net_http_send_multipart_content(fd,
+							    TIMEOUT_SECS,
+							    "image/jpeg",
+							    capture_frame_data(frame),
+							    capture_frame_size(frame));
+	    }
+	    capture_frame_free(frame);
+	    /*************************************/
+
+	    /* if there are more requests waiting or
+	    * if an exit signal has been received
+	    * terminate this loop and handle the new requests */
+	    if ((exit_signal) || (net_http_waitfor_req(0) > 0)) 
+		ret_value = -1; /* end loop */
+	}
+	LOG("%s closing stream=%p", __FUNCTION__, stream);
+
+	capture_close_stream(stream);
+    } 
+    else
+    {
+	net_http_send_headers(fd,
+			      TIMEOUT_SECS,
+			      txt_HTTP_RESPONSE_500,
+			      txt_CRLF,
+			      NULL);
+    }
+    
+    close(fd);
+}
+//   if (!(action = net_http_option(options, "action"))) 
+//   {
+//       goto bad_request;
+//   }
+//   syslog(LOG_INFO, "action=%s", action);
+  
+//   if (string(action) == "set") {
+//     if (!(window = net_http_option(options, "box"))) {
+//       goto bad_request;
+//     }
+//     syslog(LOG_INFO, "box=%s", window);
+// 
+//     if (param_set(PARAM_WINDOW, window, 1) < 0) {
+//       syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_WINDOW, window);
+//       goto server_error;
+//     }
+//     syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n",
+//            PARAM_WINDOW, window);
+//     window_changed = true;
+// 
+//     if (net_http_send_headers(fd,
+//                               HTTP_TIMEOUT,
+//                               txt_HTTP_HEADER_200,
+//                               txt_Content_Type_text_html_utf8,
+//                               txt_CRLF,
+//                               NULL) < 0) {
+//       goto response_failure;
+//     }
+// 
+//     syslog(LOG_INFO, "Response sent!");
+//     close(fd);
+//     return;
+//   } else if (string(action) == "get") {
+//     if (param_get(PARAM_WINDOW, &window_param) < 0) 
+//     {
+// 	syslog(LOG_CRIT, "Failed to get parameter: %s", PARAM_WINDOW);
+// 	goto server_error;
+//     }
+//     syslog(LOG_INFO, "Parameter read: Name: %s, Value: %s\n",
+//            PARAM_WINDOW, window_param);
+// 
+//     if (net_http_send_headers(fd, HTTP_TIMEOUT, txt_HTTP_HEADER_200, txt_Content_Type_text_html_utf8, txt_CRLF, NULL) < 0)
+//     {
+// 	syslog(LOG_WARNING, "Failed to send HTTP response!");
+// 	close(fd);
+// 	param_free(window_param);
+// 	return;
+//     }
+// 
+//     if (net_http_send_string_utf8(fd, HTTP_TIMEOUT, window_param) < 0) 
+//     {
+// 	param_free(window_param);
+// 	goto response_failure;
+//     }
+// 
+//     syslog(LOG_INFO, "Response sent!");
+//     param_free(window_param);
+//     close(fd);
+//     return;
+//   }
+
+bad_request:
+  syslog(LOG_WARNING, "Bad Request!");
+  if (net_http_send_string_utf8(fd, HTTP_TIMEOUT,
+                                txt_HTTP_RESPONSE_400) < 0) {
+    goto response_failure;
+  }
+  close(fd);
+  return;
+
+response_failure:
+  syslog(LOG_WARNING, "Failed to send HTTP response!");
+  close(fd);
+  return;
+
+server_error:
+  if (net_http_send_string_utf8(fd, HTTP_TIMEOUT,
+                                txt_HTTP_RESPONSE_500) < 0) {
+    syslog(LOG_WARNING, "Failed to send HTTP response!");
+  }
+  close(fd);
+  net_http_cleanup();
+  exit(EXIT_FAILURE);
+}
+
+int HttpHandler::waitForFastStart(int param_fast)
+{
+  if (param_fast == DISABLED) {
+    syslog(LOG_INFO, "Waiting...");
+    net_http_waitfor_and_handle_req(HTTP_WAIT);
+  }
+
+  if (param_fast == ENABLED) {
+    syslog(LOG_INFO, "Start fast!");
+    return FAST_START;
+  }
+
+  return -1;
+}
+
+int HttpHandler::checkForFastStopOrReconf(int param_fast)
+{
+  net_http_waitfor_and_handle_req(HTTP_NO_WAIT);
+  if (param_fast == DISABLED) {
+    syslog(LOG_INFO, "Stop fast!");
+    return FAST_STOP;
+  } else if (window_changed) {
+    window_changed = false;
+    syslog(LOG_INFO, "New window parameters!");
+    return FAST_RECONF;
+  }
+
+  return -1;
+}

@@ -1,0 +1,122 @@
+<html>
+ <head>
+    <STYLE type="text/css">
+    <!--
+      #container1 { position: absolute; top: 50px; left: 50px;}
+      #container2 { position: absolute; top: 50px; left: 50px;}
+      #container3 { position: absolute; top: 50px; left: 400px;}
+    -->
+    </STYLE>
+  </head>
+  <script src="/incl/zxml.js"></script>
+  <script language="javascript">
+  var dirx = 1;
+  var diry = 1;
+  var spdx = setRand();
+  var spdy = setRand();
+  var imgLeftInt;
+  var imgTopInt;
+  var imgHeight;
+  var imgWidth;
+  var winWidth;
+  var winHeight;
+  var t;
+  var ctx;
+  var canvas;
+
+  function startStr(on) 
+  {
+      get_corners_from_app();
+  }
+
+  function clr_ctx() 
+  {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  }
+
+  function drawCorner(x,y) 
+  {
+      ctx.fillStyle = "rgb(255,0,0)";
+      ctx.fillRect(x, y, 1, 1);
+
+  //     ctx.strokeStyle = "rgb(0,255,0)""
+  //     ctx.beginPath();
+  //     var radius         = 3;                    // Arc radius
+  //     var startAngle     = 0;                     // Starting point on circle
+  //     var endAngle       = Math.PI*2;		// End point on circle
+  //     ctx.arc(x,y,radius,startAngle,endAngle, true);
+  //     ctx.stroke();
+  }
+
+  function run()
+  {
+	  canvas = document.getElementById("Canvas");
+	  ctx = canvas.getContext("2d");
+  }
+
+  function setRand() {
+      randnum= Math.floor(Math.random()*40)+2;
+      return randnum;
+  }
+
+  function computeWin(){
+      if(document.body.clientWidth) {
+	  this.windWidth=document.body.clientWidth;
+	  this.windHeight=document.body.clientHeight;
+      } else {
+	  this.windWidth = window.innerWidth;
+	  this.windHeight=document.innerHeight;
+      }
+  return this;
+  }
+  function get_corners_from_app()
+  {
+    var response = sendAction("/local/fastcpp/corners.cgi", "get");
+    var x = 0;
+    var y = 0;
+
+    if (response && response.indexOf(",") > 0) {
+      var coord_pairs = response.split(";");
+      var coords = new Array();
+      clr_ctx();
+      for (var i = 0; i < coord_pairs.length; i++)
+      {
+	coords[i] = coord_pairs[i].split(",");
+
+	x = parseInt(coords[i][0], 10);
+	y = parseInt(coords[i][1], 10);
+	
+	drawCorner(x, y);
+      }
+    }
+  }
+
+  var request
+  request = zXmlHttp.createRequest();
+
+  function sendAction(action, method)
+  {
+    request.open(method, action, true);
+    try{
+      request.send(null);
+    }
+    catch(e) {
+  delete e;
+    }
+    var result;
+    while(request.readyState != 4)
+      result = (request.status == 200 ? request.responseText : null);
+    return result;
+  }
+  </script>
+  <body onload = "run()">
+  <a href="javascript:var t=setInterval('startStr()', 10)">Start Stream</a> <a href="javascript:clearInterval(t);">Stop Stream</a> <br />
+    <div id="container1">
+      <img src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi"></img>
+    </div>
+    <div id="container2">
+      <canvas id="Canvas" width="800" height="600"></canvas>
+    </div>
+<td class="button"><input value="Get corners" class="btnNormal" type="button" onClick="get_corners_from_app()" </td>
+  </body>
+</html>

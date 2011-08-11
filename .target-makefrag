@@ -1,0 +1,2 @@
+AXIS_BUILDTYPE ?= crisv32-axis-linux-gnu
+AXIS_OPT_DEBUG = y

@@ -1,0 +1,19 @@
+#ifndef SHARED_H
+#define SHARED_H
+
+#define DISABLED           0
+#define ENABLED            1
+
+#define PARAM_ENABLED      "Enabled"
+#define PARAM_LEVEL        "Level"
+#define PARAM_WINDOW       "Window"
+
+enum FAST_STATUS {
+  FAST_IDLE,
+  FAST_START,
+  FAST_RUNNING,
+  FAST_STOP,
+  FAST_RECONF
+};
+
+#endif //SHARED_H
