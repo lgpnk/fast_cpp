@@ -23,7 +23,7 @@ LDFLAGS  += -s
 endif
 endif
 
-SRCS      = 	main.cpp CaptureHandler.cpp HttpHandler.cpp ParamHandler.cpp SignalHandler.cpp Fast.cpp Fast9.cpp Nonmax.cpp
+SRCS      = 	main.cpp CaptureHandler.cpp HttpHandler.cpp ParamHandler.cpp SignalHandler.cpp Fast.cpp Fast9.cpp Nonmax.cpp ThreadHandler.cpp
 
 OBJS      = $(SRCS:.cpp=.o)
 

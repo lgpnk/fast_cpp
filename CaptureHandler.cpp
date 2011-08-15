@@ -9,7 +9,7 @@
 #include "Fast.h"
 #include "Shared.h"
 
-#define CAPTURE_PROPERTIES    "sdk_format=Y800&resolution=480x360&fps=30"
+#define CAPTURE_PROPERTIES    "sdk_format=Y800&resolution=240x180&fps=30"
 #define SIZEOF_PROPERTIES     1024
 
 char* CaptureHandler::str_corners;
@@ -73,8 +73,11 @@ CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
   height = capture_frame_height(frame);
   stride = capture_frame_stride(frame);
   
+//   if(threadHandler->is_running())
+//     pthread_mutex_lock(threadHandler->get_mutex_a());
   fast.fast_detect_nonmax(data, width, height, stride, fast_level, num_corner, suppression);
-  
+    if(threadHandler->is_running())
+    pthread_mutex_unlock(threadHandler->get_mutex_b());
   capture_frame_free(frame);
 
 }

@@ -23,8 +23,8 @@ enum FAST_STATUS {
 };
 
 enum LOCK_STATUS {
-  LOCK,
-  UNLOCK
+  LOCKED,
+  UNLOCKED
 };
 static char* str= "Hello!";
 static bool http_lock;

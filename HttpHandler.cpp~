@@ -23,6 +23,9 @@
 #define LOG(fmt, args...)    { syslog(LOG_INFO, fmt, ## args); printf(fmt, ## args); }
 
 static bool window_changed = false;
+ThreadHandler *HttpHandler::threadHandler = new ThreadHandler();
+
+void* start_thread(void* tfd);
 
 HttpHandler::HttpHandler()
 {
@@ -122,7 +125,12 @@ void HttpHandler::handle_main(const char *method, const char *path, const http_o
 void HttpHandler::handle_corners(const char *method, const char *path, const http_options *options, int fd)
 {
     ssize_t      ret_value  = 1;
-    char         my_string[SIZEOF_APP_CORNER_COORD];
+//     char         my_string[SIZEOF_APP_CORNER_COORD];
+    pthread_t thread;
+    
+    Arg *arg = new Arg();
+    arg->threadHandler = threadHandler;
+    arg->fd = fd;
     
     ret_value = net_http_send_headers(fd,
 				      HTTP_TIMEOUT,
@@ -130,23 +138,42 @@ void HttpHandler::handle_corners(const char *method, const char *path, const htt
 				      txt_Content_Type_text_html_utf8,
 				      txt_CRLF,
 				      NULL);
+    if(ret_value > 0)
+    {
+	threadHandler->add_thread();
+	pthread_create(&thread, NULL, start_thread, (void*)arg);
+    }
+    else
+      close(fd);
+    
+}
 
-
+void* start_thread(void* tmp_arg)
+{
+    ssize_t      ret_value  = 1;
+    
+    Arg *arg =(Arg*) tmp_arg;
+    int fd = (int) arg->fd;
+    ThreadHandler *threadHandler = arg->threadHandler;
+    
     while(ret_value > 0) 
     {
-	snprintf(my_string,
-             sizeof(my_string),
-             "%s",
-             CaptureHandler::get_strfast());
-	
-	  ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);	
-	
+	pthread_mutex_lock(threadHandler->get_mutex_b());
+	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, CaptureHandler::get_strfast());	
+	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
+	pthread_mutex_unlock(threadHandler->get_mutex_a());
 	if ((SignalHandler::getExitSignal()) || (net_http_waitfor_req(0) > 0)) 
 	    ret_value = -1; /* end loop */
-	
-	usleep(100000);
     }
     close(fd);
+    threadHandler->remove_thread();
+    pthread_mutex_unlock(threadHandler->get_mutex_a());
+    pthread_exit(NULL);
+}
+
+void HttpHandler::InternalThreadEntry()
+{
+
 }
 
 int HttpHandler::waitForFastStart(int param_fast)

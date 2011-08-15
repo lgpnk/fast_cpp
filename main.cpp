@@ -37,7 +37,6 @@ main(int argc, char *argv[])
   int fast_status      = FAST_IDLE;
   char *         app_name = basename(argv[0]);
   int            result   = 0;
-  http_lock = LOCKED;
   
   /* Parameters */
   ParamHandler   paramHandler;

@@ -127,7 +127,7 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 			    ret_corners[num_corners].x = x;
 			    ret_corners[num_corners].y = y;
 			    ret_corners[num_corners].bright = true;
-//  			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
+  			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
 
  			    num_corners++;
 			    continue;
@@ -160,7 +160,7 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 			    ret_corners[num_corners].x = x;
 			    ret_corners[num_corners].y = y;
 			    ret_corners[num_corners].bright = false;
-//  			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
+  			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
 
 			    num_corners++;
 			    continue;
@@ -168,7 +168,7 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		    }
 		}
 	    }
-
+	syslog(LOG_INFO, "Corner %d", num_corners );
 	ret_num_corners = num_corners;
 	return ret_corners;
 

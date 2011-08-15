@@ -3,6 +3,7 @@
 
 #include <capture.h>
 #include "Fast.h"
+#include "ThreadHandler.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ private:
   int parse_window(const char *window, int *x1, int *x2, int *y1, int *y2);
 
   Fast fast;
+  ThreadHandler *threadHandler;
   media_stream *stream;
   static char* str_corners;
 };

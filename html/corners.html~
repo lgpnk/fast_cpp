@@ -103,12 +103,13 @@
     catch(e) {
   delete e;
     }
-    var result = (request.status == 200 ? request.responseText : null);
+    var result;
+    while(request.readyState != 4)
+      result = (request.status == 200 ? request.responseText : null);
     return result;
   }
   </script>
   <body onload = "run()">
-  <a href="javascript:var t=setInterval('startStr()', 10)">Start Stream</a> <a href="javascript:clearInterval(t);">Stop Stream</a> <br />
     <div id="container1">
       <img src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi"></img>
     </div>

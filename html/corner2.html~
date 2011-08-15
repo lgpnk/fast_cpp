@@ -90,45 +90,71 @@
       }
     }
   }
-  var oggXHR = new XMLHttpRequest();
-
-  function funzCallback() {
-      try {
-	if (oggXHR.readyState == 4) { // risposta completa
-	    if (oggXHR.status == 200) {
-	      var x = 0;
-	      var y = 0;
-	      var response = oggXHR.responseText; 
-	      if (response && response.indexOf(",") > 0) {
-		var coord_pairs = response.split(";");
-		var coords = new Array();
-		clr_ctx();
-		for (var i = 0; i < coord_pairs.length; i++)
-		{
-		  coords[i] = coord_pairs[i].split(",");
-
-		  x = parseInt(coords[i][0], 10);	
-		  y = parseInt(coords[i][1], 10);
-		
-		  drawCorner(x, y);
-		}
-	    }
-	  }
-	  else {
-	  }
-	}
-    } catch (e) {
-      }
-  }
-
   function prova() 
   {    
      var xhr; 
           try {  xhr = new XMLHttpRequest();     }
           catch (e3) {  xhr = false;   }
         
-     
-  
+    xhr.onreadystatechange  = function()
+    { 
+         if(xhr.readyState  == 3)
+         {
+// 	      window.alert("4");
+              if(xhr.status  == 200) 
+               {
+// 		window.alert("200");
+// 	      var response = xhr.responseText; 
+	      handlePartialResponse(xhr);
+	
+	  }
+        }
+    };
+   xhr.open("GET", "/local/fastcpp/corners.cgi",  true); 
+   xhr.send(null); 
+  }  
+    var index = 0;
+    var buffer = '';
+    var DELIMITER = 'EOF';
+    
+    function handlePartialResponse(request) {
+      var x = 0;
+      var y = 0;
+//       window.alert("Partial");
+      var i = request.responseText.lastIndexOf(DELIMITER);
+      if (i> index) {
+// 	window.alert("i> index");
+	i += DELIMITER.length;
+	var newChunk = request.responseText.substr(index, (i - index));
+	buffer += newChunk;
+	if (buffer && buffer.indexOf(",") > 0) {
+		var coord_pairs = buffer.split(";");
+		var coords = new Array();
+		clr_ctx();
+		for (var j = 0; j < coord_pairs.length; j++)
+		{
+		  coords[j] = coord_pairs[j].split(",");
+
+		  x = parseInt(coords[j][0], 10);	
+		  y = parseInt(coords[j][1], 10);
+		  
+		  drawCorner(x, y);
+		}
+	    }
+	index = i;
+	flushBuffer();
+      }
+    }
+    function flushBuffer() {
+      
+      buffer = '';
+    }
+  function prova2() 
+  {    
+     var xhr; 
+          try {  xhr = new XMLHttpRequest();     }
+          catch (e3) {  xhr = false;   }
+        
     xhr.onreadystatechange  = function()
     { 
          if(xhr.readyState  == 4)
@@ -161,7 +187,6 @@
   }            
   </script>
   <body onload = "run()">
-  <a href="javascript:var t=setInterval('startStr()', 50)">Start Stream</a> <a href="javascript:clearInterval(t);">Stop Stream</a> <br />
     <div id="container1">
       <img src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi"></img>
     </div>

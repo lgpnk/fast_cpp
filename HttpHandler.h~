@@ -2,6 +2,8 @@
 #define HTTP_HANDLER_H
 
 #include <net_http.h>
+#include "ThreadHandler.h"
+#include <complex>
 
 using namespace std;
 
@@ -15,10 +17,18 @@ public:
   int  checkForFastStopOrReconf(int param_fast);
 
   ~HttpHandler();
-
+    void get_strfast();
+protected: 
+    void InternalThreadEntry();
 private:
+  static ThreadHandler *threadHandler;
   static void handle_main(const char *method, const char *path, const http_options *options, int fd);
   static void handle_streaming_jpg(const char *method, const char *path, const http_options *options, int fd);
+  static void handle_corners(const char *method, const char *path, const http_options *options, int fd);
 };
-
+struct Arg
+{
+    ThreadHandler *threadHandler;
+    int fd;    
+};
 #endif // HTTP_HANDLER_H

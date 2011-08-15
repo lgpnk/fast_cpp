@@ -10,7 +10,7 @@ class CaptureHandler
 {
 public:
   CaptureHandler(Fast & f);
-  void  handle(int exit_signal, int fast_level, bool suppression);
+  void  handle(int exit_signal, int fast_level, int suppression);
   void open(void);
   void close();
   static char* get_strfast();
@@ -20,6 +20,7 @@ private:
   int parse_window(const char *window, int *x1, int *x2, int *y1, int *y2);
 
   Fast fast;
+  ThreadHandler *threadHandler;
   media_stream *stream;
   static char* str_corners;
 };
