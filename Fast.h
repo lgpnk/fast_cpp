@@ -3,6 +3,7 @@
 #include "Shared.h"
 #include "Pixel.h"
 #include <string.h>
+#include "ThreadHandler.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ protected:
   int m_higher_t;
   int m_n;
   int frame_count;
-  
+  ThreadHandler *threadHandler;
   void make_offsets(int pixel[], int row_stride);
 
   bool zero_dark(const uint8_t* p, const int pixel[]);

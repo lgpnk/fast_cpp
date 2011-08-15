@@ -115,7 +115,8 @@
   }  
     var index = 0;
     var buffer = '';
-    var DELIMITER = 'EOF';
+    var DELIMITER = ';';
+    var EOF = 'EOF';
     
     function handlePartialResponse(request) {
       var x = 0;
@@ -130,17 +131,23 @@
 	if (buffer && buffer.indexOf(",") > 0) {
 		var coord_pairs = buffer.split(";");
 		var coords = new Array();
-		clr_ctx();
-		for (var j = 0; j < coord_pairs.length; j++)
-		{
-		  coords[j] = coord_pairs[j].split(",");
+		
+// 		for (var j = 0; j < coord_pairs.length; j++)
+// 		{
+		  coords[0] = coord_pairs[0].split(",");
 
-		  x = parseInt(coords[j][0], 10);	
-		  y = parseInt(coords[j][1], 10);
+		  x = parseInt(coords[0][0], 10);	
+		  y = parseInt(coords[0][1], 10);
 		  
 		  drawCorner(x, y);
-		}
+// 		}
 	    }
+      
+	else if(buffer && buffer.indexOf(EOF) > 0)
+	{
+	    clr_ctx();
+	}
+
 	index = i;
 	flushBuffer();
       }

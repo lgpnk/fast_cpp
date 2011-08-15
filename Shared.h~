@@ -21,11 +21,4 @@ enum FAST_STATUS {
   FAST_STOP,
   FAST_RECONF
 };
-
-enum LOCK_STATUS {
-  LOCKED,
-  UNLOCKED
-};
-static char* str= "Hello!";
-static bool http_lock;
 #endif //SHARED_H

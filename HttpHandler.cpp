@@ -160,7 +160,7 @@ void* start_thread(void* tmp_arg)
     {
 	pthread_mutex_lock(threadHandler->get_mutex_b());
 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, CaptureHandler::get_strfast());	
-	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
+// 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
 // 	pthread_mutex_unlock(threadHandler->get_mutex_a());
 	if ((SignalHandler::getExitSignal()) || (net_http_waitfor_req(0) > 0)) 
 	    ret_value = -1; /* end loop */

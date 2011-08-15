@@ -75,9 +75,10 @@ CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
   
 //   if(threadHandler->is_running())
 //     pthread_mutex_lock(threadHandler->get_mutex_a());
+  sprintf(CaptureHandler::get_strfast(), "EOF;");
+  if(threadHandler->is_running())
+      pthread_mutex_unlock(threadHandler->get_mutex_b());
   fast.fast_detect_nonmax(data, width, height, stride, fast_level, num_corner, suppression);
-    if(threadHandler->is_running())
-    pthread_mutex_unlock(threadHandler->get_mutex_b());
   capture_frame_free(frame);
 
 }
