@@ -3,21 +3,27 @@
 #include "syslog.h"
 void Fast::fast_detect_nonmax(const uint8_t* im, const int& xsize, const int& ysize, const int &stride, const int &b, int& ret_num_corners, int suppression)
 {
-    	Pixel* corners;    	
-	int num_corners;
+    int num_corners;
+	
+    if(suppression)
+    {
+	Pixel* corners;
+	Pixel* nonmax;
+	int* scores;
 	
 	corners = fast_detect(im, xsize, ysize, stride, b, ret_num_corners);
-	if(suppression)
-	{
-	    int* scores;
-	    Pixel* nonmax;
-	    num_corners = ret_num_corners;
-	    scores = fast_score(im, stride, corners, num_corners, b);
-	    nonmax = nonmax_suppression(corners, scores, num_corners, ret_num_corners);
-	    free(scores);
-	    free(nonmax);
-	}
- 	free(corners);
+
+	num_corners = ret_num_corners;
+	scores = fast_score(im, stride, corners, num_corners, b);
+	nonmax = nonmax_suppression(corners, scores, num_corners, ret_num_corners);
+	
+	free(scores);
+	free(nonmax);
+	free(corners);
+    }
+    else
+	fast_detect_nosup(im, xsize, ysize, stride, b, ret_num_corners);
+ 	
 
 // 	ret_num_corners =  num_corners;
 }

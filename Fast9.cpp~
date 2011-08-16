@@ -168,7 +168,7 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		    }
 		}
 	    }
-	syslog(LOG_INFO, "Corner %d", num_corners );
+// 	syslog(LOG_INFO, "Corner %d", num_corners );
 	ret_num_corners = num_corners;
 	return ret_corners;
 

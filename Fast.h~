@@ -46,7 +46,7 @@ public:
 //     int* fast11_score(const uint8_t* i, int stride, Pixel* corners, int num_corners, int b);
 //     int* fast12_score(const uint8_t* i, int stride, Pixel* corners, int num_corners, int b);
 
-     void fast_detect_nonmax(const uint8_t* im, const int &xsize, const int &ysize, const int &stride, const int &b, int& ret_num_corners, bool suppression);
+     void fast_detect_nonmax(const uint8_t* im, const int &xsize, const int &ysize, const int &stride, const int &b, int& ret_num_corners, int suppression);
 //     Pixel* fast9_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int& ret_num_corners);
 //     Pixel* fast10_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
 //     Pixel* fast11_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);

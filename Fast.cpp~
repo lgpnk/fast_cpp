@@ -15,6 +15,7 @@ void Fast::fast_detect_nonmax(const uint8_t* im, const int& xsize, const int& ys
 	    scores = fast_score(im, stride, corners, num_corners, b);
 	    nonmax = nonmax_suppression(corners, scores, num_corners, ret_num_corners);
 	    free(scores);
+	    free(nonmax);
 	}
  	free(corners);
 
