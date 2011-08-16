@@ -90,6 +90,12 @@
       }
     }
   }
+
+  var start = 0;
+  var end = new Date;
+  var frameTime = 0;
+  var filterStrength = 10;
+
   function prova() 
   {    
      var xhr; 
@@ -130,7 +136,11 @@
 	if (buffer && buffer.indexOf(",") > 0) {
 		var coord_pairs = buffer.split(";");
 		var coords = new Array();
+		var thisFrameTime = (start = new Date) - end;
+		frameTime+= (thisFrameTime - frameTime) / filterStrength;
+		end = start;
 		clr_ctx();
+		drawCPS(frameTime);
 		for (var j = 0; j < coord_pairs.length; j++)
 		{
 		  coords[j] = coord_pairs[j].split(",");
@@ -149,42 +159,14 @@
       
       buffer = '';
     }
-  function prova2() 
-  {    
-     var xhr; 
-          try {  xhr = new XMLHttpRequest();     }
-          catch (e3) {  xhr = false;   }
-        
-    xhr.onreadystatechange  = function()
-    { 
-         if(xhr.readyState  == 4)
-         {
-              if(xhr.status  == 200) 
-               {
-	      var x = 0;
-	      var y = 0;
-	      var response = xhr.responseText; 
-	      if (response && response.indexOf(",") > 0) {
-		var coord_pairs = response.split(";");
-		var coords = new Array();
-		clr_ctx();
-		for (var i = 0; i < coord_pairs.length; i++)
-		{
-		  coords[i] = coord_pairs[i].split(",");
 
-		  x = parseInt(coords[i][0], 10);	
-		  y = parseInt(coords[i][1], 10);
-		
-		  drawCorner(x, y);
-		}
-	    }
-	  }
-        }
-    }; 
-
-   xhr.open("GET", "/local/fastcpp/corners.cgi",  true); 
-   xhr.send(null); 
-  }            
+    function drawCPS(time) 
+    {
+	var CPS = (1000 / time).toFixed(2);
+	ctx.font = "14px Arial";
+        ctx.fillStyle = "#ff0000";
+        ctx.fillText(CPS, 9, 16);
+    }
   </script>
   <body onload = "run()">
     <div id="container1">
