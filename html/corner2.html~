@@ -138,6 +138,7 @@
 		var coords = new Array();
 		var thisFrameTime = (start = new Date) - end;
 		frameTime+= (thisFrameTime - frameTime) / filterStrength;
+		end = start;
 		clr_ctx();
 		drawCPS(frameTime);
 		for (var j = 0; j < coord_pairs.length; j++)

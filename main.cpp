@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <syslog.h>
 #include <libgen.h>
+#include <rapp/rapp.h>
 
 #include "Shared.h"
 #include "CaptureHandler.h"
@@ -53,6 +54,8 @@ main(int argc, char *argv[])
 
   daemonize();
 
+  rapp_initialize();
+  
   /* initialization */
   signalHandler.init();
 
@@ -106,6 +109,8 @@ main(int argc, char *argv[])
   /* clean up */
   close_syslog();
 
+  rapp_terminate();
+  
   return EXIT_SUCCESS;
 }
 
