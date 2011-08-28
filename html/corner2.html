@@ -127,20 +127,24 @@
       var x = 0;
       var y = 0;
 //       window.alert("Partial");
-      var i = request.responseText.lastIndexOf(DELIMITER);
-      if (i> index) {
+//       var i = request.responseText.lastIndexOf(DELIMITER);
+      var i = request.responseText.indexOf(DELIMITER, index);
+
+      if (i > index) {
 // 	window.alert("i> index");
-	i += DELIMITER.length;
-	var newChunk = request.responseText.substr(index, (i - index));
-	buffer += newChunk;
-	if (buffer && buffer.indexOf(",") > 0) {
-		var coord_pairs = buffer.split(";");
+// 	i += DELIMITER.length;
+	var data = request.responseText.substring(index, i);
+	index = i + DELIMITER.length;
+	
+	if (data && data.indexOf(",") > 0) {
+		var coord_pairs = data.split(";");
 		var coords = new Array();
 		var thisFrameTime = (start = new Date) - end;
-		frameTime+= (thisFrameTime - frameTime) / filterStrength;
+		frameTime += (thisFrameTime - frameTime) / filterStrength;
 		end = start;
 		clr_ctx();
 		drawCPS(frameTime);
+		drawNum(coord_pairs.length);
 		for (var j = 0; j < coord_pairs.length; j++)
 		{
 		  coords[j] = coord_pairs[j].split(",");
@@ -151,21 +155,35 @@
 		  drawCorner(x, y);
 		}
 	    }
-	index = i;
-	flushBuffer();
+	i = request.responseText.indexOf(DELIMITER, index); 
+
       }
+      
     }
     function flushBuffer() {
       
       buffer = '';
     }
+    function pause(millis) 
+    {
+        var date = new Date();
+        var curDate = null;
 
+        do { curDate = new Date(); } 
+        while(curDate-date < millis)
+    }
     function drawCPS(time) 
     {
 	var CPS = (1000 / time).toFixed(2);
 	ctx.font = "14px Arial";
         ctx.fillStyle = "#ff0000";
         ctx.fillText(CPS, 9, 16);
+    }
+        function drawNum(num) 
+    {
+	ctx.font = "14px Arial";
+        ctx.fillStyle = "#ff0000";
+        ctx.fillText(num, 100, 16);
     }
   </script>
   <body onload = "run()">

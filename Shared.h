@@ -6,7 +6,8 @@
 
 #define DISABLED           0
 #define ENABLED            1
-#define SIZEOF_APP_CORNER_COORD  10000
+#define SIZEOF_APP_CORNER_COORD  131072
+#define SIZEOF_PKG		 2048
 
 #define PARAM_ENABLED      "Enabled"
 #define PARAM_LEVEL        "Level"

@@ -172,11 +172,16 @@ void* start_thread(void* tmp_arg)
     {
 	pthread_mutex_lock(threadHandler->get_mutex_b());
 	snprintf(my_string,
-+             sizeof(my_string),
-+             "%sEOF",
-+             CaptureHandler::get_strfast());
+             sizeof(my_string),
+             "%s",
+             CaptureHandler::get_strfast());
+	
+	int len = strlen(my_string);
+	
+	while (len < SIZEOF_PKG)
+	  len += sprintf(my_string + len, " ");
 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);	
-// 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
+ 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
 // 	pthread_mutex_unlock(threadHandler->get_mutex_a());
 	if ((SignalHandler::getExitSignal()) || (net_http_waitfor_req(0) > 0)) 
 	    ret_value = -1; /* end loop */

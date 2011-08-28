@@ -172,9 +172,14 @@ void* start_thread(void* tmp_arg)
     {
 	pthread_mutex_lock(threadHandler->get_mutex_b());
 	snprintf(my_string,
-+             sizeof(my_string),
-+             "%sEOF",
-+             CaptureHandler::get_strfast());
+             sizeof(my_string),
+             "%sEOF",
+             CaptureHandler::get_strfast());
+	
+	int len = strlen(my_string);
+	
+	while (len < SIZEOF_PKG)
+	  len += sprintf(my_string + len, "EOF");
 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);	
 // 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
 // 	pthread_mutex_unlock(threadHandler->get_mutex_a());
@@ -322,7 +327,7 @@ void HttpHandler::handle_sobel(const char *method, const char *path, const http_
 	
         for (i = 0; i < image_height; i++) {
           for (j = 0; j < image_width; j++) {
-            image[i * image_width + j] = data[i * image_stride + j];
+            image[i * image_width + j] = sobel_data[i * image_stride + j];
           }
         }
         content_length += ret_value;
