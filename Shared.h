@@ -12,8 +12,6 @@
 #define PARAM_ENABLED      "Enabled"
 #define PARAM_LEVEL        "Level"
 #define PARAM_SUPPRESSION  "Suppression"
-#define PARAM_WINDOW       "Window"
-
 
 enum FAST_STATUS {
   FAST_IDLE,

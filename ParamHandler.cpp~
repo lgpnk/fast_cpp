@@ -77,7 +77,7 @@ void ParamHandler::init(char *app_name)
     syslog(LOG_CRIT, "Failed to get parameter: %s", PARAM_SUPPRESSION);
     exit(EXIT_FAILURE);
   }
-  handleParam2(PARAM_SUPPRESSION, value);
+  handleParam3(PARAM_SUPPRESSION, value);
   param_free(value);
 }
 
@@ -91,7 +91,7 @@ param_stat ParamHandler::handleParam1(const char *name, const char *value)
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
-  kill(app_pid, SIGUSR1);
+//   kill(app_pid, SIGUSR1);
 
   return PARAM_OK;
 }

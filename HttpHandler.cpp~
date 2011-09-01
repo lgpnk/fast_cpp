@@ -13,10 +13,9 @@
 #include "Shared.h"
 #include "SignalHandler.h"
 
-#define HTTP_PATH_MAIN          "/local/fastcpp/main.cgi"
-#define HTTP_PATH_STREAM	"/local/fastcpp/streamjpg.cgi"
 #define HTTP_PATH_CORNERS	"/local/fastcpp/corners.cgi"
 #define HTTP_PATH_SOBEL		"/local/fastcpp/sobel.pgm"
+#define HTTP_PATH_UPDATE	"/local/fastcpp/update.cgi"
 
 #define HTTP_TIMEOUT    30
 #define HTTP_WAIT       -1
@@ -46,24 +45,6 @@ int HttpHandler::init(char *app_name)
 	syslog(LOG_CRIT, "Failed to init HTTP!");
 	return -1;
     }
-
-//     if (net_http_add_path(HTTP_PATH_MAIN, this->handle_main) < 0) 
-//     {
-// 	syslog(LOG_CRIT, "Failed to add HTTP path: %s", HTTP_PATH_MAIN);
-// 	net_http_cleanup();
-// 	return -1;
-//     }
-//     
-//     syslog(LOG_INFO, "Added http path: %s", HTTP_PATH_MAIN);
-    
-//     if (net_http_add_path(HTTP_PATH_STREAM, this->handle_streaming_jpg) < 0) 
-//     {
-// 	syslog(LOG_CRIT, "Failed to add HTTP path: %s", HTTP_PATH_STREAM);
-// 	net_http_cleanup();
-// 	return -1;
-//     }
-//     syslog(LOG_INFO, "Added http path: %s", HTTP_PATH_STREAM);
-//     
     if (net_http_add_path(HTTP_PATH_CORNERS, this->handle_corners) < 0) 
     {
 	syslog(LOG_CRIT, "Failed to add HTTP path: %s", HTTP_PATH_CORNERS);
@@ -79,77 +60,39 @@ int HttpHandler::init(char *app_name)
 	return -1;
     }
     syslog(LOG_INFO, "Added http path: %s", HTTP_PATH_SOBEL);
-
+    
+    if (net_http_add_path(HTTP_PATH_UPDATE, this->handle_update) < 0) 
+    {
+	syslog(LOG_CRIT, "Failed to add HTTP path: %s", HTTP_PATH_UPDATE);
+	net_http_cleanup();
+	return -1;
+    }
+    syslog(LOG_INFO, "Added http path: %s", HTTP_PATH_UPDATE);
+    
   return 0;
 }
 
-void HttpHandler::handle_main(const char *method, const char *path, const http_options *options, int fd)
-{
-    ssize_t     ret_value  = 1;
-    const char *user_agent = NULL;
-    
-    char my_string[2048];
-    const char *txt_local___http_stream_jpg = HTTP_PATH_STREAM;
-    
-    syslog(LOG_INFO, "Received HTTP Request: %s", path);
-     
-    /* retrieve the http user agent string */
-    user_agent = net_http_option(options, "http_user_agent");
-    
-     /* send the http headers to the user */
-    ret_value = net_http_send_headers(fd, HTTP_TIMEOUT, txt_HTTP_HEADER_200, txt_Content_Type_text_html_utf8, txt_CRLF, NULL);
-    if (ret_value > 0)
-    {
-	/* send a html header and start the html body */
-	snprintf(my_string,
-		sizeof(my_string),
-		"<head>%s</head>"
-		"<title>Http Demo App Dynamic Main Page</title>"
-		"<html>"
-		"<body>"
-		"<ul>"
-		"your browser %s<br>"
-		"</ul>"
-		"</body>"
-		"</html>",             
-		txt_http_equiv_text_html_utf8,
-		user_agent);
-	net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);
-	
-	/* send a list of links for multipart jpeg streaming */
-	snprintf(my_string, sizeof(my_string), 
-	     "<li><a href=\"%s?fps=12&resolution=CIF\"> TEST  (%s)</a></li><br>", txt_local___http_stream_jpg);
-	
-	net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);
-	
-	/* send the html footer */
-	snprintf(my_string,
-		sizeof(my_string),
-		"</ul>"
-		"</body>"
-		"</html>");
-	net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);
-    }
-    close(fd);
-}
 
 void HttpHandler::handle_corners(const char *method, const char *path, const http_options *options, int fd)
 {
     ssize_t      ret_value  = 1;
-//     char         my_string[SIZEOF_APP_CORNER_COORD];
+    char * value;
     pthread_t thread;
-    
     Arg *arg = new Arg();
+    
     arg->threadHandler = threadHandler;
     arg->fd = fd;
     
     ret_value = net_http_send_headers(fd,
-				      HTTP_TIMEOUT,
-				      txt_HTTP_HEADER_200,
-				      txt_Content_Type_text_html_utf8,
-				      txt_CRLF,
-				      NULL);
-    if(ret_value > 0)
+				  HTTP_TIMEOUT,
+				  txt_HTTP_HEADER_200,
+				  txt_Content_Type_text_html_utf8,
+				  txt_CRLF,
+				  NULL);
+
+    param_get(FAST_STATUS, value);
+    
+    if(ret_value > 0 && value == ENABLED)
     {
 	threadHandler->add_thread();
 	pthread_create(&thread, NULL, start_thread, (void*)arg);
@@ -157,6 +100,7 @@ void HttpHandler::handle_corners(const char *method, const char *path, const htt
     else
       close(fd);
     
+    param_free(value);
 }
 
 void* start_thread(void* tmp_arg)
@@ -167,29 +111,109 @@ void* start_thread(void* tmp_arg)
     int fd = (int) arg->fd;
     ThreadHandler *threadHandler = arg->threadHandler;
     char         my_string[SIZEOF_APP_CORNER_COORD];
-    
+    syslog(LOG_CRIT, "Start HTTP Thread");
     while(ret_value > 0) 
     {
 	pthread_mutex_lock(threadHandler->get_mutex_b());
 	snprintf(my_string,
              sizeof(my_string),
-             "%sEOF",
+             "%s",
              CaptureHandler::get_strfast());
 	
 	int len = strlen(my_string);
 	
 	while (len < SIZEOF_PKG)
-	  len += sprintf(my_string + len, "EOF");
+	  len += sprintf(my_string + len, " ");
 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);	
-// 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
+ 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
 // 	pthread_mutex_unlock(threadHandler->get_mutex_a());
-	if ((SignalHandler::getExitSignal()) || (net_http_waitfor_req(0) > 0)) 
+	if ((SignalHandler::getExitSignal()) || threadHandler->getStopRequest()) 
 	    ret_value = -1; /* end loop */
+	    
+// 	net_http_waitfor_and_handle_req(0);
     }
     close(fd);
     threadHandler->remove_thread();
-    pthread_mutex_unlock(threadHandler->get_mutex_a());
+    syslog(LOG_CRIT, "Close HTTP Thread");
     pthread_exit(NULL);
+}
+
+void HttpHandler::handle_update(const char* method, const char* path, const http_options* options, int fd)
+{
+  const char *action       = NULL;
+  const char *fast_level   = NULL;
+  const char *fast_enabled = NULL;
+  const char *suppression  = NULL;
+  const char *http_thread  = NULL;
+
+  syslog(LOG_INFO, "Received HTTP Request: %s", path);
+
+  if (!(action = net_http_option(options, "action"))) {
+    goto bad_request;
+  }
+  syslog(LOG_INFO, "action=%s", action);
+
+  if (string(action) == "set") 
+  {
+      if ((fast_level = net_http_option(options, "level"))) 
+      {
+	  if (param_set(PARAM_LEVEL, fast_level, 1) < 0) 
+	  {
+	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_LEVEL, fast_level);
+	    goto server_error;
+	  }
+      }
+      else if ((suppression = net_http_option(options, "suppression"))) 
+      {
+	  if (param_set(PARAM_SUPPRESSION, suppression, 1) < 0) 
+	  {
+	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_SUPPRESSION, suppression);
+	    goto server_error;
+	  }
+      }
+      else if ((http_thread = net_http_option(options, "http_thread"))) 
+      {
+	   if(threadHandler->is_running())
+	      threadHandler->stop_thread_request();
+      }
+
+
+
+    if (net_http_send_headers(fd,
+                              HTTP_TIMEOUT,
+                              txt_HTTP_HEADER_200,
+                              txt_Content_Type_text_html_utf8,
+                              txt_CRLF,
+                              NULL) < 0) {
+      goto response_failure;
+    }
+
+    syslog(LOG_INFO, "Response sent!");
+    close(fd);
+    return;
+}
+bad_request:
+  syslog(LOG_WARNING, "Bad Request!");
+  if (net_http_send_string_utf8(fd, HTTP_TIMEOUT,
+                                txt_HTTP_RESPONSE_400) < 0) {
+    goto response_failure;
+  }
+  close(fd);
+  return;
+
+response_failure:
+  syslog(LOG_WARNING, "Failed to send HTTP response!");
+  close(fd);
+  return;
+
+server_error:
+  if (net_http_send_string_utf8(fd, HTTP_TIMEOUT,
+                                txt_HTTP_RESPONSE_500) < 0) {
+    syslog(LOG_WARNING, "Failed to send HTTP response!");
+  }
+  close(fd);
+  net_http_cleanup();
+  exit(EXIT_FAILURE);
 }
 
 void HttpHandler::handle_sobel(const char *method, const char *path, const http_options *options, int fd)

@@ -9,7 +9,7 @@
 #include "Fast.h"
 #include "Shared.h"
 
-#define CAPTURE_PROPERTIES    "sdk_format=Y800&resolution=320x240&fps=30"
+#define CAPTURE_PROPERTIES    "sdk_format=Y800&resolution=160x120&fps=30"
 #define SIZEOF_PROPERTIES     1024
 
 char* CaptureHandler::str_corners;
@@ -28,6 +28,7 @@ CaptureHandler::CaptureHandler(Fast &f)
 CaptureHandler::~CaptureHandler()
 {
     close();  
+    free(str_corners);
 }
 
 void
@@ -37,7 +38,6 @@ CaptureHandler::close()
     {
 	capture_close_stream(stream);
 	stream = NULL;
-	free(str_corners);
     }
 }
 

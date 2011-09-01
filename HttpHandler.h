@@ -22,10 +22,10 @@ protected:
     void InternalThreadEntry();
 private:
   static ThreadHandler *threadHandler;
-  static void handle_main(const char *method, const char *path, const http_options *options, int fd);
-  static void handle_streaming_jpg(const char *method, const char *path, const http_options *options, int fd);
   static void handle_corners(const char *method, const char *path, const http_options *options, int fd);
+  static void handle_update(const char *method, const char *path, const http_options *options, int fd);
   static void handle_sobel(const char *method, const char *path, const http_options *options, int fd);
+  
 };
 struct Arg
 {
