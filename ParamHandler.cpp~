@@ -10,6 +10,7 @@
 int ParamHandler::param_fast;
 int ParamHandler::param_fast_level;
 int ParamHandler::param_fast_suppression;
+int ParamHandler::param_res_id;
 
 pid_t ParamHandler::app_pid;
 
@@ -18,6 +19,7 @@ ParamHandler::ParamHandler()
   param_fast       = DISABLED;
   param_fast_level = 40;
   param_fast_suppression = DISABLED;
+  param_res_id = 0;
 }
 
 int ParamHandler::getFastLevel()
@@ -35,6 +37,10 @@ int ParamHandler::getFastSuppression()
   return param_fast_suppression;
 }
 
+int ParamHandler::getFastResId()
+{
+  return param_res_id;
+}
 void ParamHandler::init(char *app_name)
 {
   char *value = NULL;
@@ -79,6 +85,17 @@ void ParamHandler::init(char *app_name)
   }
   handleParam3(PARAM_SUPPRESSION, value);
   param_free(value);
+  
+  if (param_register_callback(PARAM_RES, handleParam4) < 0) {
+    syslog(LOG_CRIT, "Failed to register callback for parameter: %s", PARAM_RES);
+    exit(EXIT_FAILURE);
+  }
+  if (param_get(PARAM_RES, &value) < 0) {
+    syslog(LOG_CRIT, "Failed to get parameter: %s", PARAM_RES);
+    exit(EXIT_FAILURE);
+  }
+  handleParam2(PARAM_RES, value);
+  param_free(value);
 }
 
 param_stat ParamHandler::handleParam1(const char *name, const char *value)
@@ -91,7 +108,7 @@ param_stat ParamHandler::handleParam1(const char *name, const char *value)
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
-//   kill(app_pid, SIGUSR1);
+  kill(app_pid, SIGUSR1);
 
   return PARAM_OK;
 }
@@ -114,6 +131,16 @@ param_stat ParamHandler::handleParam3(const char *name, const char *value)
   else 
       param_fast_suppression = DISABLED;
 
+  syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
+
+  return PARAM_OK;
+}
+
+param_stat ParamHandler::handleParam4(const char *name, const char *value)
+{
+  int tmp = atoi(value);
+  param_res_id = tmp;
+  
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
   return PARAM_OK;

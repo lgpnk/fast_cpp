@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <syslog.h>
 #include <capture.h>
-#include <string.h>
+#include <string>
 #include <param.h>
 
 #include "CaptureHandler.h"
@@ -84,11 +84,30 @@ CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
 
 /* Capture */
 
-void CaptureHandler::open(void)
+void CaptureHandler::open(int res_id)
 {
-    char  properties[SIZEOF_PROPERTIES];
+    char     properties[SIZEOF_PROPERTIES];
+    const char*   RES[17] = {"160x120","800x600", "640x480", "480x360", "320x240", "240x180", 	//4:3
+		        "800x450", "640x360", "480x270", "320x180", "160x90", 			//16:9
+		        "800x500", "640x400", "480x300", "320x200", "160x100",			//16:10
+		        "176x144" };								//??
+		        
+//     string capture_properies = "sdk_format=Y800&resolution"+RES+"&fps=30";
+    snprintf(properties,
+           sizeof(properties),
+           "sdk_format=Y800");
 
-    snprintf(properties, SIZEOF_PROPERTIES, CAPTURE_PROPERTIES);
+    strncat(properties,
+            "&resolution=",
+            sizeof(properties) - 1);
+    strncat(properties,
+            RES[res_id],
+            sizeof(properties) - 1);
+    strncat(properties,
+            "&fps=30",
+            sizeof(properties) - 1);
+    
+//     snprintf(properties, SIZEOF_PROPERTIES, CAPTURE_PROPERTIES);
 
     stream = capture_open_stream(IMAGE_UNCOMPRESSED, properties);
     if (!stream)

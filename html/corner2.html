@@ -23,11 +23,11 @@
   var t;
   var ctx;
   var canvas;
-
-  function startStr(on) 
-  {
-      prova();
-  }
+  var captureX;
+  var captureY;
+  var streamX;
+  var streamY;
+  var resolution;
 
   function clr_ctx() 
   {
@@ -36,10 +36,14 @@
 
   function drawCorner(x,y) 
   {
-      var tx = 640 * x / 160;
-      var ty = 480 * y / 120;
+      var tx = streamX * x / captureX;
+      var ty = streamY * y / captureY;
       ctx.fillStyle = "rgb(255,0,0)";
-      ctx.fillRect(tx - 1, ty - 1, 3, 3);
+      ctx.fillRect(tx, ty, 1, 1);
+      ctx.fillRect(tx - 1, ty, 1, 1);
+      ctx.fillRect(tx + 1, ty, 1, 1);
+      ctx.fillRect(tx, ty - 1, 1, 1);
+      ctx.fillRect(tx, ty + 1, 1, 1);
 
   //     ctx.strokeStyle = "rgb(0,255,0)""
   //     ctx.beginPath();
@@ -49,11 +53,43 @@
   //     ctx.arc(x,y,radius,startAngle,endAngle, true);
   //     ctx.stroke();
   }
-
+  function setCaptureScaling(val)
+  {
+      var coord = new Array();
+      coord = resolution[val].split("x");
+      captureX = coord[0];
+      captureY = coord[1];
+  }
+  function setStreamResolution(val)
+  {
+      if(val < 6)
+      {
+	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480";
+	  streamX = 640;
+	  streamY = 480;
+      }
+      else if(val < 11)
+      {
+	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x360";
+	  streamX = 640;
+	  streamY = 360;
+      }
+      else
+      {
+	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x400";
+	  streamX = 640;
+	  streamY = 400;
+      }
+  }
   function run()
   {
+	  resolution = new Array("160x120","800x600", "640x480", "480x360", "320x240", "240x180", "800x450", "640x360", "480x270", "320x180", "160x90", "800x500", "640x400", "480x300", "320x200", "160x100", "176x144");								
 	  canvas = document.getElementById("Canvas");
 	  ctx = canvas.getContext("2d");
+
+	  var initialValue = document.getElementById("idResolution").value;
+	  setCaptureScaling(initialValue);
+	  setStreamResolution(initialValue);
   }
 
   function setRand() {
@@ -153,14 +189,14 @@
 // 	i += DELIMITER.length;
 	var data = request.responseText.substring(index, i);
 	index = i + DELIMITER.length;
-	
+	clr_ctx();
 	if (data && data.indexOf(",") > 0) {
 		var coord_pairs = data.split(";");
 		var coords = new Array();
 		var thisFrameTime = (start = new Date) - end;
 		frameTime += (thisFrameTime - frameTime) / filterStrength;
 		end = start;
-		clr_ctx();
+
 		drawCPS(frameTime);
 		drawNum(coord_pairs.length);
 		for (var j = 0; j < coord_pairs.length; j++)
@@ -253,10 +289,22 @@
       xhr.open("post", "/local/fastcpp/update.cgi",  true); 
       xhr.send("action=set&suppression="+value); 
     }
+    function updateRes()
+    {
+	  var value = document.getElementById("idResolution").value;
+	  setCaptureScaling(value);
+	  setStreamResolution(value);
+	  var xhr; 
+          try {  xhr = new XMLHttpRequest();     }
+          catch (e3) {  xhr = false;   }
+	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
+	  xhr.send("action=set&res="+value);	
+	  clr_ctx();
+    }
   </script>
   <body onload = "run()">
     <div id="container1">
-      <img src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480" name = "Stream"></img>
+      <img src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480" id = "Stream"></img>
     </div>
     <div id="container2">
       <canvas id="Canvas" width="800" height="600"></canvas>
@@ -264,6 +312,6 @@
 <td class="button"><input id = "http_thread" value="Get Corners" class="btnNormal" type="button" onClick="enableThread()" /> </td>
 <td class="button"><input id = "suppression" value="Suppression" class="btnNormal" type="button" onClick="enableSuppression()" /> </td>
 <td class="slider"><input id = "fastLevel" type="range" min="10" max="60" value="30" step="1" onMouseUp="updateLevel()" /> </td>
-<select name="root_Image_I0_Appearance_Resolution" onchange="previewUpdate();" id="idResolution"><option value="800x600" selected="">800x600 (4:3)</option><option value="640x480">640x480 (4:3)</option><option value="480x360">480x360 (4:3)</option><option value="320x240">320x240 (4:3)</option><option value="240x180">240x180 (4:3)</option><option value="160x120">160x120 (4:3)</option><option value="800x450">800x450 (16:9)</option><option value="640x360">640x360 (16:9)</option><option value="480x270">480x270 (16:9)</option><option value="320x180">320x180 (16:9)</option><option value="160x90">160x90 (16:9)</option><option value="800x500">800x500 (16:10)</option><option value="640x400">640x400 (16:10)</option><option value="480x300">480x300 (16:10)</option><option value="320x200">320x200 (16:10)</option><option value="160x100">160x100 (16:10)</option><option value="176x144">176x144 </option></select>
+<select name="root_Image_I0_Appearance_Resolution" onchange="updateRes();" id="idResolution"><option value="0" selected="">160x120 (4:3)</option><option value="1" >800x600 (4:3)</option><option value="2">640x480 (4:3)</option><option value="3">480x360 (4:3)</option><option value="4">320x240 (4:3)</option><option value="5">240x180 (4:3)</option><option value="6">800x450 (16:9)</option><option value="7">640x360 (16:9)</option><option value="8">480x270 (16:9)</option><option value="9">320x180 (16:9)</option><option value="10">160x90 (16:9)</option><option value="11">800x500 (16:10)</option><option value="12">640x400 (16:10)</option><option value="13">480x300 (16:10)</option><option value="14">320x200 (16:10)</option><option value="15">160x100 (16:10)</option><option value="16">176x144 </option></select>
   </body>
 </html>

@@ -13,7 +13,6 @@
 #define PARAM_LEVEL        "Level"
 #define PARAM_SUPPRESSION  "Suppression"
 
-
 enum FAST_STATUS {
   FAST_IDLE,
   FAST_START,

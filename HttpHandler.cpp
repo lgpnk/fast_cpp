@@ -23,7 +23,7 @@
 
 #define LOG(fmt, args...)    { syslog(LOG_INFO, fmt, ## args); printf(fmt, ## args); }
 
-static bool window_changed = false;
+static bool resolution_changed = false;
 ThreadHandler *HttpHandler::threadHandler = new ThreadHandler();
 
 void* start_thread(void* tfd);
@@ -145,6 +145,7 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
   const char *fast_enabled = NULL;
   const char *suppression  = NULL;
   const char *http_thread  = NULL;
+  const char *resolution   = NULL;
 
   syslog(LOG_INFO, "Received HTTP Request: %s", path);
 
@@ -176,7 +177,15 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
 	   if(threadHandler->is_running())
 	      threadHandler->stop_thread_request();
       }
-
+      else if ((resolution = net_http_option(options, "res"))) 
+      {
+	  if (param_set(PARAM_RES, resolution, 1) < 0) 
+	  {
+	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_RES, resolution);
+	    goto server_error;
+	  }
+	  resolution_changed = true;
+      }
 
 
     if (net_http_send_headers(fd,
@@ -400,8 +409,8 @@ int HttpHandler::checkForFastStopOrReconf(int param_fast)
   if (param_fast == DISABLED) {
     syslog(LOG_INFO, "Stop fast!");
     return FAST_STOP;
-  } else if (window_changed) {
-    window_changed = false;
+  } else if (resolution_changed) {
+    resolution_changed = false;
     syslog(LOG_INFO, "New window parameters!");
     return FAST_RECONF;
   }
