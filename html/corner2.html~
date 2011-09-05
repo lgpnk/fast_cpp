@@ -39,7 +39,11 @@
       var tx = streamX * x / captureX;
       var ty = streamY * y / captureY;
       ctx.fillStyle = "rgb(255,0,0)";
-      ctx.fillRect(tx - 1, ty - 1, 3, 3);
+      ctx.fillRect(tx, ty, 1, 1);
+      ctx.fillRect(tx - 1, ty, 1, 1);
+      ctx.fillRect(tx + 1, ty, 1, 1);
+      ctx.fillRect(tx, ty - 1, 1, 1);
+      ctx.fillRect(tx, ty + 1, 1, 1);
 
   //     ctx.strokeStyle = "rgb(0,255,0)""
   //     ctx.beginPath();
@@ -179,13 +183,12 @@
 //       window.alert("Partial");
 //       var i = request.responseText.lastIndexOf(DELIMITER);
       var i = request.responseText.indexOf(DELIMITER, index);
-
+      clr_ctx();
       if (i > index) {
 // 	window.alert("i> index");
 // 	i += DELIMITER.length;
 	var data = request.responseText.substring(index, i);
 	index = i + DELIMITER.length;
-	clr_ctx();
 	if (data && data.indexOf(",") > 0) {
 		var coord_pairs = data.split(";");
 		var coords = new Array();
@@ -295,7 +298,6 @@
           catch (e3) {  xhr = false;   }
 	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
 	  xhr.send("action=set&res="+value);	
-	  clr_ctx();
     }
   </script>
   <body onload = "run()">

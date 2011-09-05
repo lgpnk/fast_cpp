@@ -189,14 +189,13 @@
 // 	i += DELIMITER.length;
 	var data = request.responseText.substring(index, i);
 	index = i + DELIMITER.length;
-	clr_ctx();
 	if (data && data.indexOf(",") > 0) {
 		var coord_pairs = data.split(";");
 		var coords = new Array();
 		var thisFrameTime = (start = new Date) - end;
 		frameTime += (thisFrameTime - frameTime) / filterStrength;
 		end = start;
-
+		clr_ctx();
 		drawCPS(frameTime);
 		drawNum(coord_pairs.length);
 		for (var j = 0; j < coord_pairs.length; j++)
@@ -299,7 +298,6 @@
           catch (e3) {  xhr = false;   }
 	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
 	  xhr.send("action=set&res="+value);	
-	  clr_ctx();
     }
   </script>
   <body onload = "run()">

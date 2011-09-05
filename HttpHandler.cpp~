@@ -23,7 +23,7 @@
 
 #define LOG(fmt, args...)    { syslog(LOG_INFO, fmt, ## args); printf(fmt, ## args); }
 
-static bool window_changed = false;
+static bool resolution_changed = false;
 ThreadHandler *HttpHandler::threadHandler = new ThreadHandler();
 
 void* start_thread(void* tfd);
@@ -184,6 +184,7 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
 	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_RES, resolution);
 	    goto server_error;
 	  }
+	  resolution_changed = true;
       }
 
 
@@ -331,27 +332,28 @@ void HttpHandler::handle_sobel(const char *method, const char *path, const http_
       int            image_width         = capture_frame_width(frame);
       int            image_stride        = capture_frame_stride(frame);
       uint8_t 	     *data               = (uint8_t*)capture_frame_data(frame);
-      uint8_t	     *sobel_data		 = NULL;
+      uint8_t	     *sobel_data	 = NULL;
 
       const size_t   image_header_length = 100;
       char *         my_image_header     = NULL;
-      size_t         content_length      = image_width * image_height;
+      size_t         content_length      = image_stride * image_height;
       
       my_image_header = (char *) malloc(image_header_length + content_length);
       sobel_data = (uint8_t*)malloc(image_stride * image_height);
-      
+      int pos = 0;
       if (!my_image_header) {
         goto closefd;
       }
-      ret_value = snprintf(my_image_header, image_header_length,
-                           "P5\n"
-                           "# CREATOR: Axis Communications AB\n"
-                           "%d %d\n"
-                           "%d\n",
-                           image_width, image_height, 255);
+//       ret_value = snprintf(my_image_header, image_header_length,
+//                            "P5\n"
+//                            "# CREATOR: Axis Communications AB\n"
+//                            "%d %d\n"
+//                            "%d\n"
+// 			   "EOH",
+//                            image_width, image_height, 255);
 
-      if (ret_value > 0) {
-        unsigned char *image = (unsigned char *)(my_image_header + ret_value);
+    /*  if (ret_value > 0) */{
+        unsigned char *image = (unsigned char *)(my_image_header);
         int            j;
         int            i;
 	
@@ -359,11 +361,11 @@ void HttpHandler::handle_sobel(const char *method, const char *path, const http_
 	
         for (i = 0; i < image_height; i++) {
           for (j = 0; j < image_width; j++) {
-            image[i * image_width + j] = sobel_data[i * image_stride + j];
+	    pos += sprintf(my_image_header + pos, "%d;", sobel_data[i * image_stride+ j]);
           }
         }
         content_length += ret_value;
-        (void)net_http_send(fd, HTTP_TIMEOUT, my_image_header, content_length);
+        (void)net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_image_header);
       }
       
       free(my_image_header);
@@ -408,8 +410,8 @@ int HttpHandler::checkForFastStopOrReconf(int param_fast)
   if (param_fast == DISABLED) {
     syslog(LOG_INFO, "Stop fast!");
     return FAST_STOP;
-  } else if (window_changed) {
-    window_changed = false;
+  } else if (resolution_changed) {
+    resolution_changed = false;
     syslog(LOG_INFO, "New window parameters!");
     return FAST_RECONF;
   }

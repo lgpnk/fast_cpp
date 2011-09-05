@@ -1,4 +1,3 @@
-/*This is mechanically generated code*/
 #include <stdlib.h>
 #include "Fast.h"
 #include "CaptureHandler.h"
