@@ -146,6 +146,7 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
   const char *suppression  = NULL;
   const char *http_thread  = NULL;
   const char *resolution   = NULL;
+  const char *captureFps   = NULL;
 
   syslog(LOG_INFO, "Received HTTP Request: %s", path);
 
@@ -182,6 +183,15 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
 	  if (param_set(PARAM_RES, resolution, 1) < 0) 
 	  {
 	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_RES, resolution);
+	    goto server_error;
+	  }
+	  resolution_changed = true;
+      }      
+      else if ((captureFps = net_http_option(options, "captureFps"))) 
+      {
+	  if (param_set(PARAM_RES, captureFps, 1) < 0) 
+	  {
+	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_CAPTURE_FPS, captureFps);
 	    goto server_error;
 	  }
 	  resolution_changed = true;
@@ -336,7 +346,7 @@ void HttpHandler::handle_sobel(const char *method, const char *path, const http_
 
       const size_t   image_header_length = 100;
       char *         my_image_header     = NULL;
-      size_t         content_length      = image_stride * image_height;
+      size_t         content_length      = image_stride * image_height * 4;
       
       my_image_header = (char *) malloc(image_header_length + content_length);
       sobel_data = (uint8_t*)malloc(image_stride * image_height);

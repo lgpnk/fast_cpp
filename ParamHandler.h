@@ -13,6 +13,7 @@ public:
   int  getFastState();
   int  getFastSuppression();
   int  getFastResId();
+  int  getCaptureFps();
   void init(char *app_name);
 
 private:
@@ -20,11 +21,13 @@ private:
   static param_stat handleParam2(const char *name, const char *value);
   static param_stat handleParam3(const char *name, const char *value);
   static param_stat handleParam4(const char *name, const char *value);
+  static param_stat handleParam5(const char *name, const char *value);
 
   static int    param_fast;
   static int    param_fast_level;
   static int    param_fast_suppression;
   static int 	param_res_id;
+  static int	param_capture_fps;
   static pid_t  app_pid;
 };
 

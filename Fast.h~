@@ -40,6 +40,8 @@ public:
 //     Pixel* fast11_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
 //     Pixel* fast12_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
 
+     void fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners);
+     
      int *fast_score(const uint8_t* i, int stride, Pixel* corners, int num_corners, int b);
 //     int* fast9_score(const uint8_t* i, int stride, Pixel* corners, int num_corners, int b);
 //     int* fast10_score(const uint8_t* i, int stride, Pixel* corners, int num_corners, int b);

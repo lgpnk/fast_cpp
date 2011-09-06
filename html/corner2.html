@@ -64,19 +64,73 @@
   {
       if(val < 6)
       {
-	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480";
+	  switch(val)
+	  {
+	    case "0":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480&fps=30";
+		break;
+	    case "1":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480&fps=3";
+		break;
+	    case "2":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480&fps=4";
+		break;
+	    case "3":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480&fps=6";		
+		break;
+	    case "4":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480&fps=14";	
+		break;
+	    case "5":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480&fps=19";
+		break;
+	  }
 	  streamX = 640;
 	  streamY = 480;
       }
       else if(val < 11)
       {
-	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x360";
+	  switch(val)
+	  {
+	    case "6":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x360&fps=3";
+		break;
+	    case "7":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x360&fps=4";
+		break;
+	    case "8":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x360&fps=6";
+		break;
+	    case "9":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x360&fps=14";
+		break;
+	    case "10":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x360&fps=30";
+		break;
+	  }
 	  streamX = 640;
 	  streamY = 360;
       }
       else
       {
-	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x400";
+	  switch(val)
+	  {
+	    case "11":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x400&fps=3";
+		break;
+	    case "12":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x400&fps=4";
+		break;
+	    case "13":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x400&fps=6";
+		break;
+	    case "14":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x400&fps=14";
+		break;
+	    case "15":
+		document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x400&fps=30";
+		break;
+	  }
 	  streamX = 640;
 	  streamY = 400;
       }
@@ -299,6 +353,23 @@
 	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
 	  xhr.send("action=set&res="+value);	
     }
+    function updateCaptureFps()
+    {
+	  var value = document.getElementById("captureFps").value;
+	  var xhr; 
+          try {  xhr = new XMLHttpRequest();     }
+          catch (e3) {  xhr = false;   }
+	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
+	  xhr.send("action=set&captureFps="+value);	
+    }
+    function showValueLevel(newValue)
+    {
+	    document.getElementById("lvlValue").innerHTML=newValue;
+    }
+    function showValueFps(newValue)
+    {
+	    document.getElementById("lvlFps").innerHTML=newValue;
+    }
   </script>
   <body onload = "run()">
     <div id="container1">
@@ -309,7 +380,8 @@
     </div>
 <td class="button"><input id = "http_thread" value="Get Corners" class="btnNormal" type="button" onClick="enableThread()" /> </td>
 <td class="button"><input id = "suppression" value="Suppression" class="btnNormal" type="button" onClick="enableSuppression()" /> </td>
-<td class="slider"><input id = "fastLevel" type="range" min="10" max="60" value="30" step="1" onMouseUp="updateLevel()" /> </td>
+<td class="slider"><input id = "fastLevel" type="range" min="10" max="60" value="30" step="1" onMouseUp="updateLevel()" onchange="showValueLevel(this.value)" /> <span id="lvlValue">30</span></td>
+<td class="slider"><input id = "captureFps" type="range" min="4" max="30" value="30" step="1" onMouseUp="updateCaptureFps()" onchange="showValueFps(this.value)" /> <span id="lvlFps">30</span></td>
 <select name="root_Image_I0_Appearance_Resolution" onchange="updateRes();" id="idResolution"><option value="0" selected="">160x120 (4:3)</option><option value="1" >800x600 (4:3)</option><option value="2">640x480 (4:3)</option><option value="3">480x360 (4:3)</option><option value="4">320x240 (4:3)</option><option value="5">240x180 (4:3)</option><option value="6">800x450 (16:9)</option><option value="7">640x360 (16:9)</option><option value="8">480x270 (16:9)</option><option value="9">320x180 (16:9)</option><option value="10">160x90 (16:9)</option><option value="11">800x500 (16:10)</option><option value="12">640x400 (16:10)</option><option value="13">480x300 (16:10)</option><option value="14">320x200 (16:10)</option><option value="15">160x100 (16:10)</option><option value="16">176x144 </option></select>
   </body>
 </html>

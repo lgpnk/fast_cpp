@@ -80,7 +80,7 @@ main(int argc, char *argv[])
 	break;
 
       case FAST_START:
-	captureHandler.open(paramHandler.getFastResId());
+	captureHandler.open(paramHandler.getFastResId(), paramHandler.getCaptureFps());
 	syslog(LOG_INFO, "fastres");
 	fast_status = FAST_RUNNING;
 	break;
@@ -96,7 +96,7 @@ main(int argc, char *argv[])
 
       case FAST_RECONF:
 	captureHandler.close();
-	captureHandler.open(paramHandler.getFastResId());
+	captureHandler.open(paramHandler.getFastResId(), paramHandler.getCaptureFps());
 	fast_status = FAST_RUNNING;
 	break;
 

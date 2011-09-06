@@ -1,4 +1,0 @@
-Transfer /local/fastcpp/main.cgi /var/run/http/fastcpp/http
-Transfer /local/fastcpp/streamjpg.cgi /var/run/http/fastcpp/http
-Transfer /local/fastcpp/corners.cgi /var/run/http/fastcpp/http
-Transfer /local/fastcpp/sobel.pgm /var/run/http/fastcpp/http

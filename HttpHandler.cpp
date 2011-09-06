@@ -146,6 +146,7 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
   const char *suppression  = NULL;
   const char *http_thread  = NULL;
   const char *resolution   = NULL;
+  const char *captureFps   = NULL;
 
   syslog(LOG_INFO, "Received HTTP Request: %s", path);
 
@@ -182,6 +183,15 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
 	  if (param_set(PARAM_RES, resolution, 1) < 0) 
 	  {
 	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_RES, resolution);
+	    goto server_error;
+	  }
+	  resolution_changed = true;
+      }      
+      else if ((captureFps = net_http_option(options, "captureFps"))) 
+      {
+	  if (param_set(PARAM_CAPTURE_FPS, captureFps, 1) < 0) 
+	  {
+	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_CAPTURE_FPS, captureFps);
 	    goto server_error;
 	  }
 	  resolution_changed = true;

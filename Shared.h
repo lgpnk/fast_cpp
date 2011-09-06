@@ -13,6 +13,7 @@
 #define PARAM_LEVEL        "Level"
 #define PARAM_SUPPRESSION  "Suppression"
 #define PARAM_RES	   "Resolution"
+#define PARAM_CAPTURE_FPS  "CaptureFps"
 
 enum FAST_STATUS {
   FAST_IDLE,

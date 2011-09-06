@@ -12,6 +12,7 @@
 #define PARAM_ENABLED      "Enabled"
 #define PARAM_LEVEL        "Level"
 #define PARAM_SUPPRESSION  "Suppression"
+#define PARAM_RES	   "Resolution"
 
 enum FAST_STATUS {
   FAST_IDLE,

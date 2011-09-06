@@ -84,14 +84,28 @@ CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
 
 /* Capture */
 
-void CaptureHandler::open(int res_id)
+void CaptureHandler::open(int res_id, int captureFps)
 {
     char     properties[SIZEOF_PROPERTIES];
-    const char*   RES[17] = {"160x120","800x600", "640x480", "480x360", "320x240", "240x180", 	//4:3
+    const char* RES[17] = {"160x120","800x600", "640x480", "480x360", "320x240", "240x180", 	//4:3
 		        "800x450", "640x360", "480x270", "320x180", "160x90", 			//16:9
 		        "800x500", "640x400", "480x300", "320x200", "160x100",			//16:10
 		        "176x144" };								//??
-		        
+    char     FPS[20];
+    
+    if(res_id == 1 || res_id == 6 || res_id == 11)
+	captureFps = 3;
+    else if(res_id == 2 || res_id == 7 || res_id == 12)
+	captureFps = 4;
+    else if(res_id == 3 || res_id == 8 || res_id == 13)
+	captureFps = 6;
+    else if(res_id == 4 || res_id == 9 || res_id == 14)
+	captureFps = 14;
+    else if(res_id == 5 || res_id == 10 || res_id == 15)
+	captureFps = 19;
+    else 
+	captureFps = 30;
+    snprintf(FPS, sizeof(FPS), "%d", captureFps); 
 //     string capture_properies = "sdk_format=Y800&resolution"+RES+"&fps=30";
     snprintf(properties,
            sizeof(properties),
@@ -104,7 +118,10 @@ void CaptureHandler::open(int res_id)
             RES[res_id],
             sizeof(properties) - 1);
     strncat(properties,
-            "&fps=4",
+            "&fps=",
+            sizeof(properties) - 1);
+    strncat(properties,
+            FPS,
             sizeof(properties) - 1);
     
 //     snprintf(properties, SIZEOF_PROPERTIES, CAPTURE_PROPERTIES);
