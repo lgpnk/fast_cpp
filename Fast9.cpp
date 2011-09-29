@@ -81,6 +81,8 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 	int x, y;
 	int pos_tr, neg_tr;
 	int b_count, d_count;
+	bool bad_bc;
+	bool bad_dc;
 
 	const uint8_t* p;
 	
@@ -96,6 +98,8 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		p = im + y * stride + x;
 		b_count = 0;
 		d_count = 0;
+		bad_bc = true;
+		bad_dc = true;
 		pos_tr = *p + t;
 		neg_tr = *p - t;
 
@@ -107,14 +111,23 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		{
 		    
 		    if(p[pixel[12]] > pos_tr)
+		    {
 			b_count++;
+			bad_bc = false;
+		    }
 		    if(b_count == 1)
 		    {			    
 			if(p[pixel[4]] > pos_tr)
+			{
 			    b_count ++;
+			    bad_bc = false;
+			}
 		    }
+		    if(b_count == 2 && bad_bc)
+			continue;
 		    if(b_count >=2)
 		    {
+		      
 			m_higher_t = pos_tr;
 			if(full_seg_test_bright(p, pixel))
 			{
@@ -140,12 +153,20 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		if(d_count >= 1)
 		{
 		    if(p[pixel[12]] < neg_tr)
+		    {
 			d_count++;
+			bad_dc = false;
+		    }
 		    if(d_count == 1)
 		    {			    
 			if(p[pixel[4]] < neg_tr)
+			{
 			    d_count ++;
+			    bad_dc = false;
+			}
 		    }
+		    if(d_count == 2 && bad_dc)
+			continue;
 		    if(d_count >= 2)
 		    {
 			m_lower_t = neg_tr;

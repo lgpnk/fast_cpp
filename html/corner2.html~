@@ -1,13 +1,13 @@
-<html>
- <head>
-    <STYLE type="text/css">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+ 
+    <style type="text/css">
     <!--
       #container1 { position: absolute; top: 50px; left: 50px;}
       #container2 { position: absolute; top: 50px; left: 50px;}
-      #container3 { position: absolute; top: 50px; left: 400px;}
+      #container3 { position: absolute; left: 50px; width: 480px}
     -->
-    </STYLE>
-  </head>
+    </style>
   <script src="/incl/zxml.js"></script>
   <script language="javascript">
   var dirx = 1;
@@ -62,71 +62,25 @@
   }
   function setStreamResolution(val)
   {
-      if(val < 6)
-      {
-	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480";
-	  streamX = 640;
-	  streamY = 480;
-      }
-      else if(val < 11)
-      {
-	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x360";
-	  streamX = 640;
+	  document.getElementById("Stream").src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=480x360&fps=20";
+	  streamX = 480;
 	  streamY = 360;
-      }
-      else
-      {
-	  document.getElementById("Stream").src =  "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x400";
-	  streamX = 640;
-	  streamY = 400;
-      }
   }
   function run()
   {
-	  resolution = new Array("160x120","800x600", "640x480", "480x360", "320x240", "240x180", "800x450", "640x360", "480x270", "320x180", "160x90", "800x500", "640x400", "480x300", "320x200", "160x100", "176x144");								
+	  resolution = new Array("160x120", "240x180", "320x240");								
 	  canvas = document.getElementById("Canvas");
 	  ctx = canvas.getContext("2d");
-
-	  var initialValue = document.getElementById("idResolution").value;
-	  setCaptureScaling(initialValue);
-	  setStreamResolution(initialValue);
+	    
+	  getRes();
+	  getSupValue();
+	  getLevelValue();
+	  enableThread();
   }
 
   function setRand() {
       randnum= Math.floor(Math.random()*40)+2;
       return randnum;
-  }
-
-  function computeWin(){
-      if(document.body.clientWidth) {
-	  this.windWidth=document.body.clientWidth;
-	  this.windHeight=document.body.clientHeight;
-      } else {
-	  this.windWidth = window.innerWidth;
-	  this.windHeight=document.innerHeight;
-      }
-  return this;
-  }
-  function get_corners_from_app()
-  {
-    var response = sendAction("/local/fastcpp/corners.cgi", "get");
-    var x = 0;
-    var y = 0;
-
-    if (response && response.indexOf(",") > 0) {
-      var coord_pairs = response.split(";");
-      var coords = new Array();
-      clr_ctx();
-      for (var i = 0; i < coord_pairs.length; i++)
-      {
-	coords[i] = coord_pairs[i].split(",");
-
-	x = parseInt(coords[i][0], 10);
-	y = parseInt(coords[i][1], 10);
-	
-	drawCorner(x, y);
-      }
-    }
   }
 
   var start = 0;
@@ -137,40 +91,45 @@
   function openConnection() 
   {    
      var xhr; 
+     var boundaryString="myboundary";
           try {  xhr = new XMLHttpRequest();     }
           catch (e3) {  xhr = false;   }
     index = 0;
     buffer = '';    
+
     xhr.onreadystatechange  = function()
     { 
          if(xhr.readyState  == 3)
          {
-// 	      window.alert("4");
-              if(xhr.status  == 200) 
-               {
-// 		window.alert("200");
-// 	      var response = xhr.responseText; 
-	      handlePartialResponse(xhr);
-	
-	  }
+	      if(xhr.status  == 200 || xhr.status  == 0) 
+	      {
+//                console.log("status "+xhr.status);
+		  var response = xhr.responseText; 
+		  handlePartialResponse(response);
+		  delete response;
+	      }	
+	 
         }
         else if(xhr.readyState  == 4)
          {
 // 	      window.alert("4");
-              if(xhr.status  == 200) 
-		  clr_ctx();
+              if(xhr.status  == 200 || xhr.status  == 0) 
+	      clr_ctx();
+	      var value = document.getElementById("idResolution").value;
+	      setCaptureScaling(value);
+	      setStreamResolution(value);
 	  }
         
     };
-   xhr.open("get", "/local/fastcpp/corners.cgi",  true); 
-   xhr.send(null); 
+   xhr.open("post", "/local/fastcpp/mod.cgi",  true); 
+   xhr.send("mod=corner"); 
   }  
   function closeConnection() 
   {    
      var xhr; 
           try {  xhr = new XMLHttpRequest();     }
           catch (e3) {  xhr = false;   }
-    xhr.open("post", "/local/fastcpp/corners.cgi",  true); 
+    xhr.open("post", "/local/fastcpp/mod.cgi",  true); 
     xhr.send("action=close"); 
   }  
     var index = 0;
@@ -182,20 +141,21 @@
       var y = 0;
 //       window.alert("Partial");
 //       var i = request.responseText.lastIndexOf(DELIMITER);
-      var i = request.responseText.indexOf(DELIMITER, index);
-      clr_ctx();
+      var i = request.indexOf(DELIMITER, index);
+
       if (i > index) {
 // 	window.alert("i> index");
 // 	i += DELIMITER.length;
-	var data = request.responseText.substring(index, i);
+	var data = request.substring(index, i);
 	index = i + DELIMITER.length;
 	if (data && data.indexOf(",") > 0) {
 		var coord_pairs = data.split(";");
 		var coords = new Array();
-		var thisFrameTime = (start = new Date) - end;
+		start = new Date;
+		var thisFrameTime = start - end;
 		frameTime += (thisFrameTime - frameTime) / filterStrength;
 		end = start;
-
+		clr_ctx();
 		drawCPS(frameTime);
 		drawNum(coord_pairs.length);
 		for (var j = 0; j < coord_pairs.length; j++)
@@ -208,8 +168,6 @@
 		  drawCorner(x, y);
 		}
 	    }
-	i = request.responseText.indexOf(DELIMITER, index); 
-
       }
       
     }
@@ -240,6 +198,69 @@
     }
     var threadEnabled = "no";
     var suppression = "no";
+    function getRes()
+    {
+	  var xhr; 
+          try {  xhr = new XMLHttpRequest();     }
+          catch (e3) {  xhr = false;   }
+	  xhr.onreadystatechange  = function()
+	  { 
+	      if(xhr.readyState  == 3)
+	      {
+		  if(xhr.status  == 200)
+		  { 
+		      var value = parseInt(xhr.responseText, 10);
+		      document.getElementById("idResolution").options[value].selected = "selected"; 
+		      setCaptureScaling(value);
+		      setStreamResolution(value);
+		  }
+	      }
+	  };
+	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
+	  xhr.send("action=get&param=res");
+    }
+    function getSupValue()
+    {
+	  var xhr; 
+          try {  xhr = new XMLHttpRequest();     }
+          catch (e3) {  xhr = false;   }
+	  xhr.onreadystatechange  = function()
+	  { 
+	      if(xhr.readyState  == 3)
+	      {
+		  if(xhr.status  == 200)
+		  { 
+		      var value = xhr.responseText;
+		      if(value == "yes")
+			  document.getElementById("suppression").value = "Disable Suppression"; 
+		      else
+			  document.getElementById("suppression").value = "Enable Suppression"; 
+		      suppression = value;
+		  }
+	      }
+	  };
+	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
+	  xhr.send("action=get&param=sup");
+    }
+    function getLevelValue()
+    {
+	  var xhr; 
+          try {  xhr = new XMLHttpRequest();     }
+          catch (e3) {  xhr = false;   }
+	  xhr.onreadystatechange  = function()
+	  { 
+	      if(xhr.readyState  == 3)
+	      {
+		  if(xhr.status  == 200)
+		  { 
+		      var value = parseInt(xhr.responseText, 10);
+		      document.getElementById("fastLevel").value = value; 
+		  }
+	      }
+	  };
+	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
+	  xhr.send("action=get&param=lev");
+    }
     function updateLevel()
     {
 	 var value = document.getElementById("fastLevel").value;
@@ -254,13 +275,11 @@
 	 if(threadEnabled == "no")
 	 {
 	    threadEnabled = "yes";
-	    document.getElementById("http_thread").value = "Stop Corners";
 	    openConnection();
 	 }
 	 else if(threadEnabled == "yes")
 	 {
 	    threadEnabled = "no";
-	    document.getElementById("http_thread").value = "Get Corners";
 	    var xhr; 
 	    try {  xhr = new XMLHttpRequest();     }
 	    catch (e3) {  xhr = false;   }
@@ -290,26 +309,27 @@
     }
     function updateRes()
     {
+	  enableThread();
 	  var value = document.getElementById("idResolution").value;
-	  setCaptureScaling(value);
-	  setStreamResolution(value);
 	  var xhr; 
           try {  xhr = new XMLHttpRequest();     }
           catch (e3) {  xhr = false;   }
 	  xhr.open("post", "/local/fastcpp/update.cgi",  true); 
 	  xhr.send("action=set&res="+value);	
+	  enableThread();
     }
-  </script>
-  <body onload = "run()">
+</script>
+ <body onload = "run()">
+    <div id = "container3">
+      <td class="button"><input id = "suppression" value="Suppression" class="btnNormal" type="button" onClick="enableSuppression()" /> </td>
+      <td class="slider"><input id = "fastLevel" type="range" min="10" max="60" value="40" step="1" onMouseUp="updateLevel()" /> </td>
+      <select name="root_Image_I0_Appearance_Resolution" onchange="updateRes()" id="idResolution"><option value="0" selected="">160x120 (4:3)</option><option value="1">240x180 (4:3)</option><option value="2">320x240 (4:3)</option></select>
+    </div>
     <div id="container1">
-      <img src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=640x480" id = "Stream"></img>
+      <img src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=480x360&fps=20&compression=50" id = "Stream"></img>
     </div>
     <div id="container2">
-      <canvas id="Canvas" width="800" height="600"></canvas>
+      <canvas id="Canvas" width="480" height="360"></canvas>
     </div>
-<td class="button"><input id = "http_thread" value="Get Corners" class="btnNormal" type="button" onClick="enableThread()" /> </td>
-<td class="button"><input id = "suppression" value="Suppression" class="btnNormal" type="button" onClick="enableSuppression()" /> </td>
-<td class="slider"><input id = "fastLevel" type="range" min="10" max="60" value="30" step="1" onMouseUp="updateLevel()" /> </td>
-<select name="root_Image_I0_Appearance_Resolution" onchange="updateRes();" id="idResolution"><option value="0" selected="">160x120 (4:3)</option><option value="1" >800x600 (4:3)</option><option value="2">640x480 (4:3)</option><option value="3">480x360 (4:3)</option><option value="4">320x240 (4:3)</option><option value="5">240x180 (4:3)</option><option value="6">800x450 (16:9)</option><option value="7">640x360 (16:9)</option><option value="8">480x270 (16:9)</option><option value="9">320x180 (16:9)</option><option value="10">160x90 (16:9)</option><option value="11">800x500 (16:10)</option><option value="12">640x400 (16:10)</option><option value="13">480x300 (16:10)</option><option value="14">320x200 (16:10)</option><option value="15">160x100 (16:10)</option><option value="16">176x144 </option></select>
   </body>
 </html>

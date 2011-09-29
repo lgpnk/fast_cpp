@@ -1,0 +1,616 @@
+
+----- /var/log/messages.old -----
+
+<INFO    > Sep 19 09:42:30 axis-00408cadcb6b syslogd[467]: 1.4.1: restart.
+<INFO    > Sep 19 09:42:32 axis-00408cadcb6b policykit_cert: Policy Server now registered with the name 'com.axis.PolicyKitCert' and object '/com/axis/PolicyKitCert'
+<INFO    > Sep 19 09:42:32 axis-00408cadcb6b policykit_cert: Starting PolicyKitCert
+<INFO    > Sep 19 09:42:32 axis-00408cadcb6b policykit_parhand: Starting PolicykitParhand
+<INFO    > Sep 19 09:42:32 axis-00408cadcb6b temperature_ctrld[505]: temperature_ctrld starting.
+<INFO    > Sep 19 09:42:33 axis-00408cadcb6b ipchanged[515]: Start.
+<INFO    > Sep 19 09:42:33 axis-00408cadcb6b root: /etc/ipchanged.script: New IP address for lo is 127.0.0.1.
+<INFO    > Sep 19 09:42:33 axis-00408cadcb6b root: Interface lo ignored
+<INFO    > Sep 19 09:42:34 axis-00408cadcb6b root: /etc/ipchanged.script: New IP address for lo is ::1.
+<INFO    > Sep 19 09:42:34 axis-00408cadcb6b root: Interface lo ignored
+<INFO    > Sep 19 09:42:34 axis-00408cadcb6b root: /etc/ipchanged.script: New IP address for eth0 is 150.217.35.115.
+<INFO    > Sep 19 09:42:36 axis-00408cadcb6b vftpd[657]: Starting vftpd 0.01
+<INFO    > Sep 19 09:42:38 axis-00408cadcb6b monolith[669]: Starting.
+<INFO    > Sep 19 09:42:40 axis-00408cadcb6b monolith[669]: Setting up buffer factory.
+<INFO    > Sep 19 09:42:41 axis-00408cadcb6b disks[680]: Disk SD_DISK (/dev/mmcblk0p1) not present
+<INFO    > Sep 19 09:42:41 axis-00408cadcb6b disks[680]: Disk SD_DISK starting mount w/ id 1
+<INFO    > Sep 19 09:42:41 axis-00408cadcb6b disks[680]: Disk SD_DISK (/dev/mmcblk0p1) not present
+<INFO    > Sep 19 09:42:42 axis-00408cadcb6b indexer[697]: indexer started successfully
+<INFO    > Sep 19 09:42:42 axis-00408cadcb6b indexer[697]: Starting database event handler
+<INFO    > Sep 19 09:42:42 axis-00408cadcb6b parhand[703]: Starting.
+<INFO    > Sep 19 09:42:44 axis-00408cadcb6b parhand[704]: Starting server.
+<INFO    > Sep 19 09:42:44 axis-00408cadcb6b axisns[711]: service has name: com.axis.AxisNS
+<INFO    > Sep 19 09:42:44 axis-00408cadcb6b acd[719]: Starting.
+<INFO    > Sep 19 09:42:44 axis-00408cadcb6b acd[722]: Reconfigure.
+<INFO    > Sep 19 09:42:44 axis-00408cadcb6b utask[727]: utask $Revision: 1.91 $
+<INFO    > Sep 19 09:42:44 axis-00408cadcb6b zeroconf-ip[604]: claimed 169.254.175.50
+<INFO    > Sep 19 09:42:45 axis-00408cadcb6b utask[736]: loading config.
+<INFO    > Sep 19 09:42:45 axis-00408cadcb6b utask[736]: /etc/user.task.list loaded, 0 tasks.
+<INFO    > Sep 19 09:42:46 axis-00408cadcb6b utask[736]: /usr/share/utask/system.task.list loaded, 3 tasks.
+<INFO    > Sep 19 09:42:46 axis-00408cadcb6b syslogd[467]: 1.4.1: restart.
+<INFO    > Sep 19 09:42:46 axis-00408cadcb6b root: /etc/ipchanged.script: New IP address for eth0 is 169.254.175.50.
+<INFO    > Sep 19 09:42:47 axis-00408cadcb6b emotiond: emotion.c: main():442: Starting Enhanced Motion Detection
+<INFO    > Sep 19 09:42:47 axis-00408cadcb6b syslogd[467]: 1.4.1: restart.
+<INFO    > Sep 19 09:42:47 axis-00408cadcb6b utask[736]: loading config.
+<INFO    > Sep 19 09:42:47 axis-00408cadcb6b utask[736]: /etc/user.task.list loaded, 0 tasks.
+<INFO    > Sep 19 09:42:47 axis-00408cadcb6b utask[736]: /usr/share/utask/system.task.list loaded, 3 tasks.
+<INFO    > Sep 19 09:42:48 axis-00408cadcb6b /bin/ssid[826]: Starting.
+<INFO    > Sep 19 09:42:48 axis-00408cadcb6b /bin/ssid[826]: /usr/html/
+<INFO    > Sep 19 09:42:48 axis-00408cadcb6b Camera Tampering[831]: Starting Camera Tampering
+<INFO    > Sep 19 09:42:49 axis-00408cadcb6b utask[736]: loading config.
+<INFO    > Sep 19 09:42:49 axis-00408cadcb6b utask[736]: /etc/user.task.list loaded, 0 tasks.
+<INFO    > Sep 19 09:42:49 axis-00408cadcb6b utask[736]: /usr/share/utask/system.task.list loaded, 3 tasks.
+<INFO    > Sep 19 09:42:49 axis-00408cadcb6b focusd[841]: Starting
+<INFO    > Sep 19 09:42:49 axis-00408cadcb6b focusd[841]: Added signal to detect daemon startups/shutdowns
+<INFO    > Sep 19 09:42:49 axis-00408cadcb6b focusd[841]: Motor calibration OK
+<INFO    > Sep 19 09:42:49 axis-00408cadcb6b focusd[841]: updated motor configuration
+<INFO    > Sep 19 09:42:50 axis-00408cadcb6b Language Handler[848]: Starting.
+<INFO    > Sep 19 09:42:50 axis-00408cadcb6b Language Handler[848]: Waiting for connections.
+<INFO    > Sep 19 09:42:50 axis-00408cadcb6b boa: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 09:42:50 axis-00408cadcb6b boa: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 09:42:50 axis-00408cadcb6b boa: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 09:42:51 axis-00408cadcb6b ptzaurus[866]: Coordinator.UserGroups object path is '/com/axis/PTZ/Coordinator/UserGroups'
+<INFO    > Sep 19 09:42:51 axis-00408cadcb6b ptzaurus[866]: Coordinator object path is '/com/axis/PTZ/Coordinator/1'
+<INFO    > Sep 19 09:42:51 axis-00408cadcb6b ptzaurus[866]: Coordinator.PresetHandler object path is '/com/axis/PTZ/Coordinator/PresetHandler/1'
+<INFO    > Sep 19 09:42:52 axis-00408cadcb6b ptzvapixd[876]: Vapix object path is '/com/axis/PTZ/Vapix'
+<INFO    > Sep 19 09:42:52 axis-00408cadcb6b dptzd[881]: Driver.id11 object path is '/com/axis/PTZ/Driver/id11'
+<INFO    > Sep 19 09:42:52 axis-00408cadcb6b dptzd[881]:  * Starting PTZ Driver - Digital [1.00]...
+<INFO    > Sep 19 09:42:53 axis-00408cadcb6b libupnp[915]: UPnP Initialized(150.217.35.115:49152)
+<INFO    > Sep 19 09:42:53 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/ptz/ptz.conf.
+<INFO    > Sep 19 09:42:54 axis-00408cadcb6b axisstc[1008]: starting 1.52
+<INFO    > Sep 19 09:42:55 axis-00408cadcb6b axisstc[1008]: set_enabled:oneclick_state OC_WAIT_FOR_BUTTON
+<INFO    > Sep 19 09:44:26 axis-00408cadcb6b ipsetd[393]: Timed out after 120s.
+<CRITICAL> Sep 19 09:44:51 axis-00408cadcb6b mDNSResponder: ERROR: getOptRdata - unknown opt 4
+<REPEATED> Sep 19 09:45:22 axis-00408cadcb6b last CRITICAL  message repeated 5 times
+<REPEATED> Sep 19 09:53:16 axis-00408cadcb6b last CRITICAL  message repeated 2 times
+<REPEATED> Sep 19 10:43:06 axis-00408cadcb6b last CRITICAL  message repeated 9 times
+<REPEATED> Sep 19 11:21:29 axis-00408cadcb6b last CRITICAL  message repeated 6 times
+<REPEATED> Sep 19 12:03:05 axis-00408cadcb6b last CRITICAL  message repeated 10 times
+<REPEATED> Sep 19 12:08:32 axis-00408cadcb6b last CRITICAL  message repeated 9 times
+<REPEATED> Sep 19 13:11:04 axis-00408cadcb6b last CRITICAL  message repeated 6 times
+<REPEATED> Sep 19 13:35:33 axis-00408cadcb6b last CRITICAL  message repeated 6 times
+<REPEATED> Sep 19 14:49:41 axis-00408cadcb6b last CRITICAL  message repeated 8 times
+<INFO    > Sep 19 15:15:49 axis-00408cadcb6b monolith[669]: RTSP session 2610209F timed out.
+<INFO    > Sep 19 15:16:00 axis-00408cadcb6b fastcpp[0]: starting fastcpp
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3526]: Starting!
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: Enabled, Value: yes 
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: Level, Value: 27 
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: Suppression, Value: yes 
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: Resolution, Value: 0 
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3561]: Added http path: /local/fastcpp/corners.cgi
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3561]: Added http path: /local/fastcpp/sobel.pgm
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3561]: Added http path: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:16:01 axis-00408cadcb6b fastcpp[3561]: Start fast!
+<INFO    > Sep 19 15:16:06 axis-00408cadcb6b fastcpp[3561]: Stream Opened!
+<INFO    > Sep 19 15:16:06 axis-00408cadcb6b fastcpp[3561]: fastres
+<INFO    > Sep 19 15:16:20 axis-00408cadcb6b Language Handler[848]: Got connection, client fd: 5.
+<INFO    > Sep 19 15:16:50 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:16:50 axis-00408cadcb6b fastcpp[3561]: action=get
+<REPEATED> Sep 19 14:50:12 axis-00408cadcb6b last CRITICAL  message repeated 5 times
+<CRITICAL> Sep 19 15:16:50 axis-00408cadcb6b fastcpp[3561]: Start HTTP Thread
+<INFO    > Sep 19 15:16:50 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:16:50 axis-00408cadcb6b fastcpp[3561]: action=get
+<INFO    > Sep 19 15:16:50 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:16:50 axis-00408cadcb6b fastcpp[3561]: action=get
+<INFO    > Sep 19 15:16:55 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:16:55 axis-00408cadcb6b fastcpp[3561]: action=set
+<INFO    > Sep 19 15:16:55 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 15:16:55 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Enabled, Value: yes 
+<INFO    > Sep 19 15:16:55 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Level, Value: 43 
+<INFO    > Sep 19 15:16:55 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Suppression, Value: yes 
+<INFO    > Sep 19 15:16:55 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 0 
+<INFO    > Sep 19 15:16:55 axis-00408cadcb6b fastcpp[3561]: Response sent!
+<INFO    > Sep 19 15:16:57 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:16:57 axis-00408cadcb6b fastcpp[3561]: action=set
+<INFO    > Sep 19 15:16:57 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 15:16:57 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Level, Value: 54 
+<INFO    > Sep 19 15:16:57 axis-00408cadcb6b fastcpp[3561]: Response sent!
+<INFO    > Sep 19 15:17:00 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:17:00 axis-00408cadcb6b fastcpp[3561]: action=set
+<INFO    > Sep 19 15:17:00 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 15:17:00 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Level, Value: 29 
+<INFO    > Sep 19 15:17:00 axis-00408cadcb6b fastcpp[3561]: Response sent!
+<INFO    > Sep 19 15:17:02 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:17:02 axis-00408cadcb6b fastcpp[3561]: action=set
+<INFO    > Sep 19 15:17:02 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 15:17:02 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Level, Value: 10 
+<INFO    > Sep 19 15:17:02 axis-00408cadcb6b fastcpp[3561]: Response sent!
+<INFO    > Sep 19 15:17:05 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:17:05 axis-00408cadcb6b fastcpp[3561]: action=set
+<INFO    > Sep 19 15:17:05 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 15:17:05 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Level, Value: 39 
+<INFO    > Sep 19 15:17:05 axis-00408cadcb6b fastcpp[3561]: Response sent!
+<INFO    > Sep 19 15:17:06 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:17:06 axis-00408cadcb6b fastcpp[3561]: action=set
+<INFO    > Sep 19 15:17:06 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 15:17:06 axis-00408cadcb6b fastcpp[3561]: Parameter updated: Name: root.Fastcpp.Level, Value: 47 
+<INFO    > Sep 19 15:17:06 axis-00408cadcb6b fastcpp[3561]: Response sent!
+<CRITICAL> Sep 19 15:17:52 axis-00408cadcb6b fastcpp[3561]: Close HTTP Thread
+<INFO    > Sep 19 15:17:53 axis-00408cadcb6b fastcpp[3561]: handle_sobel media_props="fps=10&resolution=352x288&sdk_format=Y800" 
+<INFO    > Sep 19 15:17:58 axis-00408cadcb6b fastcpp[3561]: handle_sobel opening stream=0xb3ff8 
+<INFO    > Sep 19 15:18:00 axis-00408cadcb6b fastcpp[3561]: handle_sobel closing stream=0xb3ff8
+<INFO    > Sep 19 15:18:43 axis-00408cadcb6b fastcpp[3561]: handle_sobel media_props="fps=10&resolution=352x288&sdk_format=Y800" 
+<INFO    > Sep 19 15:18:48 axis-00408cadcb6b fastcpp[3561]: handle_sobel opening stream=0xaff30 
+<INFO    > Sep 19 15:18:50 axis-00408cadcb6b fastcpp[3561]: handle_sobel closing stream=0xaff30
+<INFO    > Sep 19 15:21:50 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:21:51 axis-00408cadcb6b fastcpp[3561]: action=get
+<CRITICAL> Sep 19 15:21:51 axis-00408cadcb6b fastcpp[3561]: Start HTTP Thread
+<INFO    > Sep 19 15:21:51 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:21:51 axis-00408cadcb6b fastcpp[3561]: action=get
+<INFO    > Sep 19 15:21:51 axis-00408cadcb6b fastcpp[3561]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 15:21:51 axis-00408cadcb6b fastcpp[3561]: action=get
+<INFO    > Sep 19 15:22:02 axis-00408cadcb6b fastcpp[3561]: handle_sobel media_props="fps=10&resolution=352x288&sdk_format=Y800" 
+<INFO    > Sep 19 15:22:21 axis-00408cadcb6b fastcpp[3561]: handle_sobel opening stream=0xb3ad0 
+<INFO    > Sep 19 15:22:28 axis-00408cadcb6b fastcpp[3561]: handle_sobel closing stream=0xb3ad0
+<CRITICAL> Sep 19 15:24:49 axis-00408cadcb6b fastcpp[3561]: Close HTTP Thread
+<INFO    > Sep 19 15:25:31 axis-00408cadcb6b fastcpp[0]: stopping fastcpp
+<INFO    > Sep 19 15:25:31 axis-00408cadcb6b fastcpp[3561]: Exiting!
+<INFO    > Sep 19 15:25:36 axis-00408cadcb6b httpdemoapp[0]: starting httpdemoapp
+<INFO    > Sep 19 15:25:36 axis-00408cadcb6b httpdemoapp[4085]: http_app.c/main: started pid=4085 
+<INFO    > Sep 19 15:25:54 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale media_props="fps=10&resolution=352x288&sdk_format=Y800" 
+<INFO    > Sep 19 15:25:59 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale opening stream=0xa1878 
+<INFO    > Sep 19 15:25:59 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale closing stream=0xa1878
+<INFO    > Sep 19 15:26:05 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale media_props="fps=10&resolution=352x288&sdk_format=Y800" 
+<INFO    > Sep 19 15:26:09 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale opening stream=0x88348 
+<INFO    > Sep 19 15:26:10 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale closing stream=0x88348
+<INFO    > Sep 19 15:26:15 axis-00408cadcb6b monolith[669]: RTSP session EA18F955 timed out.
+<INFO    > Sep 19 15:31:18 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale media_props="fps=10&resolution=352x288&sdk_format=Y800" 
+<INFO    > Sep 19 15:31:22 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale opening stream=0xa1170 
+<INFO    > Sep 19 15:31:22 axis-00408cadcb6b httpdemoapp[4085]: http_serve_local_app_greyscale closing stream=0xa1170
+<INFO    > Sep 19 16:03:05 axis-00408cadcb6b monolith[669]: RTSP session 9F8D06C8 timed out.
+<INFO    > Sep 19 16:44:45 axis-00408cadcb6b httpdemoapp[0]: stopping httpdemoapp
+<INFO    > Sep 19 16:44:45 axis-00408cadcb6b httpdemoapp[4085]: http_app.c/handle_signal pid=4085 got signal 15 SIGTERM 
+<INFO    > Sep 19 16:44:45 axis-00408cadcb6b httpdemoapp[4085]: http_app.c/main pid=4085 exit signal 15 SIGTERM 
+<INFO    > Sep 19 16:44:45 axis-00408cadcb6b httpdemoapp[4085]: Exiting!
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[0]: starting fastcpp
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5013]: Starting!
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: Enabled, Value: yes 
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: Level, Value: 47 
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: Suppression, Value: yes 
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: Resolution, Value: 0 
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5016]: Added http path: /local/fastcpp/corners.cgi
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5016]: Added http path: /local/fastcpp/sobel.pgm
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5016]: Added http path: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:44:53 axis-00408cadcb6b fastcpp[5016]: Start fast!
+<INFO    > Sep 19 16:44:58 axis-00408cadcb6b fastcpp[5016]: Stream Opened!
+<INFO    > Sep 19 16:44:58 axis-00408cadcb6b fastcpp[5016]: fastres
+<INFO    > Sep 19 16:45:04 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:04 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Enabled, Value: yes 
+<INFO    > Sep 19 16:45:09 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:09 axis-00408cadcb6b fastcpp[5016]: action=get
+<INFO    > Sep 19 16:45:09 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:09 axis-00408cadcb6b fastcpp[5016]: action=get
+<INFO    > Sep 19 16:45:09 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:09 axis-00408cadcb6b fastcpp[5016]: action=get
+<CRITICAL> Sep 19 16:45:09 axis-00408cadcb6b fastcpp[5016]: Start HTTP Thread
+<INFO    > Sep 19 16:45:15 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:15 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:45:15 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:15 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Suppression, Value: no 
+<INFO    > Sep 19 16:45:15 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:45:26 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:26 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:45:26 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:26 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Level, Value: 38 
+<INFO    > Sep 19 16:45:26 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:45:30 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:30 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:45:30 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:30 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Level, Value: 20 
+<INFO    > Sep 19 16:45:30 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:45:42 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:42 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:45:42 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:42 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Level, Value: 51 
+<INFO    > Sep 19 16:45:42 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:45:45 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:45 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:45:45 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:45 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Level, Value: 60 
+<INFO    > Sep 19 16:45:45 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:45:47 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:47 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:45:47 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:47 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Suppression, Value: yes 
+<INFO    > Sep 19 16:45:47 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:45:53 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:53 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:45:53 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:53 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Suppression, Value: no 
+<INFO    > Sep 19 16:45:53 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:45:59 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:45:59 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:45:59 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:45:59 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Suppression, Value: yes 
+<INFO    > Sep 19 16:46:00 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<CRITICAL> Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: Close HTTP Thread
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 1 
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:46:02 axis-00408cadcb6b fastcpp[5016]: New window parameters!
+<INFO    > Sep 19 16:46:07 axis-00408cadcb6b fastcpp[5016]: Stream Opened!
+<CRITICAL> Sep 19 16:46:08 axis-00408cadcb6b fastcpp[5016]: Start HTTP Thread
+<INFO    > Sep 19 16:46:36 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:46:36 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:46:36 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:46:36 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Suppression, Value: no 
+<INFO    > Sep 19 16:46:36 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<CRITICAL> Sep 19 16:46:43 axis-00408cadcb6b fastcpp[5016]: Close HTTP Thread
+<INFO    > Sep 19 16:47:02 axis-00408cadcb6b fastcpp[5016]: handle_sobel media_props="fps=10&resolution=352x288&sdk_format=Y800" 
+<INFO    > Sep 19 16:47:06 axis-00408cadcb6b fastcpp[5016]: handle_sobel opening stream=0xb3570 
+<INFO    > Sep 19 16:47:11 axis-00408cadcb6b fastcpp[5016]: handle_sobel closing stream=0xb3570
+<INFO    > Sep 19 16:52:01 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:01 axis-00408cadcb6b fastcpp[5016]: action=get
+<INFO    > Sep 19 16:52:01 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:01 axis-00408cadcb6b fastcpp[5016]: action=get
+<INFO    > Sep 19 16:52:01 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:01 axis-00408cadcb6b fastcpp[5016]: action=get
+<CRITICAL> Sep 19 16:52:01 axis-00408cadcb6b fastcpp[5016]: Start HTTP Thread
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<CRITICAL> Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: Close HTTP Thread
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 2 
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:52:06 axis-00408cadcb6b fastcpp[5016]: New window parameters!
+<INFO    > Sep 19 16:52:11 axis-00408cadcb6b fastcpp[5016]: Stream Opened!
+<CRITICAL> Sep 19 16:52:11 axis-00408cadcb6b fastcpp[5016]: Start HTTP Thread
+<INFO    > Sep 19 16:52:22 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:22 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:52:22 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:52:22 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Level, Value: 36 
+<INFO    > Sep 19 16:52:22 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:52:40 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:40 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:52:40 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:52:40 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Level, Value: 18 
+<INFO    > Sep 19 16:52:40 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:52:47 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:47 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:52:47 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:52:47 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Level, Value: 12 
+<INFO    > Sep 19 16:52:47 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<INFO    > Sep 19 16:52:51 axis-00408cadcb6b fastcpp[5016]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 16:52:51 axis-00408cadcb6b fastcpp[5016]: action=set
+<INFO    > Sep 19 16:52:51 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 16:52:51 axis-00408cadcb6b fastcpp[5016]: Parameter updated: Name: root.Fastcpp.Level, Value: 50 
+<INFO    > Sep 19 16:52:51 axis-00408cadcb6b fastcpp[5016]: Response sent!
+<CRITICAL> Sep 19 16:53:03 axis-00408cadcb6b fastcpp[5016]: Close HTTP Thread
+<INFO    > Sep 19 17:26:46 axis-00408cadcb6b upload.cgi: Uploaded '/tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap' size:294749
+<INFO    > Sep 19 17:26:47 axis-00408cadcb6b fastcpp[0]: stopping fastcpp
+<INFO    > Sep 19 17:26:47 axis-00408cadcb6b fastcpp[5016]: Exiting!
+<INFO    > Sep 19 17:26:47 axis-00408cadcb6b parhand[704]: Deleted 'root.Fastcpp'.
+<INFO    > Sep 19 17:26:51 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 17:26:51 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 17:26:51 axis-00408cadcb6b boa[856]: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 17:26:51 axis-00408cadcb6b upload.cgi: Package /tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap installation OK
+<INFO    > Sep 19 17:26:59 axis-00408cadcb6b fastcpp[0]: starting fastcpp
+<INFO    > Sep 19 17:26:59 axis-00408cadcb6b fastcpp[5771]: Starting!
+<INFO    > Sep 19 17:26:59 axis-00408cadcb6b fastcpp[5778]: Parameter updated: Name: Enabled, Value: no 
+<INFO    > Sep 19 17:27:00 axis-00408cadcb6b fastcpp[5778]: Parameter updated: Name: Level, Value: 40 
+<INFO    > Sep 19 17:27:00 axis-00408cadcb6b fastcpp[5778]: Parameter updated: Name: Suppression, Value: no 
+<INFO    > Sep 19 17:27:00 axis-00408cadcb6b fastcpp[5778]: Parameter updated: Name: Resolution, Value: 0 
+<INFO    > Sep 19 17:27:00 axis-00408cadcb6b fastcpp[5778]: Added http path: /local/fastcpp/corners.cgi
+<INFO    > Sep 19 17:27:00 axis-00408cadcb6b fastcpp[5778]: Added http path: /local/fastcpp/sobel.pgm
+<INFO    > Sep 19 17:27:00 axis-00408cadcb6b fastcpp[5778]: Added http path: /local/fastcpp/update.cgi
+<INFO    > Sep 19 17:27:00 axis-00408cadcb6b fastcpp[5778]: Waiting...
+<INFO    > Sep 19 17:27:08 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 17:27:08 axis-00408cadcb6b fastcpp[5778]: Parameter updated: Name: root.Fastcpp.Enabled, Value: yes 
+<INFO    > Sep 19 17:27:08 axis-00408cadcb6b fastcpp[5778]: Start fast!
+<INFO    > Sep 19 17:27:08 axis-00408cadcb6b fastcpp[5778]: Parameter updated: Name: root.Fastcpp.Level, Value: 40 
+<INFO    > Sep 19 17:27:08 axis-00408cadcb6b fastcpp[5778]: Parameter updated: Name: root.Fastcpp.Suppression, Value: no 
+<INFO    > Sep 19 17:27:08 axis-00408cadcb6b fastcpp[5778]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 0 
+<INFO    > Sep 19 17:27:11 axis-00408cadcb6b fastcpp[5778]: Stream Opened!
+<INFO    > Sep 19 17:27:11 axis-00408cadcb6b fastcpp[5778]: fastres
+<CRITICAL> Sep 19 17:27:19 axis-00408cadcb6b mDNSResponder: ERROR: getOptRdata - unknown opt 4
+<REPEATED> Sep 19 17:27:50 axis-00408cadcb6b last CRITICAL  message repeated 5 times
+<INFO    > Sep 19 17:32:46 axis-00408cadcb6b upload.cgi: Uploaded '/tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap' size:289791
+<INFO    > Sep 19 17:32:46 axis-00408cadcb6b fastcpp[0]: stopping fastcpp
+<INFO    > Sep 19 17:32:47 axis-00408cadcb6b fastcpp[5778]: Exiting!
+<INFO    > Sep 19 17:32:47 axis-00408cadcb6b parhand[704]: Deleted 'root.Fastcpp'.
+<INFO    > Sep 19 17:32:51 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 17:32:51 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 17:32:51 axis-00408cadcb6b boa[856]: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 17:32:51 axis-00408cadcb6b upload.cgi: Package /tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap installation OK
+<INFO    > Sep 19 17:32:55 axis-00408cadcb6b fastcpp[0]: starting fastcpp
+<INFO    > Sep 19 17:32:55 axis-00408cadcb6b fastcpp[6294]: Starting!
+<INFO    > Sep 19 17:32:55 axis-00408cadcb6b fastcpp[6300]: Parameter updated: Name: Enabled, Value: no 
+<INFO    > Sep 19 17:32:56 axis-00408cadcb6b fastcpp[6300]: Parameter updated: Name: Level, Value: 40 
+<INFO    > Sep 19 17:32:56 axis-00408cadcb6b fastcpp[6300]: Parameter updated: Name: Suppression, Value: no 
+<INFO    > Sep 19 17:32:56 axis-00408cadcb6b fastcpp[6300]: Parameter updated: Name: Resolution, Value: 0 
+<INFO    > Sep 19 17:32:56 axis-00408cadcb6b fastcpp[6300]: Added http path: /local/fastcpp/corners.cgi
+<INFO    > Sep 19 17:32:56 axis-00408cadcb6b fastcpp[6300]: Added http path: /local/fastcpp/sobel.pgm
+<INFO    > Sep 19 17:32:56 axis-00408cadcb6b fastcpp[6300]: Added http path: /local/fastcpp/update.cgi
+<INFO    > Sep 19 17:32:56 axis-00408cadcb6b fastcpp[6300]: Waiting...
+<INFO    > Sep 19 17:33:00 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 17:33:00 axis-00408cadcb6b fastcpp[6300]: Parameter updated: Name: root.Fastcpp.Enabled, Value: yes 
+<INFO    > Sep 19 17:33:00 axis-00408cadcb6b fastcpp[6300]: Start fast!
+<INFO    > Sep 19 17:33:00 axis-00408cadcb6b fastcpp[6300]: Parameter updated: Name: root.Fastcpp.Level, Value: 40 
+<INFO    > Sep 19 17:33:00 axis-00408cadcb6b fastcpp[6300]: Parameter updated: Name: root.Fastcpp.Suppression, Value: no 
+<INFO    > Sep 19 17:33:00 axis-00408cadcb6b fastcpp[6300]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 0 
+<INFO    > Sep 19 17:33:04 axis-00408cadcb6b fastcpp[6300]: Stream Opened!
+<INFO    > Sep 19 17:33:04 axis-00408cadcb6b fastcpp[6300]: fastres
+<CRITICAL> Sep 19 17:58:12 axis-00408cadcb6b mDNSResponder: ERROR: getOptRdata - unknown opt 4
+<INFO    > Sep 19 19:35:55 axis-00408cadcb6b upload.cgi: Uploaded '/tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap' size:289796
+<INFO    > Sep 19 19:35:56 axis-00408cadcb6b fastcpp[0]: stopping fastcpp
+<INFO    > Sep 19 19:35:56 axis-00408cadcb6b fastcpp[6300]: Exiting!
+<INFO    > Sep 19 19:35:56 axis-00408cadcb6b parhand[704]: Deleted 'root.Fastcpp'.
+<INFO    > Sep 19 19:36:00 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 19:36:00 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 19:36:00 axis-00408cadcb6b boa[856]: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 19:36:00 axis-00408cadcb6b upload.cgi: Package /tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap installation OK
+<INFO    > Sep 19 19:36:02 axis-00408cadcb6b fastcpp[0]: starting fastcpp
+<INFO    > Sep 19 19:36:02 axis-00408cadcb6b fastcpp[7425]: Starting!
+<INFO    > Sep 19 19:36:02 axis-00408cadcb6b fastcpp[7428]: Parameter updated: Name: Enabled, Value: no 
+<INFO    > Sep 19 19:36:02 axis-00408cadcb6b fastcpp[7428]: Parameter updated: Name: Level, Value: 40 
+<INFO    > Sep 19 19:36:03 axis-00408cadcb6b fastcpp[7428]: Parameter updated: Name: Suppression, Value: no 
+<INFO    > Sep 19 19:36:03 axis-00408cadcb6b fastcpp[7428]: Parameter updated: Name: Resolution, Value: 0 
+<INFO    > Sep 19 19:36:03 axis-00408cadcb6b fastcpp[7428]: Added http path: /local/fastcpp/corners.cgi
+<INFO    > Sep 19 19:36:03 axis-00408cadcb6b fastcpp[7428]: Added http path: /local/fastcpp/sobel.pgm
+<INFO    > Sep 19 19:36:03 axis-00408cadcb6b fastcpp[7428]: Added http path: /local/fastcpp/update.cgi
+<INFO    > Sep 19 19:36:03 axis-00408cadcb6b fastcpp[7428]: Waiting...
+<INFO    > Sep 19 20:09:24 axis-00408cadcb6b upload.cgi: Uploaded '/tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap' size:289795
+<INFO    > Sep 19 20:09:24 axis-00408cadcb6b fastcpp[0]: stopping fastcpp
+<INFO    > Sep 19 20:09:24 axis-00408cadcb6b fastcpp[7428]: Exiting!
+<INFO    > Sep 19 20:09:25 axis-00408cadcb6b parhand[704]: Deleted 'root.Fastcpp'.
+<INFO    > Sep 19 20:09:28 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 20:09:28 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 20:09:28 axis-00408cadcb6b boa[856]: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 20:09:28 axis-00408cadcb6b upload.cgi: Package /tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap installation OK
+<INFO    > Sep 19 20:09:30 axis-00408cadcb6b fastcpp[0]: starting fastcpp
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8039]: Starting!
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8042]: Parameter updated: Name: Enabled, Value: no 
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8042]: Parameter updated: Name: Level, Value: 40 
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8042]: Parameter updated: Name: Suppression, Value: no 
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8042]: Parameter updated: Name: Resolution, Value: 0 
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8042]: Added http path: /local/fastcpp/corners.cgi
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8042]: Added http path: /local/fastcpp/sobel.pgm
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8042]: Added http path: /local/fastcpp/update.cgi
+<INFO    > Sep 19 20:09:31 axis-00408cadcb6b fastcpp[8042]: Waiting...
+<INFO    > Sep 19 20:13:20 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 20:13:20 axis-00408cadcb6b fastcpp[8042]: Parameter updated: Name: root.Fastcpp.Enabled, Value: yes 
+<INFO    > Sep 19 20:13:20 axis-00408cadcb6b fastcpp[8042]: Start fast!
+<INFO    > Sep 19 20:13:20 axis-00408cadcb6b fastcpp[8042]: Parameter updated: Name: root.Fastcpp.Level, Value: 40 
+<INFO    > Sep 19 20:13:20 axis-00408cadcb6b fastcpp[8042]: Parameter updated: Name: root.Fastcpp.Suppression, Value: no 
+<INFO    > Sep 19 20:13:20 axis-00408cadcb6b fastcpp[8042]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 0 
+<INFO    > Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: Stream Opened!
+<INFO    > Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: fastres
+<INFO    > Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: action=get
+<INFO    > Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: action=get
+<INFO    > Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: action=get
+<REPEATED> Sep 19 17:58:43 axis-00408cadcb6b last CRITICAL  message repeated 5 times
+<CRITICAL> Sep 19 20:13:24 axis-00408cadcb6b fastcpp[8042]: Start HTTP Thread
+<CRITICAL> Sep 19 20:13:43 axis-00408cadcb6b fastcpp[8042]: Close HTTP Thread
+<INFO    > Sep 19 20:13:45 axis-00408cadcb6b fastcpp[8042]: handle_sobel media_props="fps=10&resolution=352x288&sdk_format=Y800" 
+<INFO    > Sep 19 20:13:49 axis-00408cadcb6b fastcpp[8042]: handle_sobel opening stream=0xb6028 
+<INFO    > Sep 19 20:13:53 axis-00408cadcb6b fastcpp[8042]: handle_sobel closing stream=0xb6028
+<INFO    > Sep 19 20:23:49 axis-00408cadcb6b upload.cgi: Uploaded '/tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap' size:289796
+<INFO    > Sep 19 20:23:50 axis-00408cadcb6b fastcpp[0]: stopping fastcpp
+<INFO    > Sep 19 20:23:50 axis-00408cadcb6b fastcpp[8042]: Exiting!
+<INFO    > Sep 19 20:23:51 axis-00408cadcb6b parhand[704]: Deleted 'root.Fastcpp'.
+<INFO    > Sep 19 20:23:54 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 20:23:54 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 20:23:54 axis-00408cadcb6b boa[856]: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 20:23:54 axis-00408cadcb6b upload.cgi: Package /tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap installation OK
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[0]: starting fastcpp
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8588]: Starting!
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: Enabled, Value: no 
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: Level, Value: 40 
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: Suppression, Value: no 
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: Resolution, Value: 0 
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8591]: Added http path: /local/fastcpp/corners.cgi
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8591]: Added http path: /local/fastcpp/sobel.pgm
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8591]: Added http path: /local/fastcpp/update.cgi
+<INFO    > Sep 19 20:23:57 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<CRITICAL> Sep 19 20:37:09 axis-00408cadcb6b mDNSResponder: ERROR: getOptRdata - unknown opt 4
+
+----- /var/log/messages -----
+
+<REPEATED> Sep 19 20:37:40 axis-00408cadcb6b last CRITICAL  message repeated 5 times
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: action=get
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: action=get
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: action=get
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<INFO    > Sep 19 21:04:39 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<INFO    > Sep 19 21:04:41 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:04:41 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:04:41 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:04:41 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Enabled, Value: no 
+<INFO    > Sep 19 21:04:41 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 35 
+<INFO    > Sep 19 21:04:41 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Suppression, Value: no 
+<INFO    > Sep 19 21:04:41 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 0 
+<INFO    > Sep 19 21:04:42 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:04:42 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<INFO    > Sep 19 21:04:42 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:04:42 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:04:42 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:04:42 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 26 
+<INFO    > Sep 19 21:04:42 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:04:42 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<INFO    > Sep 19 21:04:44 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:04:44 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:04:44 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:04:44 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 21 
+<INFO    > Sep 19 21:04:44 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:04:44 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<INFO    > Sep 19 21:04:45 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:04:45 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:04:45 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:04:45 axis-00408cadcb6b fastcpp[8591]: Waiting...
+<INFO    > Sep 19 21:05:21 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:05:21 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Enabled, Value: yes 
+<INFO    > Sep 19 21:05:21 axis-00408cadcb6b fastcpp[8591]: Start fast!
+<INFO    > Sep 19 21:05:21 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 40 
+<INFO    > Sep 19 21:05:26 axis-00408cadcb6b fastcpp[8591]: Stream Opened!
+<INFO    > Sep 19 21:05:26 axis-00408cadcb6b fastcpp[8591]: fastres
+<INFO    > Sep 19 21:05:27 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:05:27 axis-00408cadcb6b fastcpp[8591]: action=get
+<INFO    > Sep 19 21:05:27 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:05:27 axis-00408cadcb6b fastcpp[8591]: action=get
+<INFO    > Sep 19 21:05:27 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:05:27 axis-00408cadcb6b fastcpp[8591]: action=get
+<CRITICAL> Sep 19 21:05:27 axis-00408cadcb6b fastcpp[8591]: Start HTTP Thread
+<INFO    > Sep 19 21:05:32 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:05:32 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:05:32 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:05:32 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 28 
+<INFO    > Sep 19 21:05:32 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:05:35 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:05:35 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:05:35 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:05:35 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 19 
+<INFO    > Sep 19 21:05:35 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<CRITICAL> Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: Close HTTP Thread
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 2 
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:05:46 axis-00408cadcb6b fastcpp[8591]: New window parameters!
+<INFO    > Sep 19 21:05:52 axis-00408cadcb6b fastcpp[8591]: Stream Opened!
+<CRITICAL> Sep 19 21:05:52 axis-00408cadcb6b fastcpp[8591]: Start HTTP Thread
+<INFO    > Sep 19 21:06:00 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:00 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:00 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:06:00 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 42 
+<INFO    > Sep 19 21:06:00 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:06:07 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:07 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:07 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:06:07 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 34 
+<INFO    > Sep 19 21:06:07 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:06:11 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:11 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:11 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:06:11 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:11 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:11 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:06:11 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 27 
+<INFO    > Sep 19 21:06:11 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<CRITICAL> Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: Close HTTP Thread
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 1 
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:06:18 axis-00408cadcb6b fastcpp[8591]: New window parameters!
+<INFO    > Sep 19 21:06:26 axis-00408cadcb6b fastcpp[8591]: Stream Opened!
+<CRITICAL> Sep 19 21:06:26 axis-00408cadcb6b fastcpp[8591]: Start HTTP Thread
+<INFO    > Sep 19 21:06:38 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:38 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:38 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:06:38 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 50 
+<INFO    > Sep 19 21:06:38 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:06:40 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:40 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:40 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:06:40 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Suppression, Value: yes 
+<INFO    > Sep 19 21:06:40 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<CRITICAL> Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: Close HTTP Thread
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Resolution, Value: 2 
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:06:46 axis-00408cadcb6b fastcpp[8591]: New window parameters!
+<INFO    > Sep 19 21:06:53 axis-00408cadcb6b fastcpp[8591]: Stream Opened!
+<CRITICAL> Sep 19 21:06:53 axis-00408cadcb6b fastcpp[8591]: Start HTTP Thread
+<INFO    > Sep 19 21:06:59 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:06:59 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:06:59 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:06:59 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 22 
+<INFO    > Sep 19 21:06:59 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:07:06 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:07:06 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:07:06 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:07:06 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 14 
+<INFO    > Sep 19 21:07:06 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:07:23 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:07:23 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:07:23 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:07:23 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Suppression, Value: no 
+<INFO    > Sep 19 21:07:23 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:07:31 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:07:31 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:07:31 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:07:31 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 51 
+<INFO    > Sep 19 21:07:31 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<CRITICAL> Sep 19 21:07:39 axis-00408cadcb6b fastcpp[8591]: Close HTTP Thread
+<INFO    > Sep 19 21:09:04 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:09:04 axis-00408cadcb6b fastcpp[8591]: action=get
+<INFO    > Sep 19 21:09:04 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:09:04 axis-00408cadcb6b fastcpp[8591]: action=get
+<INFO    > Sep 19 21:09:04 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:09:04 axis-00408cadcb6b fastcpp[8591]: action=get
+<CRITICAL> Sep 19 21:09:04 axis-00408cadcb6b fastcpp[8591]: Start HTTP Thread
+<INFO    > Sep 19 21:09:06 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:09:06 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:09:06 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:09:06 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Level, Value: 20 
+<INFO    > Sep 19 21:09:06 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<INFO    > Sep 19 21:09:09 axis-00408cadcb6b fastcpp[8591]: Received HTTP Request: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:09:09 axis-00408cadcb6b fastcpp[8591]: action=set
+<INFO    > Sep 19 21:09:09 axis-00408cadcb6b parhand[704]: Updated configuration file /etc/dynamic/fastcpp.conf.
+<INFO    > Sep 19 21:09:09 axis-00408cadcb6b fastcpp[8591]: Parameter updated: Name: root.Fastcpp.Suppression, Value: yes 
+<INFO    > Sep 19 21:09:09 axis-00408cadcb6b fastcpp[8591]: Response sent!
+<CRITICAL> Sep 19 21:09:17 axis-00408cadcb6b fastcpp[8591]: Close HTTP Thread
+<INFO    > Sep 19 21:14:51 axis-00408cadcb6b upload.cgi: Uploaded '/tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap' size:289795
+<INFO    > Sep 19 21:14:52 axis-00408cadcb6b fastcpp[0]: stopping fastcpp
+<INFO    > Sep 19 21:14:52 axis-00408cadcb6b fastcpp[8591]: Exiting!
+<INFO    > Sep 19 21:14:53 axis-00408cadcb6b parhand[704]: Deleted 'root.Fastcpp'.
+<INFO    > Sep 19 21:14:56 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 21:14:56 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 21:14:56 axis-00408cadcb6b boa[856]: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 21:14:56 axis-00408cadcb6b upload.cgi: Package /tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap installation OK
+<INFO    > Sep 19 21:21:22 axis-00408cadcb6b upload.cgi: Uploaded '/tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap' size:289795
+<INFO    > Sep 19 21:21:23 axis-00408cadcb6b parhand[704]: Deleted 'root.Fastcpp'.
+<INFO    > Sep 19 21:21:26 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 21:21:26 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 21:21:26 axis-00408cadcb6b boa[856]: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 21:21:26 axis-00408cadcb6b upload.cgi: Package /tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap installation OK
+<INFO    > Sep 19 21:21:28 axis-00408cadcb6b fastcpp[0]: starting fastcpp
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9798]: Starting!
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9801]: Parameter updated: Name: Enabled, Value: no 
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9801]: Parameter updated: Name: Level, Value: 40 
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9801]: Parameter updated: Name: Suppression, Value: no 
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9801]: Parameter updated: Name: Resolution, Value: 0 
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9801]: Added http path: /local/fastcpp/corners.cgi
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9801]: Added http path: /local/fastcpp/sobel.pgm
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9801]: Added http path: /local/fastcpp/update.cgi
+<INFO    > Sep 19 21:21:29 axis-00408cadcb6b fastcpp[9801]: Waiting...
+<INFO    > Sep 19 21:22:07 axis-00408cadcb6b upload.cgi: Uploaded '/tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap' size:289792
+<INFO    > Sep 19 21:22:07 axis-00408cadcb6b fastcpp[0]: stopping fastcpp
+<INFO    > Sep 19 21:22:07 axis-00408cadcb6b fastcpp[9801]: Exiting!
+<INFO    > Sep 19 21:22:08 axis-00408cadcb6b parhand[704]: Deleted 'root.Fastcpp'.
+<INFO    > Sep 19 21:22:11 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.fastcpp" found and used
+<INFO    > Sep 19 21:22:11 axis-00408cadcb6b boa[856]: [http]: optional configfile "httpd.conf.local.httpdemoapp" found and used
+<INFO    > Sep 19 21:22:11 axis-00408cadcb6b boa[856]: [http]: mime-type file "mime.types.local.httpdemoapp" found and used 
+<INFO    > Sep 19 21:22:11 axis-00408cadcb6b upload.cgi: Package /tmp/Fast_CPP_Test_1_1_ARTPEC-3.eap installation OK

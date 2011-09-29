@@ -47,8 +47,10 @@ main(int argc, char *argv[])
   SignalHandler  signalHandler;
   /* Fast */
   Fast       fast;
+  /* Sobel */
+  Sobel sobel;
   /* Capture */
-  CaptureHandler captureHandler(fast);
+  CaptureHandler captureHandler(fast, sobel);
 
   open_syslog(app_name);
 
@@ -72,7 +74,7 @@ main(int argc, char *argv[])
       {
       case FAST_IDLE:
 	result =
-	  httpHandler.waitForFastStart(paramHandler.getFastState());
+	  httpHandler.waitForFastStart(paramHandler.getAppState());
 	if (result != -1) 
 	{
 	    fast_status = result;
@@ -86,8 +88,8 @@ main(int argc, char *argv[])
 	break;
 
       case FAST_RUNNING:
-	captureHandler.handle(signalHandler.getExitSignal(), paramHandler.getFastLevel(), paramHandler.getFastSuppression());
-	result = httpHandler.checkForFastStopOrReconf(paramHandler.getFastState());
+	captureHandler.handle(signalHandler.getExitSignal(), paramHandler.getFastLevel(), paramHandler.getFastSuppression(), paramHandler.getFastState(), paramHandler.getSobelState());
+	result = httpHandler.checkForFastStopOrReconf(paramHandler.getAppState());
 	if (result != -1) 
 	{
 	    fast_status = result;

@@ -7,28 +7,38 @@
 
 #include "CaptureHandler.h"
 #include "Fast.h"
+#include "Sobel.h"
 #include "Shared.h"
 
 #define CAPTURE_PROPERTIES    "sdk_format=Y800&resolution=160x120&fps=30"
 #define SIZEOF_PROPERTIES     1024
 
 char* CaptureHandler::str_corners;
+char* CaptureHandler::str_sobel;
 char* CaptureHandler::get_strfast()
 {
-    return str_corners;
-  
+    return str_corners; 
 }
-CaptureHandler::CaptureHandler(Fast &f)
+char* CaptureHandler::get_strsobel()
+{
+    return str_sobel;
+}
+CaptureHandler::CaptureHandler(Fast &f, Sobel &s)
 {
     fast = f;
+    sobel = s;
     stream   = NULL;
     str_corners = (char*)malloc(SIZEOF_APP_CORNER_COORD);
+    str_sobel = (char*)malloc(SIZEOF_APP_SOBEL);
 }
 
 CaptureHandler::~CaptureHandler()
 {
     close();  
     free(str_corners);
+    free(str_sobel);
+    param_free(m_fast_param);
+    param_free(m_sobel_param);
 }
 
 void
@@ -42,7 +52,7 @@ CaptureHandler::close()
 }
 
 void
-CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
+CaptureHandler::handle(int exit_signal, int fast_level, int suppression, int fast_state, int sobel_state)
 {
   media_frame *frame = NULL;
   uint8_t *    data  = NULL;
@@ -68,6 +78,7 @@ CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
   }
 
   strcpy(str_corners, "");
+  strcpy(str_sobel, "");
   data   = (uint8_t*)capture_frame_data(frame);
   width  = capture_frame_width(frame);
   height = capture_frame_height(frame);
@@ -75,11 +86,16 @@ CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
   
 //   if(threadHandler->is_running())
 //     pthread_mutex_lock(threadHandler->get_mutex_a());
-  fast.fast_detect_nonmax(data, width, height, stride, fast_level, num_corner, suppression);
-    if(threadHandler->is_running())
-    pthread_mutex_unlock(threadHandler->get_mutex_b());
-  capture_frame_free(frame);
+  if(sobel_state)
+      sobel.sobel(data, width, height, stride);
 
+  if(fast_state)
+      fast.fast_detect_nonmax(data, width, height, stride, fast_level, num_corner, suppression);
+  
+  if(threadHandler->is_running())
+    pthread_mutex_unlock(threadHandler->get_mutex_b());
+    
+  capture_frame_free(frame);
 }
 
 /* Capture */
@@ -87,10 +103,7 @@ CaptureHandler::handle(int exit_signal, int fast_level, int suppression)
 void CaptureHandler::open(int res_id)
 {
     char     properties[SIZEOF_PROPERTIES];
-    const char*   RES[17] = {"160x120","800x600", "640x480", "480x360", "320x240", "240x180", 	//4:3
-		        "800x450", "640x360", "480x270", "320x180", "160x90", 			//16:9
-		        "800x500", "640x400", "480x300", "320x200", "160x100",			//16:10
-		        "176x144" };								//??
+    const char*   RES[3] = {"160x120", "240x180", "320x240"};								
 		        
 //     string capture_properies = "sdk_format=Y800&resolution"+RES+"&fps=30";
     snprintf(properties,
@@ -104,7 +117,7 @@ void CaptureHandler::open(int res_id)
             RES[res_id],
             sizeof(properties) - 1);
     strncat(properties,
-            "&fps=30",
+            "&fps=20",
             sizeof(properties) - 1);
     
 //     snprintf(properties, SIZEOF_PROPERTIES, CAPTURE_PROPERTIES);

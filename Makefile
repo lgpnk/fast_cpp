@@ -15,7 +15,7 @@ include $(AXIS_TOP_DIR)/tools/build/Rules.axis
 PROGS     = fastcpp
 
 CFLAGS   += -Wall -g -O2
-LDFLAGS  += -lcapture -lparam -lnet_http 	    -Wl,-Bstatic,-Bdynamic
+LDFLAGS  += -lcapture -lparam -lnet_http    -Wl,-Bstatic,-Bdynamic
 ifneq ($(AXIS_OPT_DEBUG),y)
 ifneq ($(AXIS_OPT_STATIC),y)
 # Strip the binaries when building unless debug or static
@@ -23,7 +23,7 @@ LDFLAGS  += -s
 endif
 endif
 
-SRCS      = 	main.cpp CaptureHandler.cpp HttpHandler.cpp ParamHandler.cpp SignalHandler.cpp Fast.cpp Fast9.cpp Nonmax.cpp ThreadHandler.cpp
+SRCS      = 	main.cpp CaptureHandler.cpp HttpHandler.cpp ParamHandler.cpp SignalHandler.cpp Fast.cpp Fast9.cpp Sobel.cpp Nonmax.cpp ThreadHandler.cpp
 
 OBJS      = $(SRCS:.cpp=.o)
 

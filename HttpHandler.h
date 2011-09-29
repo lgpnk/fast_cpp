@@ -22,7 +22,7 @@ protected:
     void InternalThreadEntry();
 private:
   static ThreadHandler *threadHandler;
-  static void handle_corners(const char *method, const char *path, const http_options *options, int fd);
+  static void handle_algorithm_mod(const char *method, const char *path, const http_options *options, int fd);
   static void handle_update(const char *method, const char *path, const http_options *options, int fd);
   static void handle_sobel(const char *method, const char *path, const http_options *options, int fd);
   
@@ -30,6 +30,7 @@ private:
 struct Arg
 {
     ThreadHandler *threadHandler;
-    int fd;    
+    int fd;   
+    int mod;
 };
 #endif // HTTP_HANDLER_H
