@@ -13,6 +13,8 @@ int ParamHandler::param_fast_suppression;
 int ParamHandler::param_res_id;
 int ParamHandler::param_fast;
 int ParamHandler::param_sobel;
+int ParamHandler::param_sobel_operation;
+int ParamHandler::param_threshold_level;
 
 pid_t ParamHandler::app_pid;
 
@@ -22,8 +24,10 @@ ParamHandler::ParamHandler()
   param_fast_level = 40;
   param_fast_suppression = DISABLED;
   param_res_id = 0;
-  param_fast       = DISABLED;
+  param_fast  = DISABLED;
   param_sobel = DISABLED;
+  param_sobel_operation = DISABLED;
+  param_threshold_level = 128;
 }
 
 int ParamHandler::getAppState()
@@ -54,6 +58,16 @@ int ParamHandler::getFastState()
 int ParamHandler::getSobelState()
 {
   return param_sobel;
+}
+
+int ParamHandler::getSobelOperation()
+{
+  return param_sobel_operation;
+}
+
+int ParamHandler::getThresholdLevel()
+{
+  return param_threshold_level;
 }
 
 void ParamHandler::init(char *app_name)
@@ -145,6 +159,32 @@ void ParamHandler::init(char *app_name)
   }
   handleParam6(PARAM_SOBEL, value);
   param_free(value);
+  
+  /***********************PARAM THRESHOLD ENABLE************************/
+  
+  if (param_register_callback(PARAM_SOBEL_OPERATION, handleParam7) < 0) {
+    syslog(LOG_CRIT, "Failed to register callback for parameter: %s", PARAM_SOBEL_OPERATION);
+    exit(EXIT_FAILURE);
+  }
+  if (param_get(PARAM_SOBEL_OPERATION, &value) < 0) {
+    syslog(LOG_CRIT, "Failed to get parameter: %s", PARAM_SOBEL_OPERATION);
+    exit(EXIT_FAILURE);
+  }
+  handleParam7(PARAM_SOBEL_OPERATION, value);
+  param_free(value);
+  
+    /***********************PARAM THRESHOLD LEVEL************************/
+  
+  if (param_register_callback(PARAM_THRESHOLD_LEVEL, handleParam8) < 0) {
+    syslog(LOG_CRIT, "Failed to register callback for parameter: %s", PARAM_THRESHOLD_LEVEL);
+    exit(EXIT_FAILURE);
+  }
+  if (param_get(PARAM_THRESHOLD_LEVEL, &value) < 0) {
+    syslog(LOG_CRIT, "Failed to get parameter: %s", PARAM_THRESHOLD_LEVEL);
+    exit(EXIT_FAILURE);
+  }
+  handleParam8(PARAM_THRESHOLD_LEVEL, value);
+  param_free(value);
 }
 
 param_stat ParamHandler::handleParam1(const char *name, const char *value)
@@ -213,6 +253,28 @@ param_stat ParamHandler::handleParam6(const char *name, const char *value)
       param_sobel = ENABLED;
   else 
       param_sobel = DISABLED;
+
+  syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
+
+  return PARAM_OK;
+}
+
+param_stat ParamHandler::handleParam7(const char *name, const char *value)
+{
+  int tmp = atoi(value);
+  
+  param_sobel_operation = tmp;
+
+  syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
+
+  return PARAM_OK;
+}
+
+param_stat ParamHandler::handleParam8(const char *name, const char *value)
+{
+  int tmp = atoi(value);
+
+  param_threshold_level = tmp > 255? 255: tmp;
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 

@@ -202,12 +202,12 @@ void* start_thread(void* tmp_arg)
 	      
 	      int len = strlen(my_string_edge);
 	      
-	      while (len < SIZEOF_PKG)
-		len += sprintf(my_string_edge + len, " ");
+// 	      while (len < SIZEOF_PKG)
+// 		len += sprintf(my_string_edge + len, " ");
 	      len+= sprintf(my_string_edge + len, "EOH");
 		      ret_value = net_http_send_multipart_content(fd,
 							  HTTP_TIMEOUT,
-							  txt_http_equiv_text_html_utf8,
+							  txt_text_html_utf8,
 							  my_string_edge,
 							  strlen(my_string_edge));
       // 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);	
@@ -308,6 +308,8 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
   const char *http_thread  = NULL;
   const char *resolution   = NULL;
   const char *param 	   = NULL;
+  const char *threshold_level   = NULL;
+  const char *sobel_operation = NULL;
   char	     *param_value;
 
   syslog(LOG_INFO, "Received HTTP Request: %s", path);
@@ -348,6 +350,22 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
 	    goto server_error;
 	  }
 	  resolution_changed = true;
+      }
+      else if ((threshold_level = net_http_option(options, "tlevel"))) 
+      {
+	  if (param_set(PARAM_THRESHOLD_LEVEL, threshold_level, 1) < 0) 
+	  {
+	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_THRESHOLD_LEVEL, threshold_level);
+	    goto server_error;
+	  }
+      }
+      else if ((sobel_operation = net_http_option(options, "operation"))) 
+      {
+	  if (param_set(PARAM_SOBEL_OPERATION, sobel_operation, 1) < 0) 
+	  {
+	      syslog(LOG_CRIT, "Failed to set parameter: %s to: %s", PARAM_SOBEL_OPERATION, sobel_operation);
+	    goto server_error;
+	  }
       }
 
     if (net_http_send_headers(fd,

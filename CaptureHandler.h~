@@ -12,11 +12,11 @@ class CaptureHandler
 {
 public:
   CaptureHandler(Fast & f, Sobel &s);
-  void  handle(int exit_signal, int fast_level, int suppression, int fast_state, int sobel_state);
+  void  handle(int exit_signal, int fast_level, int suppression, int fast_state, int sobel_state,  int threshold_state, int threshold_level);
   void open(int res_id);
   void close();
   static char* get_strfast();
-  static void* get_bufsobel();
+  static char* get_strsobel();
   ~CaptureHandler();
 
 private:
@@ -30,7 +30,7 @@ private:
   ThreadHandler *threadHandler;
   media_stream *stream;
   static char* str_corners;
-  static void* buf_sobel;
+  static char* str_sobel;
 };
 
 #endif // CAPTURE_HANDLER_H

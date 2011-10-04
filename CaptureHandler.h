@@ -12,7 +12,7 @@ class CaptureHandler
 {
 public:
   CaptureHandler(Fast & f, Sobel &s);
-  void  handle(int exit_signal, int fast_level, int suppression, int fast_state, int sobel_state);
+  void  handle(int exit_signal, int fast_level, int suppression, int fast_state, int sobel_state, int threshold_state, int threshold_level);
   void open(int res_id);
   void close();
   static char* get_strfast();

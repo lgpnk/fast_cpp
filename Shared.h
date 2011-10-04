@@ -11,12 +11,14 @@
 #define SIZEOF_APP_SOBEL  	 1048576
 #define SIZEOF_PKG		 2048
 
-#define PARAM_ENABLED      "Enabled"
-#define PARAM_LEVEL        "Level"
-#define PARAM_SUPPRESSION  "Suppression"
-#define PARAM_RES	   "Resolution"
-#define PARAM_FAST  	   "Fast"
-#define PARAM_SOBEL	   "Sobel"
+#define PARAM_ENABLED     	 "Enabled"
+#define PARAM_LEVEL        	 "Level"
+#define PARAM_SUPPRESSION	 "Suppression"
+#define PARAM_RES	  	 "Resolution"
+#define PARAM_FAST  	  	 "Fast"
+#define PARAM_SOBEL	  	 "Sobel"
+#define PARAM_SOBEL_OPERATION	 "SobelOp"
+#define PARAM_THRESHOLD_LEVEL	 "Tlevel"
 
 
 enum FAST_STATUS {

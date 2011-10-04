@@ -52,7 +52,7 @@ CaptureHandler::close()
 }
 
 void
-CaptureHandler::handle(int exit_signal, int fast_level, int suppression, int fast_state, int sobel_state)
+CaptureHandler::handle(int exit_signal, int fast_level, int suppression, int fast_state, int sobel_state, int threshold_state, int threshold_level)
 {
   media_frame *frame = NULL;
   uint8_t *    data  = NULL;
@@ -87,7 +87,7 @@ CaptureHandler::handle(int exit_signal, int fast_level, int suppression, int fas
 //   if(threadHandler->is_running())
 //     pthread_mutex_lock(threadHandler->get_mutex_a());
   if(sobel_state)
-      sobel.sobel(data, width, height, stride);
+      sobel.sobel(data, width, height, stride, threshold_state, threshold_level);
 
   if(fast_state)
       fast.fast_detect_nonmax(data, width, height, stride, fast_level, num_corner, suppression);

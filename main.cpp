@@ -88,7 +88,7 @@ main(int argc, char *argv[])
 	break;
 
       case FAST_RUNNING:
-	captureHandler.handle(signalHandler.getExitSignal(), paramHandler.getFastLevel(), paramHandler.getFastSuppression(), paramHandler.getFastState(), paramHandler.getSobelState());
+	captureHandler.handle(signalHandler.getExitSignal(), paramHandler.getFastLevel(), paramHandler.getFastSuppression(), paramHandler.getFastState(), paramHandler.getSobelState(), paramHandler.getSobelOperation(), paramHandler.getThresholdLevel());
 	result = httpHandler.checkForFastStopOrReconf(paramHandler.getAppState());
 	if (result != -1) 
 	{
