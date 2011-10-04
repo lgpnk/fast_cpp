@@ -2,13 +2,14 @@
 #define PARAM_HANDLER_H
 
 #include <param.h>
-
+#include "Shared.h"
 using namespace std;
 
 class ParamHandler
 {
 public:
   ParamHandler();
+  Params getParams();
   int  getAppState();
   int  getFastLevel();
   int  getFastSuppression();
@@ -29,17 +30,34 @@ private:
   static param_stat handleParam6(const char *name, const char *value);
   static param_stat handleParam7(const char *name, const char *value);
   static param_stat handleParam8(const char *name, const char *value);
+  
+  static Params m_params;
 
-  static int 	param_app;
-  static int    param_fast_level;
-  static int    param_fast_suppression;
-  static int 	param_res_id;
-  static int    param_fast;
-  static int    param_sobel;
-  static int    param_sobel_operation;
-  static int    param_threshold_level;
   
   static pid_t  app_pid;
+  struct Params
+{
+    int    param_app;
+    int    param_fast_level;
+    int    param_fast_suppression;
+    int	   param_res_id;
+    int    param_fast;
+    int    param_sobel;
+    int    param_sobel_operation;
+    int    param_threshold_level;
+    
+    void init()
+    {
+	  param_app = DISABLED;
+	  param_fast_level = 40;
+	  param_fast_suppression = DISABLED;
+	  param_res_id = 0;
+	  param_fast  = DISABLED;
+	  param_sobel = DISABLED;
+	  param_sobel_operation = 7;
+	  param_threshold_level = 128;
+    }
+};
 };
 
 #endif // PARAM_HANDLER_H

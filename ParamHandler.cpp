@@ -7,68 +7,66 @@
 #include "Shared.h"
 #include "ParamHandler.h"
 
-int ParamHandler::param_app;
-int ParamHandler::param_fast_level;
-int ParamHandler::param_fast_suppression;
-int ParamHandler::param_res_id;
-int ParamHandler::param_fast;
-int ParamHandler::param_sobel;
-int ParamHandler::param_sobel_operation;
-int ParamHandler::param_threshold_level;
-
+Params ParamHandler::m_params;
+// int ParamHandler::param_app;
+// int ParamHandler::param_fast_level;
+// int ParamHandler::param_fast_suppression;
+// int ParamHandler::param_res_id;
+// int ParamHandler::param_fast;
+// int ParamHandler::param_sobel;
+// int ParamHandler::param_sobel_operation;
+// int ParamHandler::param_threshold_level;
+// 
 pid_t ParamHandler::app_pid;
 
 ParamHandler::ParamHandler()
 {
-  param_app = DISABLED;
-  param_fast_level = 40;
-  param_fast_suppression = DISABLED;
-  param_res_id = 0;
-  param_fast  = DISABLED;
-  param_sobel = DISABLED;
-  param_sobel_operation = 7;
-  param_threshold_level = 128;
+    m_params.init();
 }
 
-int ParamHandler::getAppState()
+Params ParamHandler::getParams()
 {
-  return param_app;
+    return m_params;
 }
-
-int ParamHandler::getFastLevel()
-{
-  return param_fast_level;
-}
-
-int ParamHandler::getFastSuppression()
-{
-  return param_fast_suppression;
-}
-
-int ParamHandler::getFastResId()
-{
-  return param_res_id;
-}
-
-int ParamHandler::getFastState()
-{
-  return param_fast;
-}
-
-int ParamHandler::getSobelState()
-{
-  return param_sobel;
-}
-
-int ParamHandler::getSobelOperation()
-{
-  return param_sobel_operation;
-}
-
-int ParamHandler::getThresholdLevel()
-{
-  return param_threshold_level;
-}
+// int ParamHandler::getAppState()
+// {
+//   return param_app;
+// }
+// 
+// int ParamHandler::getFastLevel()
+// {
+//   return param_fast_level;
+// }
+// 
+// int ParamHandler::getFastSuppression()
+// {
+//   return param_fast_suppression;
+// }
+// 
+// int ParamHandler::getFastResId()
+// {
+//   return param_res_id;
+// }
+// 
+// int ParamHandler::getFastState()
+// {
+//   return param_fast;
+// }
+// 
+// int ParamHandler::getSobelState()
+// {
+//   return param_sobel;
+// }
+// 
+// int ParamHandler::getSobelOperation()
+// {
+//   return param_sobel_operation;
+// }
+// 
+// int ParamHandler::getThresholdLevel()
+// {
+//   return param_threshold_level;
+// }
 
 void ParamHandler::init(char *app_name)
 {
@@ -190,9 +188,9 @@ void ParamHandler::init(char *app_name)
 param_stat ParamHandler::handleParam1(const char *name, const char *value)
 {
   if (string(value) == "yes") {
-    param_app = ENABLED;
+    m_params.param_app = ENABLED;
   } else {
-    param_app = DISABLED;
+    m_params.param_app = DISABLED;
   }
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
@@ -206,7 +204,7 @@ param_stat ParamHandler::handleParam2(const char *name, const char *value)
 {
   int tmp = atoi(value);
 
-  param_fast_level = tmp < 10 ? 10 : tmp > 60? 60: tmp;
+  m_params.param_fast_level = tmp < 10 ? 10 : tmp > 60? 60: tmp;
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
@@ -216,9 +214,9 @@ param_stat ParamHandler::handleParam2(const char *name, const char *value)
 param_stat ParamHandler::handleParam3(const char *name, const char *value)
 {
   if (string(value) == "yes")
-      param_fast_suppression = ENABLED;
+      m_params.param_fast_suppression = ENABLED;
   else 
-      param_fast_suppression = DISABLED;
+      m_params.param_fast_suppression = DISABLED;
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
@@ -228,7 +226,7 @@ param_stat ParamHandler::handleParam3(const char *name, const char *value)
 param_stat ParamHandler::handleParam4(const char *name, const char *value)
 {
   int tmp = atoi(value);
-  param_res_id = tmp;
+  m_params.param_res_id = tmp;
   
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
@@ -238,9 +236,9 @@ param_stat ParamHandler::handleParam4(const char *name, const char *value)
 param_stat ParamHandler::handleParam5(const char *name, const char *value)
 {
   if (string(value) == "yes")
-      param_fast = ENABLED;
+      m_params.param_fast = ENABLED;
   else 
-      param_fast = DISABLED;
+      m_params.param_fast = DISABLED;
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
@@ -250,9 +248,9 @@ param_stat ParamHandler::handleParam5(const char *name, const char *value)
 param_stat ParamHandler::handleParam6(const char *name, const char *value)
 {
   if (string(value) == "yes")
-      param_sobel = ENABLED;
+      m_params.param_sobel = ENABLED;
   else 
-      param_sobel = DISABLED;
+      m_params.param_sobel = DISABLED;
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
@@ -263,7 +261,7 @@ param_stat ParamHandler::handleParam7(const char *name, const char *value)
 {
   int tmp = atoi(value);
   
-  param_sobel_operation = tmp;
+  m_params.param_sobel_operation = tmp;
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 
@@ -274,7 +272,7 @@ param_stat ParamHandler::handleParam8(const char *name, const char *value)
 {
   int tmp = atoi(value);
 
-  param_threshold_level = tmp > 255? 255: tmp;
+  m_params.param_threshold_level = tmp > 255? 255: tmp;
 
   syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
 

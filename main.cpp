@@ -74,7 +74,7 @@ main(int argc, char *argv[])
       {
       case FAST_IDLE:
 	result =
-	  httpHandler.waitForFastStart(paramHandler.getAppState());
+	  httpHandler.waitForFastStart(paramHandler.getParams().param_app);
 	if (result != -1) 
 	{
 	    fast_status = result;
@@ -82,14 +82,14 @@ main(int argc, char *argv[])
 	break;
 
       case FAST_START:
-	captureHandler.open(paramHandler.getFastResId());
+	captureHandler.open(paramHandler.getParams().param_res_id);
 	syslog(LOG_INFO, "fastres");
 	fast_status = FAST_RUNNING;
 	break;
 
       case FAST_RUNNING:
-	captureHandler.handle(signalHandler.getExitSignal(), paramHandler.getFastLevel(), paramHandler.getFastSuppression(), paramHandler.getFastState(), paramHandler.getSobelState(), paramHandler.getSobelOperation(), paramHandler.getThresholdLevel());
-	result = httpHandler.checkForFastStopOrReconf(paramHandler.getAppState());
+	captureHandler.handle(signalHandler.getExitSignal(), paramHandler.getParams());
+	result = httpHandler.checkForFastStopOrReconf(paramHandler.getParams().param_app);
 	if (result != -1) 
 	{
 	    fast_status = result;
@@ -98,7 +98,7 @@ main(int argc, char *argv[])
 
       case FAST_RECONF:
 	captureHandler.close();
-	captureHandler.open(paramHandler.getFastResId());
+	captureHandler.open(paramHandler.getParams().param_res_id);
 	fast_status = FAST_RUNNING;
 	break;
 
