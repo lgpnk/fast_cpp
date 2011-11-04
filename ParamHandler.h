@@ -15,6 +15,9 @@ typedef struct
     int    param_sobel;
     int    param_sobel_operation;
     int    param_threshold_level;
+    int	   param_kmeans;
+    int	   param_kmeans_partitions;
+    int	   param_capture_fps;
     
     void init()
     {
@@ -26,6 +29,9 @@ typedef struct
 	  param_sobel = DISABLED;
 	  param_sobel_operation = 7;
 	  param_threshold_level = 128;
+	  param_kmeans = DISABLED;
+	  param_kmeans_partitions = 3;
+	  param_capture_fps = 30;
     }
 }Params;
 
@@ -54,6 +60,9 @@ private:
   static param_stat handleParam6(const char *name, const char *value);
   static param_stat handleParam7(const char *name, const char *value);
   static param_stat handleParam8(const char *name, const char *value);
+  static param_stat handleParam9(const char *name, const char *value);
+  static param_stat handleParam10(const char *name, const char *value);
+  static param_stat handleParam11(const char *name, const char *value);
   
   static Params m_params;
 

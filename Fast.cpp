@@ -1,7 +1,17 @@
 #include <stdlib.h>
 #include "Fast.h"
 #include "syslog.h"
-void Fast::fast_detect_nonmax(const uint8_t* im, const int& xsize, const int& ysize, const int &stride, const int &b, int& ret_num_corners, int suppression)
+#include "CaptureHandler.h"
+
+Fast::Fast()
+{
+    m_kmeans = CaptureHandler::get_kmeans();
+    m_time_corner = 0;
+    m_time_supp = 0;
+    m_time_kmeans = 0;
+    m_filter_s = 500;
+}
+void Fast::fast_detect_nonmax(const uint8_t* im, const int& xsize, const int& ysize, const int &stride, const int &b, int& ret_num_corners, int suppression, int kmeans, int kmeans_k)
 {
     int num_corners;
 	
@@ -11,18 +21,24 @@ void Fast::fast_detect_nonmax(const uint8_t* im, const int& xsize, const int& ys
 	Pixel* nonmax;
 	int* scores;
 	
-	corners = fast_detect(im, xsize, ysize, stride, b, ret_num_corners);
-
+	corners = fast_detect(im, xsize, ysize, stride, b, ret_num_corners, kmeans, kmeans_k);
+	
+// 	m_kmeans.kmeans_init(xsize, ysize);
+// 	m_kmeans.kmeans_execute(corners, ret_num_corners);
+	
 	num_corners = ret_num_corners;
+	time_t startsup = time(NULL);
 	scores = fast_score(im, stride, corners, num_corners, b);
 	nonmax = nonmax_suppression(corners, scores, num_corners, ret_num_corners);
-	
+// 	m_time_supp += ((time(NULL) - startsup)*1000000 - m_time_supp) / m_filter_s;
+	m_time_supp = ((time(NULL) - startsup)*1000000);
 	free(scores);
 	free(nonmax);
+	
 	free(corners);
     }
     else
-	fast_detect_nosup(im, xsize, ysize, stride, b, ret_num_corners);
+	fast_detect_nosup(im, xsize, ysize, stride, b, ret_num_corners, kmeans, kmeans_k);
  	
 
 // 	ret_num_corners =  num_corners;

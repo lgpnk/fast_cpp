@@ -9,6 +9,8 @@
 
 #define SIZEOF_APP_CORNER_COORD  131072
 #define SIZEOF_APP_SOBEL  	 1048576
+#define SIZEOF_APP_KMEANS  	 256
+
 #define SIZEOF_PKG		 2048
 
 #define PARAM_ENABLED     	 "Enabled"
@@ -19,6 +21,10 @@
 #define PARAM_SOBEL	  	 "Sobel"
 #define PARAM_SOBEL_OPERATION	 "SobelOp"
 #define PARAM_THRESHOLD_LEVEL	 "Tlevel"
+#define PARAM_KMEANS	  	 "Kmeans"
+#define PARAM_KMEANS_K		 "KmeansK"
+#define PARAM_CAPTURE_FPS	 "CaptureFps"
+
 
 
 enum FAST_STATUS {

@@ -126,8 +126,12 @@ void* start_thread(void* tmp_arg)
     
     Arg *arg =(Arg*) tmp_arg;
     int fd = (int) arg->fd;
+    int time_pkg = 0;
     const char* fast;
-    
+    time_t startT = time(NULL);
+    time_t endT = time(NULL);
+    clock_t start = clock();
+    clock_t end = clock();
     ThreadHandler *threadHandler = arg->threadHandler;
     
     syslog(LOG_CRIT, "Start HTTP Thread");
@@ -145,6 +149,7 @@ void* start_thread(void* tmp_arg)
 	  }
 	  while(ret_value > 0) 
 	  {
+	      
 	      pthread_mutex_lock(threadHandler->get_mutex_b());
 	      snprintf(my_string_corner,
 		  sizeof(my_string_corner),
@@ -156,11 +161,17 @@ void* start_thread(void* tmp_arg)
 	      while (len < SIZEOF_PKG)
 		len += sprintf(my_string_corner + len, " ");
 	      len+= sprintf(my_string_corner + len, "EOF");
+	      len+= sprintf(my_string_corner + len, "%sEOK", CaptureHandler::get_strkmeans());
+	      len+= sprintf(my_string_corner + len, "0;%d;%d;%d;%d;%d;EOT", CaptureHandler::get_profiler().num_corner, CaptureHandler::get_profiler().m_time_corner, CaptureHandler::get_profiler().m_time_supp, CaptureHandler::get_profiler().m_time_kmeans, time_pkg);
+	      
 		      ret_value = net_http_send_multipart_content(fd,
 							  HTTP_TIMEOUT,
 							  txt_text_html_utf8,
 							  my_string_corner,
 							  strlen(my_string_corner));
+		      startT = time(NULL);
+		      time_pkg += (((startT - endT)*1000000 )- time_pkg) / 200;
+		      endT = startT;
       // 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);	
       //  	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
       // 	pthread_mutex_unlock(threadHandler->get_mutex_a());
@@ -202,14 +213,18 @@ void* start_thread(void* tmp_arg)
 	      
 	      int len = strlen(my_string_edge);
 	      
-// 	      while (len < SIZEOF_PKG)
-// 		len += sprintf(my_string_edge + len, " ");
+	      while (len < SIZEOF_PKG)
+		len += sprintf(my_string_edge + len, " ");
 	      len+= sprintf(my_string_edge + len, "EOH");
+	      len+= sprintf(my_string_edge + len, "0;%d;%d;EOT", CaptureHandler::get_profiler().m_time_edge, CaptureHandler::get_profiler().m_time_proc);
 		      ret_value = net_http_send_multipart_content(fd,
 							  HTTP_TIMEOUT,
 							  txt_text_html_utf8,
 							  my_string_edge,
 							  strlen(my_string_edge));
+		      	      startT = time(NULL);
+		      time_pkg += (((startT - endT)*1000000 )- time_pkg) / 200;
+		      endT = startT;
       // 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);	
       //  	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
       // 	pthread_mutex_unlock(threadHandler->get_mutex_a());
@@ -262,7 +277,9 @@ void* start_thread(void* tmp_arg)
 	      
 	      while (len < SIZEOF_PKG)
 		len += sprintf(my_string_ec + len, " ");
+	          
 	      len += sprintf(my_string_ec + len, "EOF");
+	        len+= sprintf(my_string_ec + len, "0;%d;%d;%d;%d;%d;%d;EOT", CaptureHandler::get_profiler().m_time_grab, CaptureHandler::get_profiler().m_time_corner, CaptureHandler::get_profiler().m_time_supp, CaptureHandler::get_profiler().m_time_edge, CaptureHandler::get_profiler().m_time_kmeans, time_pkg);
 		      ret_value = net_http_send_multipart_content(fd,
 							  HTTP_TIMEOUT,
 							  txt_text_html_utf8,
@@ -271,6 +288,9 @@ void* start_thread(void* tmp_arg)
       // 	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, my_string);	
       //  	ret_value = net_http_send_string_utf8(fd, HTTP_TIMEOUT, "EOF");	
       // 	pthread_mutex_unlock(threadHandler->get_mutex_a());
+		      	      	      startT = time(NULL);
+		      time_pkg += (((startT - endT)*1000000 )- time_pkg) / 200;
+		      endT = startT;
 	      if ((SignalHandler::getExitSignal()) || threadHandler->getStopRequest()) 
 		  ret_value = -1; /* end loop */
 		  
@@ -359,7 +379,7 @@ void HttpHandler::handle_update(const char* method, const char* path, const http
 	    goto server_error;
 	  }
       }
-      else if ((sobel_operation = net_http_option(options, "threshold"))) 
+      else if ((sobel_operation = net_http_option(options, "operation"))) 
       {
 	  if (param_set(PARAM_SOBEL_OPERATION, sobel_operation, 1) < 0) 
 	  {

@@ -72,7 +72,7 @@ int* Fast::fast_score(const uint8_t* i, int stride, Pixel* corners, int num_corn
 }
 
 
-Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners)
+Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners, int kmeans, int kmeans_k)
 {
 	int num_corners = 0;
 	int n_pos = 0;	
@@ -81,7 +81,8 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 	int x, y;
 	int pos_tr, neg_tr;
 	int b_count, d_count;
-	bool bad_c;
+	bool bad_bc;
+	bool bad_dc;
 
 	const uint8_t* p;
 	
@@ -90,14 +91,15 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 
 	ret_corners = (Pixel*)malloc(sizeof(Pixel)*rsize);
 	make_offsets(pixel, stride);
-
+	time_t start = time(NULL);
 	for(y=3; y < ysize - 3; y++)
 	    for(x=3; x < xsize - 3; x++)
 	    {
 		p = im + y * stride + x;
 		b_count = 0;
 		d_count = 0;
-		bad_c = true;
+		bad_bc = true;
+		bad_dc = true;
 		pos_tr = *p + t;
 		neg_tr = *p - t;
 
@@ -111,17 +113,17 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		    if(p[pixel[12]] > pos_tr)
 		    {
 			b_count++;
-			bad_c = false;
+			bad_bc = false;
 		    }
 		    if(b_count == 1)
 		    {			    
 			if(p[pixel[4]] > pos_tr)
 			{
 			    b_count ++;
-			    bad_c = false;
+			    bad_bc = false;
 			}
 		    }
-		    if(b_count == 2 && bad_c)
+		    if(b_count == 2 && bad_bc)
 			continue;
 		    if(b_count >=2)
 		    {
@@ -144,7 +146,6 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 			}
 		    }
 		}
-		bad_c = true;
 		if(p[pixel[0]] < neg_tr)
 		    d_count++;
 		if(p[pixel[8]] < neg_tr)
@@ -154,16 +155,18 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		    if(p[pixel[12]] < neg_tr)
 		    {
 			d_count++;
-			bad_c = false;
+			bad_dc = false;
 		    }
 		    if(d_count == 1)
 		    {			    
 			if(p[pixel[4]] < neg_tr)
 			{
 			    d_count ++;
-			    bad_c = false;
+			    bad_dc = false;
 			}
 		    }
+		    if(d_count == 2 && bad_dc)
+			continue;
 		    if(d_count >= 2)
 		    {
 			m_lower_t = neg_tr;
@@ -185,12 +188,19 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		    }
 		}
 	    }
+	    m_time_corner += ((time(NULL) - start)*1000000 - m_time_corner) / m_filter_s;
+	    start = time(NULL);
+	    if(kmeans)
+	    {
+		m_kmeans->kmeans_execute(ret_corners, num_corners, kmeans_k);
+	    }
+	    m_time_kmeans += ((time(NULL) - start)*1000000 - m_time_kmeans) / m_filter_s;
 // 	syslog(LOG_INFO, "Corner %d", num_corners );
 	ret_num_corners = num_corners;
 	return ret_corners;
 
 }
-void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners)
+void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners, int kmeans, int kmeans_k)
 {
 	int num_corners = 0;
 	int n_pos = 0;	
@@ -203,9 +213,14 @@ void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride
 	const uint8_t* p;
 	
 	Pixel px;
-
+	Pixel* ret_corners;
+	
+	if(kmeans)	    
+	    ret_corners = (Pixel*)malloc(sizeof(Pixel)*rsize);
+	
+	
 	make_offsets(pixel, stride);
-
+	time_t start = time(NULL);
 	for(y=3; y < ysize - 3; y++)
 	    for(x=3; x < xsize - 3; x++)
 	    {
@@ -234,10 +249,18 @@ void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride
 			m_higher_t = pos_tr;
 			if(full_seg_test_bright(p, pixel))
 			{
-// 			    ret_corners[num_corners].x = x;
-// 			    ret_corners[num_corners].y = y;
-// 			    ret_corners[num_corners].bright = true;
-  			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
+			    if(kmeans)
+			    {
+			      	if(num_corners == rsize)
+				{
+				    rsize*=2;
+				    ret_corners = (Pixel*)realloc(ret_corners, sizeof(Pixel)*rsize);
+				}
+				ret_corners[num_corners].x = x;
+				ret_corners[num_corners].y = y;
+				ret_corners[num_corners].bright = true;
+			    }
+//   			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
 
  			    num_corners++;
 			    continue;
@@ -262,10 +285,18 @@ void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride
 			m_lower_t = neg_tr;
 			if(full_seg_test_dark(p, pixel))
 			{
-// 			    ret_corners[num_corners].x = x;
-// 			    ret_corners[num_corners].y = y;
-// 			    ret_corners[num_corners].bright = false;
-  			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
+			    if(kmeans)
+			    {
+				if(num_corners == rsize)
+				{
+				    rsize*=2;
+				    ret_corners = (Pixel*)realloc(ret_corners, sizeof(Pixel)*rsize);
+				}
+			    	ret_corners[num_corners].x = x;
+			    	ret_corners[num_corners].y = y;
+			    	ret_corners[num_corners].bright = false;
+			    }
+//   			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
 
 			    num_corners++;
 			    continue;
@@ -273,6 +304,14 @@ void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride
 		    }
 		}
 	    }
+	    m_time_corner += ((time(NULL) - start)*1000000 - m_time_corner) / m_filter_s;
+	    start = time(NULL);
+	    if(kmeans)
+	    {
+		m_kmeans->kmeans_execute(ret_corners, num_corners, kmeans_k);
+		free(ret_corners);
+	    }
+	    m_time_kmeans += ((time(NULL) - start)*1000000 - m_time_kmeans) / m_filter_s;
 // 	syslog(LOG_INFO, "Corner %d", num_corners );
 	ret_num_corners = num_corners;
 // 	return ret_corners;

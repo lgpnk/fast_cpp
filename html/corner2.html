@@ -3,13 +3,92 @@
  
     <style type="text/css">
     <!--
-      #container1 { position: absolute; top: 50px; left: 50px;}
-      #container2 { position: absolute; top: 50px; left: 50px;}
+      #container1 { position: absolute; top: 100px; left: 50px;}
+      #container2 { position: absolute; top: 100px; left: 50px;}
       #container3 { position: absolute; left: 50px; width: 480px}
+      #container4 { position: absolute; left: 550px; top: 50px}
     -->
     </style>
   <script src="/incl/zxml.js"></script>
+  <script src="rhill-voronoi-core.js"></script>
   <script language="javascript">
+  var VoronoiDraw = {
+
+	voronoi: new Voronoi(),
+	sites: [],
+	diagram: null,
+	margin: 50,
+	canvas: null,
+	bbox: {xl:0,xr:480,yt:0,yb:360},
+
+	init: function() {
+		this.canvas = document.getElementById('Canvas');
+		},
+
+	clearSites: function() {
+		this.sites = [];
+		},
+
+	randomSites: function(n,clear) {
+		if (clear) {this.sites = [];}
+		// create vertices
+		var xo = this.margin;
+		var dx = this.canvas.width-this.margin*2;
+		var yo = this.margin;
+		var dy = this.canvas.height-this.margin*2;
+		for (var i=0; i<n; i++) {
+			this.sites.push({x:self.Math.round((xo+self.Math.random()*dx)*10)/10,y:self.Math.round((yo+self.Math.random()*dy)*10)/10});
+			}
+		this.diagram = this.voronoi.compute(this.sites, this.bbox);
+		},
+
+	addSites: function(cx, cy){
+		this.sites.push({x:cx,y:cy});
+		this.diagram = this.voronoi.compute(this.sites, this.bbox);
+		},
+	
+	computeDiagram: function(){
+		this.diagram = this.voronoi.compute(this.sites, this.bbox);
+		},
+
+	render: function() {
+		var ctx = this.canvas.getContext('2d');
+		// background
+// 		ctx.globalAlpha = 1;
+// 		ctx.beginPath();
+// 		ctx.rect(0,0,this.canvas.width,this.canvas.height);
+// 		ctx.fillStyle = 'white';
+// 		ctx.fill();
+// 		ctx.strokeStyle = '#888';
+// 		ctx.stroke();
+		// voronoi
+		if (!this.diagram) {return;}
+		// edges
+		ctx.beginPath();
+		ctx.strokeStyle='#44f';
+		var edges = this.diagram.edges,
+			iEdge = edges.length,
+			edge, v;
+		while (iEdge--) {
+			edge = edges[iEdge];
+			v = edge.va;
+			ctx.moveTo(v.x,v.y);
+			v = edge.vb;
+			ctx.lineTo(v.x,v.y);
+			}
+		ctx.stroke();
+		// sites
+		ctx.beginPath();
+		ctx.fillStyle = '#44f';
+		var sites = this.sites,
+			iSite = sites.length;
+		while (iSite--) {
+			v = sites[iSite];
+			ctx.rect(v.x-2/3,v.y-2/3,2,2);
+			}
+		ctx.fill();
+		},
+	};
   var dirx = 1;
   var diry = 1;
   var spdx = setRand();
@@ -53,6 +132,17 @@
   //     ctx.arc(x,y,radius,startAngle,endAngle, true);
   //     ctx.stroke();
   }
+  function drawCentroid(x,y)
+  {
+      var tx = streamX * x / captureX;
+      var ty = streamY * y / captureY;
+      ctx.fillStyle = "rgb(0,255,0)";
+      ctx.fillRect(tx, ty, 1, 1);
+      ctx.fillRect(tx - 1, ty, 1, 1);
+      ctx.fillRect(tx + 1, ty, 1, 1);
+      ctx.fillRect(tx, ty - 1, 1, 1);
+      ctx.fillRect(tx, ty + 1, 1, 1);
+  }
   function setCaptureScaling(val)
   {
       var coord = new Array();
@@ -75,6 +165,8 @@
 	  getSupValue();
 	  getLevelValue();
 	  enableThread();
+    
+	  VoronoiDraw.init();
   }
 
   function setRand() {
@@ -134,7 +226,10 @@
     var index = 0;
     var buffer = '';
     var DELIMITER = 'EOF';
-    
+    var KMDELIMITER = 'EOK';
+    var TDELIMITER = 'EOT'
+    var pkg = 0;
+
     function handlePartialResponse(request) {
       var x = 0;
       var y = 0;
@@ -154,6 +249,7 @@
 		var thisFrameTime = start - end;
 		frameTime += (thisFrameTime - frameTime) / filterStrength;
 		end = start;
+		VoronoiDraw.clearSites();
 		clr_ctx();
 		drawCPS(frameTime);
 		drawNum(coord_pairs.length);
@@ -164,10 +260,62 @@
 		  x = parseInt(coords[j][0], 10);	
 		  y = parseInt(coords[j][1], 10);
 		  
-		  drawCorner(x, y);
+// 		  drawCorner(x, y);
 		}
 	    }
       }
+      	i = request.indexOf(KMDELIMITER, index);
+	if (i > index) 
+	{
+	    data = request.substring(index, i);
+	    index = i + KMDELIMITER.length;
+	    if (data && data.indexOf(",") > 0) 
+	    {
+		var coord_pairs = data.split(";");
+		var coords = new Array();
+		for (var j = 0; j < coord_pairs.length - 1; j++)
+		{
+		  coords[j] = coord_pairs[j].split(",");
+		  
+		  x = parseInt(coords[j][0], 10);	
+		  y = parseInt(coords[j][1], 10);
+
+		  var tx = streamX * x / captureX;
+		  var ty = streamY * y / captureY;
+ 		  VoronoiDraw.addSites(tx, ty);
+		}
+	VoronoiDraw.render();
+	    }
+	}
+    	i = request.indexOf(TDELIMITER, index);
+	if (i > index) 
+	{
+	    data = request.substring(index, i);
+	    index = i + TDELIMITER.length;
+	    if (data) 
+	    {
+		var time = data.split(";");
+		for (var j = 0; j < time.length - 1; j++)
+		{
+		  
+		  x = parseInt(time[j], 10);	
+		  if(j==1)
+		    document.getElementById("tgrab").innerHTML = x/1000;
+		  else if(j==2)
+		    document.getElementById("tcorner").innerHTML = x/1000;
+		  else if(j==3)
+		    document.getElementById("tsupp").innerHTML = x/1000;
+		  else if(j==4)
+		    document.getElementById("tkmeans").innerHTML = x/1000;
+		  else if(j==5)
+		  {
+		    pkg = (1000000 / x).toFixed(1);
+		    document.getElementById("tpkg").innerHTML = pkg;
+		  }
+		}
+	    }
+	}
+      
       
     }
     function flushBuffer() {
@@ -263,6 +411,7 @@
     function updateLevel()
     {
 	 var value = document.getElementById("fastLevel").value;
+	 document.getElementById("thrlvl").innerHTML= value; 
 	 var xhr; 
           try {  xhr = new XMLHttpRequest();     }
           catch (e3) {  xhr = false;   }
@@ -317,18 +466,65 @@
 	  xhr.send("action=set&res="+value);	
 	  enableThread();
     }
+    function updateCaptureFps()
+    {	
+    var value = document.getElementById("captureFps").value;	
+    var xhr; 	
+          try {  xhr = new XMLHttpRequest();     }	
+          catch (e3) {  xhr = false;   }
+    xhr.open("post", "/local/fastcpp/update.cgi",  true); 
+    xhr.send("action=set&captureFps="+value);  
+    }
+    function showValueLevel(newValue)
+    {	
+      document.getElementById("lvlValue").innerHTML=newValue;
+    }
+    function showValueFps(newValue)
+    {
+      document.getElementById("lvlFps").innerHTML=newValue;
+    }
 </script>
  <body onload = "run()">
     <div id = "container3">
       <td class="button"><input id = "suppression" value="Suppression" class="btnNormal" type="button" onClick="enableSuppression()" /> </td>
-      <td class="slider"><input id = "fastLevel" type="range" min="10" max="60" value="40" step="1" onMouseUp="updateLevel()" /> </td>
-      <select name="root_Image_I0_Appearance_Resolution" onchange="updateRes()" id="idResolution"><option value="0" selected="">160x120 (4:3)</option><option value="1">240x180 (4:3)</option><option value="2">320x240 (4:3)</option></select>
+      <td class="slider"><input id = "fastLevel" type="range" min="10" max="60" value="40" step="1" onMouseUp="updateLevel()" /><span id="thrlvl">40</span> </td>
+      <select name="root_Image_I0_Appearance_Resolution" onchange="updateRes()" id="idResolution">
+	  <option value="0" selected="">160x120 (4:3)</option>
+	  <option value="1">240x180 (4:3)</option>
+	  <option value="2">320x240 (4:3)</option>
+	  <option value="3">480x360 (4:3)</option>
+	  <option value="4">640x480 (4:3)</option>
+      </select>
+      <td class="slider"><input id = "captureFps" type="range" min="4" max="30" value="30" step="1" onMouseUp="updateCaptureFps()" onchange="showValueFps(this.value)" /> <span id="lvlFps">30</span></td>
+
     </div>
     <div id="container1">
       <img src = "http://150.217.35.115/axis-cgi/mjpg/video.cgi?resolution=480x360&fps=20&compression=50" id = "Stream"></img>
     </div>
     <div id="container2">
       <canvas id="Canvas" width="480" height="360"></canvas>
+    </div>
+    <div id="container4">
+	<table cellspacing="0" cellpadding="0" border="0" width="100%">
+	 <tr>
+	    <td>GRAB TIME   <span id="tgrab">0</span> ms</td>
+	 </tr>
+	 <tr>
+	    <td>CORNER TIME  <span id="tcorner">0</span> ms</td>
+	 </tr>
+	 <tr>
+	    <td>SUPP TIME   <span id="tsupp">0</span> ms</td>
+	 </tr>
+	 <tr>
+	    <td>KMEANS TIME  <span id="tkmeans">0</span> ms</td>
+	 </tr>
+	  <tr>
+	    <td></td>
+	 </tr>
+	 <tr>
+	    <td>PACKAGE RATE  <span id="tpkg">0</span> PPS</td>
+	 </tr>
+       </table>
     </div>
   </body>
 </html>

@@ -183,6 +183,47 @@ void ParamHandler::init(char *app_name)
   }
   handleParam8(PARAM_THRESHOLD_LEVEL, value);
   param_free(value);
+  
+    /***********************PARAM KMEANS ENABLE************************/
+  
+  if (param_register_callback(PARAM_KMEANS, handleParam9) < 0) {
+    syslog(LOG_CRIT, "Failed to register callback for parameter: %s", PARAM_KMEANS);
+    exit(EXIT_FAILURE);
+  }
+  if (param_get(PARAM_KMEANS, &value) < 0) {
+    syslog(LOG_CRIT, "Failed to get parameter: %s", PARAM_KMEANS);
+    exit(EXIT_FAILURE);
+  }
+  handleParam9(PARAM_KMEANS, value);
+  param_free(value);
+  
+    /***********************PARAM KMEANS_K************************/
+  
+  if (param_register_callback(PARAM_KMEANS_K, handleParam10) < 0) {
+    syslog(LOG_CRIT, "Failed to register callback for parameter: %s", PARAM_KMEANS_K);
+    exit(EXIT_FAILURE);
+  }
+  if (param_get(PARAM_KMEANS_K, &value) < 0) {
+    syslog(LOG_CRIT, "Failed to get parameter: %s", PARAM_KMEANS_K);
+    exit(EXIT_FAILURE);
+  }
+  handleParam10(PARAM_KMEANS_K, value);
+  param_free(value);
+  
+      /***********************PARAM CAPTURE_FPS************************/
+      
+  if (param_register_callback(PARAM_CAPTURE_FPS, handleParam11) < 0) {	
+    syslog(LOG_CRIT, "Failed to register callback for parameter: %s", PARAM_CAPTURE_FPS);
+    exit(EXIT_FAILURE);	 	
+  }
+  if (param_get(PARAM_CAPTURE_FPS, &value) < 0) {
+    syslog(LOG_CRIT, "Failed to get parameter: %s", PARAM_CAPTURE_FPS);
+    exit(EXIT_FAILURE);
+  }
+
+  handleParam11(PARAM_CAPTURE_FPS, value);
+
+  param_free(value);
 }
 
 param_stat ParamHandler::handleParam1(const char *name, const char *value)
@@ -278,3 +319,36 @@ param_stat ParamHandler::handleParam8(const char *name, const char *value)
 
   return PARAM_OK;
 }
+
+param_stat ParamHandler::handleParam9(const char *name, const char *value)
+{
+  if (string(value) == "yes")
+      m_params.param_kmeans = ENABLED;
+  else 
+      m_params.param_kmeans = DISABLED;
+
+  syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
+
+  return PARAM_OK;
+}
+
+param_stat ParamHandler::handleParam10(const char *name, const char *value)
+{
+  int tmp = atoi(value);
+
+  m_params.param_kmeans_partitions = tmp < 3 ? 3 : tmp > 15? 15: tmp;
+
+  syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
+
+  return PARAM_OK;
+}
+param_stat ParamHandler::handleParam11(const char *name, const char *value)	
+{
+  int tmp = atoi(value);
+  
+  m_params.param_capture_fps = tmp < 4 ? 4 : tmp > 30? 30: tmp;
+  
+  syslog(LOG_INFO, "Parameter updated: Name: %s, Value: %s\n", name, value);
+  
+  return PARAM_OK;
+ }

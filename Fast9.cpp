@@ -72,7 +72,7 @@ int* Fast::fast_score(const uint8_t* i, int stride, Pixel* corners, int num_corn
 }
 
 
-Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners)
+Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners, int kmeans, int kmeans_k)
 {
 	int num_corners = 0;
 	int n_pos = 0;	
@@ -91,7 +91,7 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 
 	ret_corners = (Pixel*)malloc(sizeof(Pixel)*rsize);
 	make_offsets(pixel, stride);
-
+	time_t start = time(NULL);
 	for(y=3; y < ysize - 3; y++)
 	    for(x=3; x < xsize - 3; x++)
 	    {
@@ -188,12 +188,21 @@ Pixel* Fast::fast_detect(const uint8_t* im, int xsize, int ysize, int stride, in
 		    }
 		}
 	    }
+// 	    m_time_corner += ((time(NULL) - start)*1000000 - m_time_corner) / m_filter_s;
+	    m_time_corner = (time(NULL) - start)*1000000;
+	    start = time(NULL);
+	    if(kmeans)
+	    {
+		m_kmeans->kmeans_execute(ret_corners, num_corners, kmeans_k);
+	    }
+// 	    m_time_kmeans += ((time(NULL) - start)*1000000 - m_time_kmeans) / m_filter_s;
+	    m_time_kmeans = (time(NULL) - start)*1000000 ;
 // 	syslog(LOG_INFO, "Corner %d", num_corners );
 	ret_num_corners = num_corners;
 	return ret_corners;
 
 }
-void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners)
+void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride, int t, int &ret_num_corners, int kmeans, int kmeans_k)
 {
 	int num_corners = 0;
 	int n_pos = 0;	
@@ -206,9 +215,14 @@ void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride
 	const uint8_t* p;
 	
 	Pixel px;
-
+	Pixel* ret_corners;
+	
+	if(kmeans)	    
+	    ret_corners = (Pixel*)malloc(sizeof(Pixel)*rsize);
+	
+	
 	make_offsets(pixel, stride);
-
+	time_t start = time(NULL);
 	for(y=3; y < ysize - 3; y++)
 	    for(x=3; x < xsize - 3; x++)
 	    {
@@ -237,10 +251,18 @@ void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride
 			m_higher_t = pos_tr;
 			if(full_seg_test_bright(p, pixel))
 			{
-// 			    ret_corners[num_corners].x = x;
-// 			    ret_corners[num_corners].y = y;
-// 			    ret_corners[num_corners].bright = true;
-  			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
+			    if(kmeans)
+			    {
+			      	if(num_corners == rsize)
+				{
+				    rsize*=2;
+				    ret_corners = (Pixel*)realloc(ret_corners, sizeof(Pixel)*rsize);
+				}
+				ret_corners[num_corners].x = x;
+				ret_corners[num_corners].y = y;
+				ret_corners[num_corners].bright = true;
+			    }
+//   			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
 
  			    num_corners++;
 			    continue;
@@ -265,10 +287,18 @@ void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride
 			m_lower_t = neg_tr;
 			if(full_seg_test_dark(p, pixel))
 			{
-// 			    ret_corners[num_corners].x = x;
-// 			    ret_corners[num_corners].y = y;
-// 			    ret_corners[num_corners].bright = false;
-  			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
+			    if(kmeans)
+			    {
+				if(num_corners == rsize)
+				{
+				    rsize*=2;
+				    ret_corners = (Pixel*)realloc(ret_corners, sizeof(Pixel)*rsize);
+				}
+			    	ret_corners[num_corners].x = x;
+			    	ret_corners[num_corners].y = y;
+			    	ret_corners[num_corners].bright = false;
+			    }
+//   			    n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", x, y);
 
 			    num_corners++;
 			    continue;
@@ -276,6 +306,16 @@ void Fast::fast_detect_nosup(const uint8_t* im, int xsize, int ysize, int stride
 		    }
 		}
 	    }
+// 	    m_time_corner += ((time(NULL) - start)*1000000 - m_time_corner) / m_filter_s;
+	    m_time_corner = (time(NULL) - start)*1000000;
+	    start = time(NULL);
+	    if(kmeans)
+	    {
+		m_kmeans->kmeans_execute(ret_corners, num_corners, kmeans_k);
+		free(ret_corners);
+	    }
+	    m_time_kmeans = (time(NULL) - start)*1000000 ;
+// 	    m_time_kmeans += ((time(NULL) - start)*1000000 - m_time_kmeans) / m_filter_s;
 // 	syslog(LOG_INFO, "Corner %d", num_corners );
 	ret_num_corners = num_corners;
 // 	return ret_corners;

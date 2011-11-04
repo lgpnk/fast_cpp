@@ -110,7 +110,7 @@ Pixel* Fast::nonmax_suppression(const Pixel* corners, const int* scores, int num
 					goto cont;
 			}
 		}
-		n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", corners[i].x, corners[i].y);
+// 		n_pos += sprintf(CaptureHandler::get_strfast() + n_pos, "%d,%d;", corners[i].x, corners[i].y);
 		ret_nonmax[num_nonmax++] = corners[i];
 		cont:
 			;

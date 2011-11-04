@@ -23,6 +23,8 @@ Pixel* Fast::nonmax_suppression(const Pixel* corners, const int* scores, int num
 	int score;
 	Pixel pos;
 	
+	strcpy(CaptureHandler::get_strfast(), "");
+	
 	if(num_corners < 1)
 	{
 		ret_num_nonmax = 0;
